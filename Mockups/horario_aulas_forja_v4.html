@@ -1,0 +1,307 @@
+
+<style>
+  .fj * { box-sizing: border-box; margin: 0; padding: 0; }
+  .fj { font-family: -apple-system, 'Helvetica Neue', sans-serif; background: #fff; color: #1d1d1f; }
+
+  .fj nav { background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 52px; }
+  .fj nav .logo { color: #fff; font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
+  .fj nav .links { display: flex; gap: 32px; }
+  .fj nav .links a { color: rgba(255,255,255,0.65); font-size: 13px; text-decoration: none; }
+  .fj nav .links .active { color: #FF6B00; }
+  .fj nav .actions { display: flex; gap: 12px; align-items: center; }
+  .fj nav .btn-ghost { color: rgba(255,255,255,0.65); font-size: 13px; background: none; border: none; cursor: pointer; }
+  .fj nav .btn-accent { background: #FF6B00; color: #fff; font-size: 13px; border: none; border-radius: 20px; padding: 7px 18px; cursor: pointer; font-weight: 500; }
+
+  .fj .page-header { padding: 52px 40px 0; }
+  .fj .page-header .tag { color: #FF6B00; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .fj .page-header h1 { font-size: 42px; font-weight: 600; letter-spacing: -1.5px; margin-bottom: 6px; }
+  .fj .page-header p { font-size: 16px; color: #6e6e73; font-weight: 300; }
+
+  .fj .filter-section { padding: 28px 40px 0; display: flex; flex-direction: column; gap: 14px; }
+  .fj .filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .fj .filter-label { font-size: 12px; font-weight: 500; color: #1d1d1f; min-width: 36px; }
+  .fj .pill { padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid #d1d1d6; background: #fff; color: #1d1d1f; white-space: nowrap; }
+  .fj .pill.active-day { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
+  .fj .pill.active-type { background: #FF6B00; color: #fff; border-color: #FF6B00; }
+  .fj .pill-clear { padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid #FF6B00; background: #fff; color: #FF6B00; white-space: nowrap; }
+  .fj .filter-divider-h { border: none; border-top: 1px solid #f0f0f0; margin: 4px 0; }
+
+  .fj .grid { padding: 28px 40px 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  .fj .class-card { background: #fff; border: 1px solid #e5e5e7; border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  .fj .card-top { background: #1d1d1f; padding: 24px; display: flex; justify-content: space-between; align-items: flex-start; flex-shrink: 0; }
+  .fj .card-top .icon { font-size: 28px; }
+  .fj .badge { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .fj .badge-open { background: rgba(255,107,0,0.22); color: #FF6B00; }
+  .fj .badge-full { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.45); }
+  .fj .badge-enrolled { background: rgba(255,107,0,0.22); color: #FF6B00; }
+
+  .fj .card-body { padding: 22px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+  .fj .card-body h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 4px; }
+  .fj .card-body .trainer { font-size: 13px; color: #6e6e73; margin-bottom: 16px; }
+
+  .fj .card-meta { display: flex; gap: 0; margin-bottom: 20px; border: 1px solid #f0f0f0; border-radius: 12px; overflow: hidden; }
+  .fj .meta-item { flex: 1; padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; border-right: 1px solid #f0f0f0; }
+  .fj .meta-item:last-child { border-right: none; }
+  .fj .meta-label { font-size: 11px; color: #aeaeb2; text-transform: uppercase; letter-spacing: 0.05em; }
+  .fj .meta-val { font-size: 14px; font-weight: 600; color: #1d1d1f; white-space: nowrap; }
+
+  .fj .vagas-wrap { margin-bottom: 18px; }
+  .fj .vagas-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+  .fj .vagas-label { font-size: 11px; font-weight: 600; color: #1d1d1f; text-transform: uppercase; letter-spacing: 0.06em; }
+  .fj .vagas-text { font-size: 13px; font-weight: 600; color: #1d1d1f; }
+  .fj .vagas-track { width: 100%; height: 7px; background: #d1d1d6; border-radius: 4px; overflow: hidden; }
+  .fj .vagas-fill { height: 7px; background: #FF6B00; border-radius: 4px; }
+  .fj .vagas-fill-full { height: 7px; background: #aeaeb2; border-radius: 4px; width: 100%; }
+
+  .fj .btn-enroll { width: 100%; background: #FF6B00; color: #fff; border: none; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: auto; }
+  .fj .btn-full { width: 100%; background: #f5f5f7; color: #aeaeb2; border: none; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 500; cursor: not-allowed; margin-top: auto; }
+  .fj .btn-cancel { width: 100%; background: #fff; color: #1d1d1f; border: 1.5px solid #1d1d1f; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: auto; }
+</style>
+
+<div class="fj">
+  <nav>
+    <div class="logo">FORJA</div>
+    <div class="links">
+      <a href="#" class="active">Aulas</a>
+      <a href="#">Trainers</a>
+      <a href="#">Equipamentos</a>
+    </div>
+    <div class="actions">
+      <button class="btn-ghost">Login</button>
+      <button class="btn-accent">Registar</button>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="tag">Agenda semanal</div>
+    <h1>Aulas</h1>
+    <p>Inscreve-te nas aulas que queres frequentar.</p>
+  </div>
+
+  <div class="filter-section">
+    <div class="filter-row">
+      <span class="filter-label">Dia</span>
+      <div class="pill active-day">Todos</div>
+      <div class="pill">Segunda</div>
+      <div class="pill">Terça</div>
+      <div class="pill">Quarta</div>
+      <div class="pill">Quinta</div>
+      <div class="pill">Sexta</div>
+      <div class="pill">Sábado</div>
+    </div>
+    <div class="filter-divider-h"></div>
+    <div class="filter-row">
+      <span class="filter-label">Tipo</span>
+      <div class="pill active-type">Todas</div>
+      <div class="pill">Yoga</div>
+      <div class="pill">HIIT</div>
+      <div class="pill">Spinning</div>
+      <div class="pill">Pilates</div>
+      <div class="pill">Boxe</div>
+      <div class="pill-clear">Limpar</div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="class-card">
+      <div class="card-top">
+        <div class="icon">🧘</div>
+        <div class="badge badge-open">Aulas · 8 vagas</div>
+      </div>
+      <div class="card-body">
+        <h3>Yoga</h3>
+        <div class="trainer">Ana Silva</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Dia</span>
+            <span class="meta-val">Segunda</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Hora</span>
+            <span class="meta-val">09:00</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Duração</span>
+            <span class="meta-val">60 min</span>
+          </div>
+        </div>
+        <div class="vagas-wrap">
+          <div class="vagas-header">
+            <span class="vagas-label">Vagas</span>
+            <span class="vagas-text">4 / 12</span>
+          </div>
+          <div class="vagas-track"><div class="vagas-fill" style="width:33%"></div></div>
+        </div>
+        <button class="btn-enroll">Inscrever</button>
+      </div>
+    </div>
+
+    <div class="class-card">
+      <div class="card-top">
+        <div class="icon">⚡</div>
+        <div class="badge badge-open">Aulas · 3 vagas</div>
+      </div>
+      <div class="card-body">
+        <h3>HIIT</h3>
+        <div class="trainer">João Costa</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Dia</span>
+            <span class="meta-val">Terça</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Hora</span>
+            <span class="meta-val">18:30</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Duração</span>
+            <span class="meta-val">45 min</span>
+          </div>
+        </div>
+        <div class="vagas-wrap">
+          <div class="vagas-header">
+            <span class="vagas-label">Vagas</span>
+            <span class="vagas-text">13 / 15</span>
+          </div>
+          <div class="vagas-track"><div class="vagas-fill" style="width:87%"></div></div>
+        </div>
+        <button class="btn-enroll">Inscrever</button>
+      </div>
+    </div>
+
+    <div class="class-card">
+      <div class="card-top">
+        <div class="icon">🚴</div>
+        <div class="badge badge-full">Aulas · Lotado</div>
+      </div>
+      <div class="card-body">
+        <h3>Spinning</h3>
+        <div class="trainer">Rita Neves</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Dia</span>
+            <span class="meta-val">Quarta</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Hora</span>
+            <span class="meta-val">07:00</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Duração</span>
+            <span class="meta-val">50 min</span>
+          </div>
+        </div>
+        <div class="vagas-wrap">
+          <div class="vagas-header">
+            <span class="vagas-label">Vagas</span>
+            <span class="vagas-text">20 / 20</span>
+          </div>
+          <div class="vagas-track"><div class="vagas-fill-full"></div></div>
+        </div>
+        <button class="btn-full">Aula lotada</button>
+      </div>
+    </div>
+
+    <div class="class-card">
+      <div class="card-top">
+        <div class="icon">🤸</div>
+        <div class="badge badge-open">Aulas · 10 vagas</div>
+      </div>
+      <div class="card-body">
+        <h3>Pilates</h3>
+        <div class="trainer">Marta Fontes</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Dia</span>
+            <span class="meta-val">Quinta</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Hora</span>
+            <span class="meta-val">10:00</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Duração</span>
+            <span class="meta-val">55 min</span>
+          </div>
+        </div>
+        <div class="vagas-wrap">
+          <div class="vagas-header">
+            <span class="vagas-label">Vagas</span>
+            <span class="vagas-text">2 / 12</span>
+          </div>
+          <div class="vagas-track"><div class="vagas-fill" style="width:17%"></div></div>
+        </div>
+        <button class="btn-enroll">Inscrever</button>
+      </div>
+    </div>
+
+    <div class="class-card">
+      <div class="card-top">
+        <div class="icon">🥊</div>
+        <div class="badge badge-open">Aulas · 5 vagas</div>
+      </div>
+      <div class="card-body">
+        <h3>Boxe</h3>
+        <div class="trainer">Pedro Maia</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Dia</span>
+            <span class="meta-val">Sexta</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Hora</span>
+            <span class="meta-val">19:00</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Duração</span>
+            <span class="meta-val">60 min</span>
+          </div>
+        </div>
+        <div class="vagas-wrap">
+          <div class="vagas-header">
+            <span class="vagas-label">Vagas</span>
+            <span class="vagas-text">7 / 12</span>
+          </div>
+          <div class="vagas-track"><div class="vagas-fill" style="width:58%"></div></div>
+        </div>
+        <button class="btn-enroll">Inscrever</button>
+      </div>
+    </div>
+
+    <div class="class-card">
+      <div class="card-top">
+        <div class="icon">🏋️</div>
+        <div class="badge badge-enrolled">Aulas · Inscrito</div>
+      </div>
+      <div class="card-body">
+        <h3>Força</h3>
+        <div class="trainer">João Costa</div>
+        <div class="card-meta">
+          <div class="meta-item">
+            <span class="meta-label">Dia</span>
+            <span class="meta-val">Sábado</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Hora</span>
+            <span class="meta-val">08:30</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Duração</span>
+            <span class="meta-val">60 min</span>
+          </div>
+        </div>
+        <div class="vagas-wrap">
+          <div class="vagas-header">
+            <span class="vagas-label">Vagas</span>
+            <span class="vagas-text">8 / 16</span>
+          </div>
+          <div class="vagas-track"><div class="vagas-fill" style="width:50%"></div></div>
+        </div>
+        <button class="btn-cancel">Cancelar inscrição</button>
+      </div>
+    </div>
+
+  </div>
+</div>
