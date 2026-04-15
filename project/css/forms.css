@@ -7,14 +7,17 @@
     text-align: center;
     width: fit-content;
     margin: 50px auto;
+    min-width: 350px;
 }
 
 #login button {
     background-color: rgb(255, 109, 5);
     border-style: none;
-    padding: 10px;
+    padding: 15px;
     font-weight: 500;
     color: white;
+    font-size: 1.1em;
+    margin: 15px 0;
 }
 
 #login input {
@@ -28,14 +31,30 @@
     input, button {
         display: block;
         width: 100%;
-        min-height: 40px;
-        border-radius: 10px;
+        min-height: 50px;
+        border-radius: 12px;
     }
 }
 
+/*form label {
+    margin-top: 20px
+}*/
+
 #login form {
     text-align: left;
+    color: rgb(97, 95, 95);
+    font-weight: 500;
 }
+
+form + a {
+    text-align: right;
+    color: rgb(255, 109, 5);
+    font-weight: 600;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+
 
 /*#login label {
     text-align: left;
