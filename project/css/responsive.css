@@ -1,0 +1,9 @@
+
+
+#radio-login:checked ~ #login-tab, #radio-register:checked ~ #register-tab {
+    display: block;
+}
+
+#radio-login {
+    content: "Login";
+}

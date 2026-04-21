@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="../css/style.css" rel="stylesheet">
         <link href="../css/forms.css" rel="stylesheet">
+        <link href="../css/responsive.css" rel="stylesheet">
     </head>
     <body>
         <header>
@@ -18,28 +19,51 @@
                 <a href="register.html">Registar</a>
             </div>
         </header>
-        <section id="login">
-            <h2>Forja</h2>
-            <h3>Entra na tua conta</h3>
-            <form name="login">
-                <label>
-                    Email <input type="text" name="email">
-                </label>
-                <label>
-                    Palavra-passe <input type="password" name="password">
-                </label>
-            </form>
-            <a href="recover.html">Esqueceste-te?</a>
-            <button formtarget="login" formmethod="post">Entrar</button>
-            <h4>ou</h4>
-            <p>Não tens conta? <a href="register.html">Regista-te</a></p>
+        <section>
+            <h1>Forja</h1>
+            <p>Porto &middot; Ginásio</p>
+            <input type="radio" name="switch-login" id="radio-login" checked> 
+            <label for="radio-login">Login</label>
+            <input type="radio" name="switch-login" id="radio-register">
+            <label for="radio-register">Registar</label>
+            <div id="login-tab">
+                <form name="login">
+                    <label>
+                        Email <input type="text" name="email">
+                    </label>
+                    <label>
+                        Palavra-passe <input type="password" name="password">
+                    </label>
+                </form>
+                <a href="recover.html">Esqueceste-te?</a>
+                <button formtarget="login" formmethod="post">Entrar</button>
+                <p>ou</p>
+                <p>Não tens conta? <a href="register.html">Regista-te</a></p>
+            </div>
+            <div id="register-tab">
+                <form name="register">
+                    <label>
+                        Nome <input type="text" name="name">
+                    </label>
+                    <label>
+                        Email <input type="text" name="email">
+                    </label>
+                    <label>
+                        Palavra-passe <input type="password" name="password">
+                    </label>
+                </form>
+                <a href="recover.html">Esqueceste-te?</a>
+                <button formtarget="login" formmethod="post">Entrar</button>
+                <p>ou</p>
+                <p>Não tens conta? <a href="register.html">Regista-te</a></p>
+            </div>
         </section>
         <footer>
             <h2 class="logo">Forja</h2>
             <a href="terms.html">Contacto</a>
             <a href="terms.html">Privacidade</a>
             <a href="terms.html">Termos</a>
-            <p>&copy; 2026 Forja Gym &bull; Porto, Portugal</p>
+            <p>&copy; 2026 Forja Gym &middot; Porto, Portugal</p>
         </footer>
     </body>
 </html>

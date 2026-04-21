@@ -1,6 +1,5 @@
 
-#login {
-    border: solid 1px rgb(192, 192, 192);
+section:has(form) {
     border-radius: 10px;
     background-color: white;
     padding: 30px;
@@ -8,39 +7,35 @@
     width: fit-content;
     margin: 50px auto;
     min-width: 350px;
+    box-shadow: 0 0 10px 2px var(--gray-border);
 }
 
-#login button {
-    background-color: rgb(255, 109, 5);
+form ~ button {
+    background-color: var(--orange);
     border-style: none;
     padding: 15px;
     font-weight: 500;
     color: white;
     font-size: 1.1em;
     margin: 15px 0;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 12px;
 }
 
-#login input {
-    border-color: rgb(192, 192, 192);
+form input {
+    border-color: var(--gray-border);
     border-style: solid;
     font-size: 1em;
     padding: 0 10px;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 12px;
 }
 
-#login {
-    input, button {
-        display: block;
-        width: 100%;
-        min-height: 50px;
-        border-radius: 12px;
-    }
-}
-
-/*form label {
-    margin-top: 20px
-}*/
-
-#login form {
+form {
     text-align: left;
     color: rgb(97, 95, 95);
     font-weight: 500;
@@ -48,15 +43,9 @@
 
 form + a {
     text-align: right;
-    color: rgb(255, 109, 5);
+    color: var(--orange);
     font-weight: 600;
     font-size: 0.9em;
     text-decoration: none;
 }
-
-
-
-/*#login label {
-    text-align: left;
-}*/
 
