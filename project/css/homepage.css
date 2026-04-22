@@ -51,7 +51,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #f5955d;
+    background-color: var(--orange-hover);
 }
 
 .btn-secondary {

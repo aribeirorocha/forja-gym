@@ -25,6 +25,10 @@ form ~ button {
     border-radius: 12px;
 }
 
+form ~ button:hover {
+    background-color: var(--orange-hover);
+}
+
 form input {
     border: solid 1.5px var(--gray-border);
     font-size: 1em;
@@ -42,7 +46,9 @@ form {
 }
 
 form + p {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
 }
 
 form + p > a {
@@ -51,7 +57,11 @@ form + p > a {
     font-weight: 700;
     font-size: 1em;
     text-decoration: none;
-    padding: 5px 0;
+}
+
+form ~ p > label {
+    color: var(--orange);
+    font-weight: 700;
 }
 
 form ~ button + p {
@@ -67,21 +77,9 @@ form ~ button + p > span {
     padding: 0 10px; 
 }
 
-label > p {
-    text-align: right;
-    color: var(--orange);
-    font-weight: 600;
-    font-size: 0.9em;
-    text-decoration: none;
-}
-
 section:has(form) > .logo {
     font-size: 2rem;
     color: var(--text-main);
 }
 
-form ~ p > label {
-    color: var(--orange);
-    font-weight: 700;
-}
 
