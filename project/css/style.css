@@ -10,3 +10,35 @@
     --radius-sm: 12px;         
     --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+#radio-login, #radio-register {
+    display: none;
+}
+
+#radio-login + label, #radio-register + label {
+    display: inline-block;
+    height: 3em;
+    line-height: 3em;
+    font-weight: bold;
+    width: 48%;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.04em;
+}

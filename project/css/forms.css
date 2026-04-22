@@ -1,62 +1,87 @@
 
-#login {
-    border: solid 1px rgb(192, 192, 192);
-    border-radius: 10px;
+section:has(form) {
+    border-radius: 20px;
     background-color: white;
     padding: 30px;
     text-align: center;
     width: fit-content;
     margin: 50px auto;
-    min-width: 350px;
+    min-width: 400px;
+    box-shadow: 0 5px 30px 5px var(--gray-border);
+    color: var(--text-muted);
 }
 
-#login button {
-    background-color: rgb(255, 109, 5);
+form ~ button {
+    background-color: var(--orange);
     border-style: none;
     padding: 15px;
     font-weight: 500;
     color: white;
     font-size: 1.1em;
     margin: 15px 0;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 12px;
 }
 
-#login input {
-    border-color: rgb(192, 192, 192);
-    border-style: solid;
+form input {
+    border: solid 1.5px var(--gray-border);
     font-size: 1em;
     padding: 0 10px;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 12px;
 }
 
-#login {
-    input, button {
-        display: block;
-        width: 100%;
-        min-height: 50px;
-        border-radius: 12px;
-    }
-}
-
-/*form label {
-    margin-top: 20px
-}*/
-
-#login form {
+form {
     text-align: left;
     color: rgb(97, 95, 95);
     font-weight: 500;
 }
 
-form + a {
+form + p {
     text-align: right;
-    color: rgb(255, 109, 5);
+}
+
+form + p > a {
+    display: inline-block;
+    color: var(--orange);
+    font-weight: 700;
+    font-size: 1em;
+    text-decoration: none;
+    padding: 5px 0;
+}
+
+form ~ button + p {
+   width: 100%; 
+   text-align: center; 
+   border-bottom: 1px solid var(--gray-border); 
+   line-height: 0.1em;
+   margin: 10px 0 20px 0;
+}
+
+form ~ button + p > span { 
+    background:white; 
+    padding: 0 10px; 
+}
+
+label > p {
+    text-align: right;
+    color: var(--orange);
     font-weight: 600;
     font-size: 0.9em;
     text-decoration: none;
 }
 
+section:has(form) > .logo {
+    font-size: 2rem;
+    color: var(--text-main);
+}
 
-
-/*#login label {
-    text-align: left;
-}*/
+form ~ p > label {
+    color: var(--orange);
+    font-weight: 700;
+}
 
