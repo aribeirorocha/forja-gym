@@ -139,17 +139,25 @@
     transition: var(--transition);
 }
 
-.class-icon, .trainer-avatar {
-    width: 64px;
-    height: 64px;
-    background-color: var(--black);
-    color:white;
-    border-radius: 16px;
-    display:flex;
+
+.class-photo {
+    width: 20px;              
+    height: 20px;
+    border-radius: 10px;       
+    overflow: hidden;         
+    background-color: var(--gray-bg);
+    display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.0rem;
-    margin-bottom:32px;
+    margin-bottom: 16px;
+    border: 1px solid var(--gray-border);
+}
+
+.class-photo {
+    width: 50%;              
+    height: 50%;            
+    object-fit: cover;       
+    display: block;
 }
 
 .trainer-avatar {
@@ -170,13 +178,13 @@
     margin-bottom: 8px;
 }
 .trainer-photo {
-    width: 60px;               /* Tamanho bem pequeno */
+    width: 60px;               
     height: 60px;
-    border-radius: 50%;        /* Mantém o círculo perfeito */
-    object-fit: cover;         /* Garante que o rosto não deforma */
-    border: 1px solid #d2d2d7; /* Borda fininha cinza (Apple Style) */
-    margin-bottom: 12px;       /* Reduzi também o espaço abaixo da foto */
-    display: block;            /* Garante que não fica nada ao lado se não quiseres */
+    border-radius: 50%;       
+    object-fit: cover;        
+    border: 1px solid #d2d2d7; 
+    margin-bottom: 12px;       
+    display: block;            
 }
 
 .btn-text {
