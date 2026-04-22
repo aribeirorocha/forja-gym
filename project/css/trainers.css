@@ -1,0 +1,67 @@
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f4f4f4;
+}
+
+header {
+  background: black;
+  color: white;
+  padding: 15px;
+}
+
+.trainers, .equipment, .reviews, .profile, .schedule, .students {
+  padding: 30px;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+}
+
+.avatar {
+  background: black;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card a {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+input, textarea {
+  width: 100%;
+  margin: 5px 0;
+  padding: 8px;
+}
+
+button {
+  background: orange;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
