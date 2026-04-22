@@ -9,7 +9,7 @@
         <link href="../css/responsive.css" rel="stylesheet">
     </head>
     <body>
-        <header>
+        <!--<header>
             <h1 class="logo">FORJA</h1>
             <a href="aulas.html">Aulas</a>
             <a href="trainers.html">Trainers</a>
@@ -17,6 +17,22 @@
             <div id="signup">
                 <a href="login.html">Login</a>
                 <a href="register.html">Registar</a>
+            </div>
+        </header> -->
+        <header class ="main-header">
+            <div class = "logo" >
+                <a href="homepage.html">FORJA</a>
+            </div>
+            <nav>
+                <ul>
+                    <li> <a href = "#aulas">Aulas</a></li>
+                    <li> <a href = "#trainers">Trainers</a></li>
+                    <li> <a href = "#equipamentos">Equipamentos</a></li>
+                </ul>
+            </nav>
+            <div class = "auth-buttons"> 
+                <a href = "login.html" class = "btn-login">Login</a>
+                <a href = "register.html" class = "btn-register">Registrar</a>
             </div>
         </header>
         <section>
@@ -57,12 +73,27 @@
                 <p>Já tens conta? <label for="radio-login">Entrar</label></p>
             </div>
         </section>
-        <footer>
+       <!-- <footer>
             <h2 class="logo">Forja</h2>
             <a href="terms.html">Contacto</a>
             <a href="terms.html">Privacidade</a>
             <a href="terms.html">Termos</a>
             <p>&copy; 2026 Forja Gym &middot; Porto, Portugal</p>
+        </footer> -->
+        <footer class= "main-footer">
+            <div class = "footer-top">
+                <div class = "footer-logo">
+                    <a href="homepage.html">FORJA</a>
+                </div>
+                <nav class = "footer-nav">
+                    <a href="#">Contactos</a>
+                    <a href="#">Serviço</a>
+                    <a href="#">Privacidade</a>
+            </nav>
+        </div>
+        <div class = "footer-bottom">
+            <p>&copy; 2026 FORJA Gym &middot; Porto, Portugal</p>
+        </div>
         </footer>
     </body>
 </html>
