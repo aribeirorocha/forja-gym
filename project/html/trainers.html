@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>FORJA Gym</title>
+  <link rel="stylesheet" href="trainers.css">
+</head>
+<body>
+
+<header>
+  <h1>FORJA</h1>
+  <nav>
+    <a href="#">Aulas</a>
+    <a href="#">Trainers</a>
+    <a href="#">Equipamentos</a>
+  </nav>
+</header>
+
+<section class="trainers">
+  <h2>Os nossos trainers</h2>
+
+  <div class="cards">
+    <div class="card">
+      <div class="avatar">AS</div>
+      <h3>Ana Silva</h3>
+      <p>Yoga • Pilates</p>
+      <a href="trainer.html">Ver perfil</a>
+    </div>
+
+    <div class="card">
+      <div class="avatar">JC</div>
+      <h3>João Costa</h3>
+      <p>HIIT • Força</p>
+      <a href="trainer.html">Ver perfil</a>
+    </div>
+  </div>
+</section>
+
+<section class="equipment">
+  <h2>Equipamentos disponíveis</h2>
+  <ul id="equipmentList"></ul>
+</section>
+
+<section class="reviews">
+  <h2>Reviews</h2>
+
+  <div id="reviewsList"></div>
+
+  <h3>Adicionar review</h3>
+  <input type="text" id="name" placeholder="Nome">
+  <textarea id="comment" placeholder="Comentário"></textarea>
+  <button onclick="addReview()">Enviar</button>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
+  
