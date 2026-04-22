@@ -169,6 +169,15 @@
     font-size: 1.0rem;
     margin-bottom: 8px;
 }
+.trainer-photo {
+    width: 60px;               /* Tamanho bem pequeno */
+    height: 60px;
+    border-radius: 50%;        /* Mantém o círculo perfeito */
+    object-fit: cover;         /* Garante que o rosto não deforma */
+    border: 1px solid #d2d2d7; /* Borda fininha cinza (Apple Style) */
+    margin-bottom: 12px;       /* Reduzi também o espaço abaixo da foto */
+    display: block;            /* Garante que não fica nada ao lado se não quiseres */
+}
 
 .btn-text {
     margin-top: 24px;
