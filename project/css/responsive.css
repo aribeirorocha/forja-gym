@@ -1,19 +1,57 @@
+@media (max-width: 600px) {
+  .main-header {
+    display: grid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: fit-content;
 
+    .auth-buttons {
+      grid-row: 1 / span 1;
+      grid-column: 2 / span 1;
+      padding-top: 10px;
+      padding: 10px 0px;
+    }
 
-#register-tab, #login-tab {
-    display: none;
+    .logo {
+      grid-row: 1 / span 1;
+      grid-column: 1 / span 1;
+      padding: 10px 0px;
+    }
+
+    nav {
+      grid-row: 2 / span 1;
+      grid-column: 1 / span 2;
+      padding: 5px 0px;
+      ul {
+        display: flex;
+        justify-content: space-evenly;
+      }
+    }
+  }
+
+  .footer-top {
+    flex-direction: column;
+    margin-bottom: 40px;
+    nav {
+        padding: 10px 0;
+    }
+  }
 }
 
-
-#radio-login:checked ~ #login-tab, #radio-register:checked ~ #register-tab {
-    display: block;
+#register-tab,
+#login-tab {
+  display: none;
 }
 
-#radio-login:checked + label, #radio-register:checked + label {
-    border-radius: 10px;
-    box-shadow: 0 2px 8px 1px var(--gray-border);
-    color: var(--text-main);
-    transition: all .2s ease-in-out;
+#radio-login:checked ~ #login-tab,
+#radio-register:checked ~ #register-tab {
+  display: block;
 }
 
-
+#radio-login:checked + label,
+#radio-register:checked + label {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px 1px var(--gray-border);
+  color: var(--text-main);
+  transition: all 0.2s ease-in-out;
+}
