@@ -10,7 +10,7 @@
     </head>
     <body>
         <header>
-            <h1 class="logo">Forja</h1>
+            <h1 class="logo">FORJA</h1>
             <a href="aulas.html">Aulas</a>
             <a href="trainers.html">Trainers</a>
             <a href="equip.html">Equipamentos</a>
@@ -20,7 +20,7 @@
             </div>
         </header>
         <section>
-            <h1>Forja</h1>
+            <h1 class="logo">FORJA</h1>
             <p>Porto &middot; Ginásio</p>
             <input type="radio" name="switch-login" id="radio-login" checked> 
             <label for="radio-login">Login</label>
@@ -35,10 +35,10 @@
                         Palavra-passe <input type="password" name="password">
                     </label>
                 </form>
-                <a href="recover.html">Esqueceste-te?</a>
+                <p><a href="recover.html">Esqueceste-te?</a></p>
                 <button formtarget="login" formmethod="post">Entrar</button>
-                <p>ou</p>
-                <p>Não tens conta? <a href="register.html">Regista-te</a></p>
+                <p><span>ou</span></p>
+                <p>Não tens conta? <label for="radio-register">Regista-te</label></p>
             </div>
             <div id="register-tab">
                 <form name="register">
@@ -52,10 +52,9 @@
                         Palavra-passe <input type="password" name="password">
                     </label>
                 </form>
-                <a href="recover.html">Esqueceste-te?</a>
-                <button formtarget="login" formmethod="post">Entrar</button>
-                <p>ou</p>
-                <p>Não tens conta? <a href="register.html">Regista-te</a></p>
+                <button formtarget="register" formmethod="post">Criar conta</button>
+                <p><span>ou</span></p>
+                <p>Já tens conta? <label for="radio-login">Entrar</label></p>
             </div>
         </section>
         <footer>

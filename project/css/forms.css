@@ -1,13 +1,14 @@
 
 section:has(form) {
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: white;
     padding: 30px;
     text-align: center;
     width: fit-content;
     margin: 50px auto;
-    min-width: 350px;
-    box-shadow: 0 0 10px 2px var(--gray-border);
+    min-width: 400px;
+    box-shadow: 0 5px 30px 5px var(--gray-border);
+    color: var(--text-muted);
 }
 
 form ~ button {
@@ -25,8 +26,7 @@ form ~ button {
 }
 
 form input {
-    border-color: var(--gray-border);
-    border-style: solid;
+    border: solid 1.5px var(--gray-border);
     font-size: 1em;
     padding: 0 10px;
     display: block;
@@ -41,11 +41,47 @@ form {
     font-weight: 500;
 }
 
-form + a {
+form + p {
+    text-align: right;
+}
+
+form + p > a {
+    display: inline-block;
+    color: var(--orange);
+    font-weight: 700;
+    font-size: 1em;
+    text-decoration: none;
+    padding: 5px 0;
+}
+
+form ~ button + p {
+   width: 100%; 
+   text-align: center; 
+   border-bottom: 1px solid var(--gray-border); 
+   line-height: 0.1em;
+   margin: 10px 0 20px 0;
+}
+
+form ~ button + p > span { 
+    background:white; 
+    padding: 0 10px; 
+}
+
+label > p {
     text-align: right;
     color: var(--orange);
     font-weight: 600;
     font-size: 0.9em;
     text-decoration: none;
+}
+
+section:has(form) > .logo {
+    font-size: 2rem;
+    color: var(--text-main);
+}
+
+form ~ p > label {
+    color: var(--orange);
+    font-weight: 700;
 }
 
