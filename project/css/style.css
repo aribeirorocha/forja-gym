@@ -149,3 +149,16 @@ ul {
     text-align: center;
 }
 
+.highlight {
+    color: var(--orange);
+}
+
+.trainer-photo {
+    width: 60px;               
+    height: 60px;
+    border-radius: 50%;       
+    object-fit: cover;        
+    border: 1px solid #d2d2d7; 
+    margin-bottom: 12px;       
+    display: block;            
+}
