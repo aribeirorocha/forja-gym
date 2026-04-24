@@ -1,67 +1,315 @@
-body {
-  font-family: Arial;
-  margin: 0;
-  background: #f4f4f4;
-}
+/* ── Trainers page ─────────────────────────────────────────────── */
 
-header {
-  background: black;
-  color: white;
-  padding: 15px;
-}
-
-.trainers, .equipment, .reviews, .profile, .schedule, .students {
-  padding: 30px;
-}
-
-.cards {
-  display: flex;
-  gap: 20px;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 200px;
+/* Hero */
+.trainers-hero {
+  background-color: var(--black);
+  color: var(--white);
+  padding: 100px 5% 80px;
   text-align: center;
 }
 
-.avatar {
-  background: black;
-  color: white;
-  width: 50px;
-  height: 50px;
+.trainers-hero h1 {
+  font-size: 3.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 16px 0 24px;
+}
+
+.trainers-hero-subtitle {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* Grid */
+.trainers-list {
+  padding: 100px 5%;
+}
+
+.trainer-grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  align-items: start;
+}
+
+/* Card */
+.trainer-card {
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.trainer-card:hover {
+  border-color: var(--orange);
+  transform: translateY(-4px);
+}
+
+/* When open: span all columns, cap width so it doesn't stretch too wide */
+.trainer-card:has(.trainer-toggle:checked) {
+  grid-column: 1 / -1;
+  max-width: 480px;
+}
+
+/* Hide the checkbox itself */
+.trainer-toggle {
+  display: none;
+}
+
+/* Summary block – always visible */
+.trainer-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+/* Avatar */
+.trainer-avatar {
+  background-color: var(--black);
+  color: var(--white);
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
-.card a {
-  display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
-  border: 1px solid black;
-  padding: 5px 10px;
-  border-radius: 10px;
+.trainer-summary h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+.trainer-specialty {
+  color: var(--orange);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
-input, textarea {
-  width: 100%;
-  margin: 5px 0;
-  padding: 8px;
-}
-
-button {
-  background: orange;
-  border: none;
-  padding: 10px;
+/* "Ver perfil" button label */
+.btn-ver-perfil {
+  margin-top: 20px;
+  color: var(--orange);
+  font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
+}
+
+/* Toggle which span is visible */
+.label-fechar {
+  display: none;
+}
+
+.trainer-toggle:checked ~ .trainer-summary .label-ver {
+  display: none;
+}
+
+.trainer-toggle:checked ~ .trainer-summary .label-fechar {
+  display: inline;
+}
+
+/* Profile block – hidden by default */
+.trainer-profile {
+  display: none;
+  margin-top: 4px;
+}
+
+/* Show profile when checkbox is checked */
+.trainer-toggle:checked ~ .trainer-profile {
+  display: block;
+}
+
+/* Divider */
+.profile-divider {
+  border: none;
+  border-top: 1px solid var(--gray-border);
+  margin: 20px 0;
+}
+
+/* Info list */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-row {
+  display: flex;
+  gap: 12px;
+}
+
+.profile-row dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  min-width: 100px;
+  padding-top: 2px;
+}
+
+.profile-row dd {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+/* ── Review section ─────────────────────────────────────────────── */
+
+.review-section {
+  margin-top: 4px;
+}
+
+.review-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Star rating – CSS only, reverse order trick */
+.star-rating {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+}
+
+.star-rating input[type="radio"] {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 1.6rem;
+  color: var(--gray-border);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input[type="radio"]:checked ~ label {
+  color: var(--orange);
+}
+
+.review-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.review-form textarea {
+  border: 1.5px solid var(--gray-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.2s ease;
+}
+
+.review-form textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+.btn-review-submit {
+  align-self: flex-start;
+  background-color: var(--orange);
+  color: var(--white);
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-review-submit:hover {
+  background-color: var(--orange-hover);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .trainers-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .trainers-list {
+    padding: 60px 5%;
+  }
+
+  .profile-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .profile-row dt {
+    min-width: unset;
+  }
+}
+
+/* ── :target – abrir perfil via URL âncora (ex: trainers.html#ana-silva) ── */
+
+/* Quando o URL tem #ana-silva, o article fica como "targeted".
+   Mostramos o perfil e aplicamos o mesmo layout de coluna inteira. */
+.trainer-card:target {
+  grid-column: 1 / -1;
+  max-width: 480px;
+  border-color: var(--orange);
+}
+
+/* Mostrar o bloco de perfil do card targetado */
+.trainer-card:target .trainer-profile {
+  display: block;
+}
+
+/* Trocar o texto do botão para "Fechar perfil" */
+.trainer-card:target .label-ver {
+  display: none;
+}
+
+.trainer-card:target .label-fechar {
+  display: inline;
+}
+
+/* Scroll suave até ao card quando a página carrega com âncora */
+.trainer-card:target {
+  scroll-margin-top: 80px;
 }
