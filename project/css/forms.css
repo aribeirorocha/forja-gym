@@ -95,3 +95,21 @@ section:has(form) > .logo {
     color: var(--orange);
 
 }
+
+#register-tab,
+#login-tab {
+  display: none;
+}
+ 
+#radio-login:checked ~ #login-tab,
+#radio-register:checked ~ #register-tab {
+  display: block;
+}
+ 
+#radio-login:checked + label,
+#radio-register:checked + label {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px 1px var(--gray-border);
+  color: var(--text-main);
+  transition: all 0.2s ease-in-out;
+}

@@ -8,7 +8,6 @@
     .auth-buttons {
       grid-row: 1 / span 1;
       grid-column: 2 / span 1;
-      padding-top: 10px;
       padding: 10px 0px;
     }
 
@@ -33,25 +32,35 @@
     flex-direction: column;
     margin-bottom: 40px;
     nav {
-        padding: 10px 0;
+      padding: 10px 0;
     }
   }
-}
 
-#register-tab,
-#login-tab {
-  display: none;
-}
+  .hero h1 {
+    font-size: 2.6rem;
+  }
 
-#radio-login:checked ~ #login-tab,
-#radio-register:checked ~ #register-tab {
-  display: block;
-}
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
 
-#radio-login:checked + label,
-#radio-register:checked + label {
-  border-radius: 10px;
-  box-shadow: 0 2px 8px 1px var(--gray-border);
-  color: var(--text-main);
-  transition: all 0.2s ease-in-out;
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .mission h2 {
+    font-size: 2rem;
+  }
+
+  .mission p {
+    font-size: 1.1rem;
+  }
 }
