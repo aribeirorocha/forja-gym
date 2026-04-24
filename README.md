@@ -6,7 +6,7 @@ Plataforma web para gestão de um ginásio, desenvolvida no âmbito da unidade c
 
 - André Rocha - up202407636
 - Ricardo Oliveira - up202404557
-- Cândido Junior - up...
+- Cândido Junior - up202409106
 
 ## Descrição
 
