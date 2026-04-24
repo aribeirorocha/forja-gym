@@ -5,7 +5,7 @@ Plataforma web para gestão de um ginásio, desenvolvida no âmbito da unidade c
 ## Grupo LTW07G08
 
 - André Rocha - up202407636
-- Ricardo Oliveira - up...
+- Ricardo Oliveira - up202404557
 - Cândido Junior - up...
 
 ## Descrição
