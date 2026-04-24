@@ -114,27 +114,7 @@
     letter-spacing: -0.02em;
 }
 
-.class-grid, .trainer-grid {
-    display: grid;
-    gap: 40px;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
 
-.class-card, .trainer-card {
-    background-color: var(--white);
-    padding: 48px;
-    border-radius: var(--radius-lg);
-    border: 1px solid #e5e5e7;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.class-card:hover, .trainer-card:hover {
-    border-color: var(--orange);
-    transform: translateY(-5px);
-    transition: var(--transition);
-}
 
 
 .class-photo {
@@ -157,11 +137,6 @@
     display: block;
 }
 
-.trainer-avatar {
-    border-radius: 50%;
-    font-size: 1.2rem;
-    font-weight: 700;    
-}
 
 .class-card h3, .trainer-card h3 {
     font-size: 1.6rem;
@@ -173,11 +148,4 @@
     color: var(--text-muted);
     font-size: 1.0rem;
     margin-bottom: 8px;
-}
-
-
-.btn-text {
-    margin-top: 24px;
-    color: var(--orange);
-    font-weight: 600;
 }

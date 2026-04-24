@@ -1,6 +1,5 @@
-/* ── Trainers page ─────────────────────────────────────────────── */
 
-/* Hero */
+
 .trainers-hero {
   background-color: var(--black);
   color: var(--white);
@@ -23,69 +22,34 @@
   margin: 0 auto;
 }
 
-/* Grid */
+
 .trainers-list {
   padding: 100px 5%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.trainer-grid {
-  display: grid;
-  gap: 32px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  align-items: start;
-}
 
-/* Card */
-.trainer-card {
-  background-color: var(--white);
-  border: 1px solid var(--gray-border);
-  border-radius: var(--radius-lg);
-  padding: 36px;
-  display: flex;
-  flex-direction: column;
-  transition: var(--transition);
-}
-
-.trainer-card:hover {
-  border-color: var(--orange);
-  transform: translateY(-4px);
-}
-
-/* When open: span all columns, cap width so it doesn't stretch too wide */
 .trainer-card:has(.trainer-toggle:checked) {
   grid-column: 1 / -1;
   max-width: 480px;
 }
 
-/* Hide the checkbox itself */
+
 .trainer-toggle {
   display: none;
 }
 
-/* Summary block – always visible */
+
 .trainer-summary {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 6px;
 }
 
-/* Avatar */
-.trainer-avatar {
-  background-color: var(--black);
-  color: var(--white);
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  margin-bottom: 12px;
-  flex-shrink: 0;
-}
+
 
 .trainer-summary h3 {
   font-size: 1.25rem;
@@ -100,16 +64,8 @@
   letter-spacing: 0.04em;
 }
 
-/* "Ver perfil" button label */
-.btn-ver-perfil {
-  margin-top: 20px;
-  color: var(--orange);
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-}
 
-/* Toggle which span is visible */
+
 .label-fechar {
   display: none;
 }
@@ -122,25 +78,25 @@
   display: inline;
 }
 
-/* Profile block – hidden by default */
+
 .trainer-profile {
   display: none;
   margin-top: 4px;
 }
 
-/* Show profile when checkbox is checked */
+
 .trainer-toggle:checked ~ .trainer-profile {
   display: block;
 }
 
-/* Divider */
+
 .profile-divider {
   border: none;
   border-top: 1px solid var(--gray-border);
   margin: 20px 0;
 }
 
-/* Info list */
+
 .profile-info {
   display: flex;
   flex-direction: column;
@@ -168,8 +124,6 @@
   line-height: 1.5;
 }
 
-/* ── Review section ─────────────────────────────────────────────── */
-
 .review-section {
   margin-top: 4px;
 }
@@ -188,7 +142,7 @@
   gap: 10px;
 }
 
-/* Star rating – CSS only, reverse order trick */
+
 .star-rating {
   border: none;
   padding: 0;
@@ -249,7 +203,7 @@
 }
 
 .btn-review-submit {
-  align-self: flex-start;
+  align-self: center;
   background-color: var(--orange);
   color: var(--white);
   border: none;
@@ -259,13 +213,14 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin-top: 20px;
 }
 
 .btn-review-submit:hover {
   background-color: var(--orange-hover);
 }
 
-/* Responsive */
+
 @media (max-width: 600px) {
   .trainers-hero h1 {
     font-size: 2.4rem;
@@ -285,22 +240,19 @@
   }
 }
 
-/* ── :target – abrir perfil via URL âncora (ex: trainers.html#ana-silva) ── */
 
-/* Quando o URL tem #ana-silva, o article fica como "targeted".
-   Mostramos o perfil e aplicamos o mesmo layout de coluna inteira. */
 .trainer-card:target {
   grid-column: 1 / -1;
   max-width: 480px;
   border-color: var(--orange);
 }
 
-/* Mostrar o bloco de perfil do card targetado */
+
 .trainer-card:target .trainer-profile {
   display: block;
 }
 
-/* Trocar o texto do botão para "Fechar perfil" */
+
 .trainer-card:target .label-ver {
   display: none;
 }
@@ -309,7 +261,7 @@
   display: inline;
 }
 
-/* Scroll suave até ao card quando a página carrega com âncora */
+
 .trainer-card:target {
   scroll-margin-top: 80px;
 }

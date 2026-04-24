@@ -54,15 +54,21 @@ form + p {
 
 form + p > a {
     display: inline-block;
-    color: var(--orange);
-    font-weight: 700;
-    font-size: 1em;
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 0.8em;
     text-decoration: none;
+}
+form + p > a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
 }
 
 form ~ p > label {
-    color: var(--orange);
+    color: var(--text-main);
     font-weight: 700;
+    font-size: 0.8em;
 }
 
 form ~ button + p {
@@ -84,3 +90,8 @@ section:has(form) > .logo {
 }
 
 
+.links{
+    font-size: 1em;
+    color: var(--orange);
+
+}
