@@ -20,13 +20,13 @@
             <nav>
                 <ul>
                     <li> <a href = "#aulas">Aulas</a></li>
-                    <li> <a href = "trainers.html">Trainers</a></li>
+                    <li> <a href = "trainers.php">Trainers</a></li>
                     <li> <a href = "#equipamentos">Equipamentos</a></li>
                 </ul>
             </nav>
             <div class = "auth-buttons"> 
-                <a href = "login.html" class = "btn-login">Login</a>
-                <a href = "login.html" class = "btn-register">Registrar</a>
+                <a href = "login.php" class = "btn-login">Login</a>
+                <a href = "login.php" class = "btn-register">Registrar</a>
             </div>
         </header>
         <main>
@@ -37,7 +37,7 @@
         <footer class= "main-footer">
             <div class = "footer-top">
                 <div class = "footer-logo">
-                    <a href="homepage.html">FORJA</a>
+                    <a href="index.php">FORJA</a>
                 </div>
                 <nav class = "footer-nav">
                     <a href="#">Contactos</a>

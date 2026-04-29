@@ -7,7 +7,7 @@
                 </p>
                 <div class = "hero-actions">
                     <a href = "aulas.html" class = "btn-primary" > Ver aulas</a>
-                    <a href= "trainers.html" class = "btn-secondary"> Saber mais</a>
+                    <a href = "trainers.php" class = "btn-secondary"> Saber mais</a>
                 </div>
             </section>
 <?php } ?>

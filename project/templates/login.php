@@ -19,7 +19,7 @@
                     <label>
                         <input type="checkbox"> Lembrar-se
                     </label>
-                    <a href="recover.html">Esqueceste-te?</a>
+                    <a href="#">Esqueceste-te?</a>
                     
                 </p>
                 <button formtarget="login" formmethod="post">Entrar</button>
