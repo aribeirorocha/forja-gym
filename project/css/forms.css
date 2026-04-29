@@ -1,5 +1,5 @@
 
-section:has(form) {
+section:has(#login-tab > form) {
     border-radius: 20px;
     background-color: white;
     padding: 30px;
