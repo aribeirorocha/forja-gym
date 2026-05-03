@@ -14,4 +14,12 @@ INSERT INTO trainer_profile (id_user, formation, certification) VALUES (1, 'Lice
 (5, 'Licenciatura em Desporto e Lazer – ESDRM', 'Spinning® Certified Instructor, Athletics Coach'),
 (6, 'Licenciatura em Educação Física – FADEUP', 'CrossFit Level 1, Mobility WOD Coach');
 
+INSERT INTO class (id, name, type, duration_minutes, id_trainer, capacity, local, active) VALUES (1, 'Yoga', 'yoga', 60, 1, 12, 'Porto', 1),
+(2, 'CrossFit', 'crossfit', 60, 2, 8, 'Porto', 1),
+(3, 'Spinning', 'spinning', 45, 3, 10, 'Porto', 1);
+
+INSERT INTO class_session (id, id_class, session_datetime, status) VALUES (1, 1, '2026-05-04 09:00:00', 'Agendada'),
+(2, 2, '2026-05-05 18:00:00', 'Agendada'),
+(3, 3, '2026-05-06 19:00:00', 'Agendada');
+
 COMMIT;

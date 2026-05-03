@@ -17,7 +17,7 @@ class Trainer extends User
         $this->certification = $certification;
     }
 
-    static function getTrainers(PDO $db, int $count): array
+    static function getTrainers(PDO $db, int $count) : array
     {
         $stmt = $db->prepare('SELECT id, username, name, email, photo, role, formation, certification FROM user U
                               JOIN trainer_profile T ON T.id_user = U.id LIMIT ?');
@@ -40,5 +40,27 @@ class Trainer extends User
         }
 
         return $trainers;
+    }
+
+    static function getTrainer(PDO $db, int $id) : ?Trainer {
+        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, formation, certification FROM user U
+                              JOIN trainer_profile T ON T.id_user = U.id WHERE U.id = ? LIMIT 1');
+
+        $stmt->execute(array($id));
+
+        if ($trainer = $stmt->fetch()) {
+            return new Trainer(
+                $trainer['id'],
+                $trainer['username'],
+                $trainer['name'],
+                $trainer['email'],
+                "../imgs/{$trainer['photo']}",
+                $trainer['role'],
+                $trainer['formation'],
+                $trainer['certification']
+            );
+        }
+
+        return null;
     }
 }

@@ -17,14 +17,14 @@ require_once('../database/trainer.php');
   <section class="trainers-list" id="trainers">
     <div class="trainer-grid">
 
-      <?php foreach ($trainers as $trainer) { ?>
+      <?php foreach ($trainers as $index => $trainer) { ?>
         <article class="trainer-card" id=<?= $trainer->username ?>>
-          <input type="checkbox" id="toggle-t1" class="trainer-toggle">
+          <input type="checkbox" id=<?= "toggle-t$index" ?> class="trainer-toggle">
           <div class="trainer-summary">
             <img src=<?= $trainer->photoPath ?> alt=<?= $trainer->name ?> class="trainer-photo">
             <h3><?= $trainer->name ?></h3>
             <p class="trainer-specialty">Yoga &bull; Pilates</p>
-            <label for="toggle-t1" class="btn-text btn-ver-perfil">
+            <label for=<?= "toggle-t$index" ?> class="btn-text btn-ver-perfil">
               <span class="label-ver">Ver perfil</span>
               <span class="label-fechar">Fechar perfil</span>
             </label>

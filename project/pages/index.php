@@ -6,16 +6,18 @@ require_once('../templates/trainers.php');
 require_once('../templates/classes.php');
 
 require_once('../database/trainer.php');
+require_once('../database/gym_class.php');
 require_once('../database/connection.php');
 
 $db = getDatabaseConnection();
 
 $trainers = Trainer::getTrainers($db, 3);
+$classes = GymClass::getClasses($db, 3);
 
 output_header();
 output_hero();
 output_mission();
-output_featured_classes();
+output_featured_classes($classes);
 output_featured_trainers($trainers);
 output_footer();
 
