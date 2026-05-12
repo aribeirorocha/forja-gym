@@ -26,7 +26,7 @@
             </nav>
             <div class = "auth-buttons"> 
                 <a href = "login.php" class = "btn-login">Login</a>
-                <a href = "login.php" class = "btn-register">Registrar</a>
+                <a href = "register.php" class = "btn-register">Registrar</a>
             </div>
         </header>
         <main>
