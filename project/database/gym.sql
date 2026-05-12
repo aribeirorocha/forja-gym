@@ -17,6 +17,7 @@ CREATE TABLE user (
                         CHECK (role IN ('admin', 'trainer', 'member', 'nutritionist'))
                         DEFAULT 'member',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ALTER TABLE user ADD COLUMN membership TEXT NOT NULL DEFAULT 'basico';
 );
 
 

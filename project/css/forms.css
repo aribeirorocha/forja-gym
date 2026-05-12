@@ -1,5 +1,5 @@
 
-section:has(#login-tab > form) {
+section:has(#login-tab > form), section:has(#register-tab > form) {
     border-radius: 20px;
     background-color: white;
     padding: 30px;
@@ -112,4 +112,265 @@ section:has(form) > .logo {
   box-shadow: 0 2px 8px 1px var(--gray-border);
   color: var(--text-main);
   transition: all 0.2s ease-in-out;
+}
+/* ── Mensagens de feedback ── */
+.form-error {
+    background-color: #fff0f0;
+    color: #c0392b;
+    border: 1px solid #f5c6c6;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.form-success {
+    background-color: #f0fff4;
+    color: #1a7f4b;
+    border: 1px solid #b2dfcc;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+/* ── Membership section ── */
+.membership-section {
+    padding: 80px 5%;
+    text-align: center;
+}
+
+.membership-header {
+    margin-bottom: 60px;
+}
+
+.membership-header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 12px 0 16px;
+}
+
+.membership-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+
+.plans-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 24px;
+    padding: 16px 5%;
+    max-width: 1000px;
+    margin: 0 auto 48px;
+    scrollbar-width: none;
+}
+.plans-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.plan-card input[type="radio"] {
+    display: none;
+}
+
+.plan-card {
+    flex: 0 0 280px;
+    scroll-snap-align: center;
+    cursor: pointer;
+}
+
+.plan-inner {
+    background: var(--white);
+    border: 2px solid var(--gray-border);
+    border-radius: var(--radius-lg);
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: var(--transition);
+    height: 100%;
+    text-align: left;
+}
+
+.plan-card:hover .plan-inner {
+    border-color: var(--orange);
+    transform: translateY(-4px);
+}
+
+.plan-card input[type="radio"]:checked ~ .plan-inner {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 4px rgba(242, 122, 56, 0.15);
+}
+
+.plan-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.plan-badge {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+}
+
+.plan-tag-popular {
+    display: inline-block;
+    background-color: var(--orange);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.plan-price {
+    margin-top: 8px;
+}
+
+.price-amount {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text-main);
+}
+
+.price-period {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-left: 2px;
+}
+
+.plan-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.plan-features li {
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.plan-features li.disabled {
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.plan-select-btn {
+    display: block;
+    text-align: center;
+    background-color: var(--gray-bg);
+    color: var(--text-main);
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.plan-card input[type="radio"]:checked ~ .plan-inner .plan-select-btn {
+    background-color: var(--orange);
+    color: var(--white);
+}
+
+/* ── Submit button ── */
+.register-submit {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.btn-register-submit {
+    width: 100%;
+    background-color: var(--orange);
+    color: var(--white);
+    border: none;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-register-submit:hover {
+    background-color: var(--orange-hover);
+}
+
+/* ── Register section (step 1) ── */
+.register-section {
+    border-radius: 20px;
+    background-color: white;
+    padding: 30px;
+    text-align: center;
+    width: 100vw;
+    margin: 50px auto;
+    min-width: 300px;
+    max-width: 400px;
+    box-shadow: 0 5px 30px 5px var(--gray-border);
+    color: var(--text-muted);
+}
+
+.register-section .register-form label {
+    display: block;
+    text-align: left;
+    color: rgb(97, 95, 95);
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.register-section .register-form input {
+    border: solid 1.5px var(--gray-border);
+    font-size: 1em;
+    padding: 0 10px;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+.register-section .register-form button {
+    background-color: var(--orange);
+    border: none;
+    padding: 15px;
+    font-weight: 500;
+    color: white;
+    font-size: 1.1em;
+    margin: 15px 0;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.register-section .register-form button:hover {
+    background-color: var(--orange-hover);
+}
+
+.register-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+    .membership-header h1 {
+        font-size: 2rem;
+    }
+
+    .plans-grid {
+        grid-template-columns: 1fr;
+    }
 }
