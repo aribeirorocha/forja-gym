@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="../css/responsive.css">
         <link rel="stylesheet" href="../css/forms.css">
         <link rel="stylesheet" href="../css/trainers.css">
+        <link rel="stylesheet" href="../css/profile_styles.css">
     </head>
     <body>
         <header class="main-header">

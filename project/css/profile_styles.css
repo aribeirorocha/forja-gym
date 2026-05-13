@@ -1,0 +1,27 @@
+/* ── Profile button in header ── */
+.profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--white);
+    opacity: 0.9;
+    transition: opacity 0.2s;
+}
+
+.profile-btn:hover {
+    opacity: 1;
+}
+
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--black);
+}
+
+.profile-username {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
