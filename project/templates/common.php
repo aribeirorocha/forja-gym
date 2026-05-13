@@ -43,6 +43,7 @@
                     <a href="#">Contactos</a>
                     <a href="#">Serviço</a>
                     <a href="#">Privacidade</a>
+                    <a href="#">Feedback</a>
             </nav>
         </div>
         <div class = "footer-bottom">
