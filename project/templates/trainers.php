@@ -23,7 +23,7 @@ require_once('../database/trainer.php');
           <div class="trainer-summary">
             <img src=<?= $trainer->photoPath ?> alt=<?= $trainer->name ?> class="trainer-photo">
             <h3><?= $trainer->name ?></h3>
-            <p class="trainer-specialty">Yoga &bull; Pilates</p>
+            <p class="trainer-specialty"><?= str_replace(',', ' &bull; ', $trainer->specialization) ?></p>
             <label for=<?= "toggle-t$index" ?> class="btn-text btn-ver-perfil">
               <span class="label-ver">Ver perfil</span>
               <span class="label-fechar">Fechar perfil</span>
@@ -34,11 +34,11 @@ require_once('../database/trainer.php');
             <dl class="profile-info">
               <div class="profile-row">
                 <dt>Idade</dt>
-                <dd>32 anos</dd>
+                <dd><?= $trainer->age ?> anos</dd>
               </div>
               <div class="profile-row">
                 <dt>Desde</dt>
-                <dd>2018</dd>
+                <dd><?= $trainer->trainerCreatedAt->format('Y') ?></dd>
               </div>
               <div class="profile-row">
                 <dt>Formação</dt>
@@ -50,7 +50,7 @@ require_once('../database/trainer.php');
               </div>
               <div class="profile-row">
                 <dt>Localização</dt>
-                <dd>Porto, Portugal</dd>
+                <dd><?= $trainer->location ?></dd>
               </div>
               <div class="profile-row">
                 <dt>Aulas</dt>
@@ -100,7 +100,7 @@ require_once('../database/trainer.php');
         <article class="trainer-card">
           <img src=<?= $trainer->photoPath ?> alt=<?= $trainer->name ?> class="trainer-photo">
           <h3><?= $trainer->name ?></h3>
-          <p><?= $trainer->formation ?></p>
+          <p><?= "Especialista em " . str_replace(',', ' e ', $trainer->specialization) ?></p>
           <a href=<?= "trainers.php#$trainer->username" ?> class="btn-text"> Ver perfil </a>
         </article>
       <?php } ?>

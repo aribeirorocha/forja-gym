@@ -17,8 +17,8 @@ CREATE TABLE user (
     role       TEXT     NOT NULL
                         CHECK (role IN ('admin', 'trainer', 'member', 'nutritionist'))
                         DEFAULT 'member',
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-    ALTER TABLE user ADD COLUMN membership TEXT NOT NULL DEFAULT 'basico';
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    membership TEXT NOT NULL DEFAULT 'basico'
 );
 
 
@@ -30,6 +30,7 @@ CREATE TABLE trainer_profile (
     formation     TEXT    NOT NULL,
     certification TEXT    NOT NULL,
     created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    location TEXT NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user(id) ON DELETE CASCADE
 );
 
