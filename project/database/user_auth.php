@@ -23,7 +23,7 @@ class UserAuth
 
     static function login(PDO $db, string $email, string $password): ?User
     {
-        $stmt = $db->prepare('SELECT id, username, name, email, photo, role FROM user WHERE email = ? LIMIT 1');
+        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, created_at, age FROM user WHERE email = ? LIMIT 1');
         $stmt->execute([$email]);
         $row = $stmt->fetch();
 
@@ -41,7 +41,9 @@ class UserAuth
             $row['name'],
             $row['email'],
             $row['photo'] ?? '',
-            $row['role']
+            $row['role'],
+            new DateTime($row['created_at']),
+            $row['age']
         );
     }
 
