@@ -10,6 +10,7 @@ CREATE TABLE user (
     id         INTEGER  PRIMARY KEY AUTOINCREMENT,
     username   TEXT     NOT NULL UNIQUE,
     name       TEXT     NOT NULL,
+    age       INTEGER  CHECK (age >= 0),
     email      TEXT     NOT NULL UNIQUE,
     password   TEXT     NOT NULL, 
     photo      TEXT,              
@@ -25,8 +26,10 @@ CREATE TABLE user (
 
 CREATE TABLE trainer_profile (
     id_user       INTEGER PRIMARY KEY,
+    specialization  TEXT    NOT NULL,
     formation     TEXT    NOT NULL,
     certification TEXT    NOT NULL,
+    created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_user) REFERENCES user(id) ON DELETE CASCADE
 );
 
