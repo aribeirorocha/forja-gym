@@ -4,60 +4,71 @@ require_once('../templates/profile.php');
 require_once('../database/connection.php');
 require_once('../database/user_auth.php');
 
-// 1. Obriga a ter login feito
+
 UserAuth::requireLogin();
 $current_user = UserAuth::currentUser();
 
+$db = getDatabaseConnection();
 $success_msg = '';
-$error_msg = '';
+$error_msg   = '';
 
-// 2. Se o formulário for submetido (Botão Guardar)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
-    
-    // A. Atualizar Dados Pessoais
+
     if ($action === 'update_details') {
-        $name = trim($_POST['name'] ?? '');
+        $name     = trim($_POST['name']     ?? '');
         $username = trim($_POST['username'] ?? '');
-        
-        if ($name && $username) {
-            // AQUI: Futuramente farás o UPDATE na base de dados
-            // $db = getDatabaseConnection();
-            // $stmt = $db->prepare('UPDATE user SET name = ?, username = ? WHERE id = ?');
-            // $stmt->execute([$name, $username, $current_user['id']]);
-            
-            // Para já, atualizamos a sessão para ver o efeito imediato
-            $_SESSION['user_name'] = $name;
+        $email    = trim($_POST['email']    ?? '');
+
+        if (!$name || !$username || !$email) {
+            $error_msg = 'Preenche todos os campos.';
+        } else {
+            $stmt = $db->prepare('UPDATE user SET name = ?, username = ?, email = ? WHERE id = ?');
+            $stmt->execute([$name, $username, $email, $current_user['id']]);
+            $_SESSION['user_name']     = $name;
             $_SESSION['user_username'] = $username;
-            $current_user['name'] = $name;
-            $current_user['username'] = $username;
-            
-            $success_msg = "Dados atualizados com sucesso!";
-        } else {
-            $error_msg = "O nome e username não podem estar vazios.";
+            $success_msg = 'Dados atualizados com sucesso.';
         }
-    }
-    
-    // B. Atualizar Password
-    if ($action === 'update_password') {
-        $new_password = $_POST['new_password'] ?? '';
+
+    } elseif ($action === 'update_password') {
+        $current_password = $_POST['current_password'] ?? '';
+        $new_password     = $_POST['new_password']     ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
-        
-        if ($new_password === $confirm_password && strlen($new_password) > 5) {
-            $success_msg = "Funcionalidade de password pronta a ligar à base de dados!";
+
+        $stmt = $db->prepare('SELECT password FROM user WHERE id = ? LIMIT 1');
+        $stmt->execute([$current_user['id']]);
+        $row = $stmt->fetch();
+
+        $valid = password_verify($current_password, $row['password'])
+               || $current_password === $row['password'];
+
+        if (!$valid) {
+            $error_msg = 'Password atual incorreta.';
+        } elseif (strlen($new_password) < 6) {
+            $error_msg = 'A nova password deve ter pelo menos 6 caracteres.';
+        } elseif ($new_password !== $confirm_password) {
+            $error_msg = 'As passwords não coincidem.';
         } else {
-            $error_msg = "As passwords não coincidem ou são demasiado curtas.";
+            $stmt = $db->prepare('UPDATE user SET password = ? WHERE id = ?');
+            $stmt->execute([password_hash($new_password, PASSWORD_DEFAULT), $current_user['id']]);
+            $success_msg = 'Password atualizada com sucesso.';
         }
-    }
-    
-    // C. Atualizar Foto (Upload Simples)
-    if ($action === 'update_photo' && isset($_FILES['profile_photo'])) {
-        $success_msg = "Funcionalidade de upload de foto pronta a configurar!";
+
+    } elseif ($action === 'update_membership') {
+        $membership = $_POST['membership'] ?? '';
+        if (in_array($membership, ['basico', 'normal', 'vip'])) {
+            $stmt = $db->prepare('UPDATE user SET membership = ? WHERE id = ?');
+            $stmt->execute([$membership, $current_user['id']]);
+            $success_msg = 'Plano atualizado com sucesso.';
+        }
     }
 }
 
-// 3. Renderiza a página
+$stmt = $db->prepare('SELECT id, username, name, email, photo, role, membership, created_at FROM user WHERE id = ? LIMIT 1');
+$stmt->execute([$current_user['id']]);
+$user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
 output_header();
-output_profile($current_user, $success_msg, $error_msg);
+output_profile($user_data, $success_msg, $error_msg);
 output_footer();
 ?>
