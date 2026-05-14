@@ -16,7 +16,7 @@
             <?php if ($error && !$register): ?>
                 <p class="form-error"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
-            <form name="login" method="post" action="login.php">
+            <form name="login" id="login" method="post" action="login.php">
                 <label>
                     Email <input type="email" name="email" placeholder="O teu email..." required>
                 </label>
