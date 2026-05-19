@@ -1,8 +1,10 @@
 <?php function output_header() {
     if (session_status() === PHP_SESSION_NONE) session_start();
+    
     $user = !empty($_SESSION['user_id']) ? [
         'name'     => $_SESSION['user_name'],
         'username' => $_SESSION['user_username'],
+        'photo'    => $_SESSION['user_photo'] ?? '', 
     ] : null;
 ?>
 <!DOCTYPE html>
@@ -35,8 +37,17 @@
             <div class="auth-buttons">
                 <?php if ($user): ?>
                     <a href="profile.php" class="profile-btn">
-                        <img src="../imgs/default-avatar.png" alt="Perfil" class="profile-avatar"
-                             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><circle cx=%2220%22 cy=%2220%22 r=%2220%22 fill=%22%23f27a38%22/><text x=%2220%22 y=%2226%22 text-anchor=%22middle%22 font-size=%2218%22 fill=%22white%22 font-family=%22Arial%22><?= strtoupper(substr($user['name'], 0, 1)) ?></text></svg>'">
+                        <?php 
+                            
+                            $initial = strtoupper(substr($user['name'], 0, 1));
+                            $fallback = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><circle cx=%2220%22 cy=%2220%22 r=%2220%22 fill=%22%23f27a38%22/><text x=%2220%22 y=%2226%22 text-anchor=%22middle%22 font-size=%2218%22 fill=%22white%22 font-family=%22Arial%22>{$initial}</text></svg>";
+                            
+                            
+                            $photo_src = (!empty($user['photo']) && strpos($user['photo'], 'data:image') === false) 
+                                         ? "../imgs/" . htmlspecialchars($user['photo']) 
+                                         : $fallback;
+                        ?>
+                        <img src="<?= $photo_src ?>" alt="Perfil" class="profile-avatar" onerror="this.src='<?= $fallback ?>'">
                         <span class="profile-username"><?= htmlspecialchars($user['username']) ?></span>
                     </a>
                     <a href="logout.php" class="btn-login">Sair</a>

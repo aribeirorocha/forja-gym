@@ -14,14 +14,65 @@
 }
 
 .profile-avatar {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--black);
 }
 
 .profile-username {
     font-size: 0.85rem;
     font-weight: 600;
+}
+
+/* =========================================
+   FOTO DE PERFIL E CÂMARA
+   ========================================= */
+   .profile-photo-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.camera-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #f27a38;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+}
+
+.camera-icon:hover {
+    background-color: #d16930;
+}
+
+.camera-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+}
+
+
+.profile-details {
+    margin-bottom: 20px; 
+}
+.profile-photo-large {
+    width: 200px !important;
+    height: 200px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    aspect-ratio: 1 / 1;
+}
+
+.profile-sidebar {
+    align-self: flex-start; /* Impede que a caixa estique para baixo */
 }
