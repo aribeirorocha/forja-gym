@@ -202,3 +202,10 @@ ul {
     border-color: var(--orange);
     color: var(--white);
 }
+
+.main-header nav ul li a.active {
+    color: #f27a38 !important; 
+    border-bottom: 2px solid #f27a38;
+    padding-bottom: 4px; 
+   
+}

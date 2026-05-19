@@ -334,6 +334,26 @@ CREATE TABLE weight_log (
     FOREIGN KEY (id_member) REFERENCES user(id) ON DELETE CASCADE
 );
 
+CREATE TABLE message (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_sender INTEGER NOT NULL,
+    id_receiver INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_sender) REFERENCES user(id),
+    FOREIGN KEY (id_receiver) REFERENCES user(id)
+);
+
+CREATE TABLE appointment (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_member INTEGER NOT NULL,
+    id_nutritionist INTEGER NOT NULL,
+    appointment_date DATETIME NOT NULL,
+    status TEXT CHECK(status IN ('pendente', 'confirmada', 'cancelada')) DEFAULT 'pendente',
+    FOREIGN KEY (id_member) REFERENCES user(id),
+    FOREIGN KEY (id_nutritionist) REFERENCES user(id)
+);
+
 -- Apenas um registo por dia por membro
 CREATE UNIQUE INDEX uq_weight_log_member_date ON weight_log (id_member, logged_at);
 

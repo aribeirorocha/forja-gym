@@ -22,4 +22,10 @@ INSERT INTO class_session (id, id_class, session_datetime, status) VALUES (1, 1,
 (2, 2, '2026-05-05 18:00:00', 'Agendada'),
 (3, 3, '2026-05-06 19:00:00', 'Agendada');
 
+INSERT INTO user (username, name, email, password, role) 
+VALUES ('nutri_ana', 'Dra. Ana Silva', 'ana@nutri.pt', '1234', 'nutritionist');
+
+INSERT INTO nutritionist_profile (id_user, specialization, license_number) 
+VALUES (7, 'Nutrição Desportiva', 'ORDEM-12345');
+
 COMMIT;
