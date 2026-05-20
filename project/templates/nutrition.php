@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/**
- * Vista para visitantes: lista todos os nutricionistas da base de dados
- */
+
 function output_public_nutritionists(array $nutritionists): void {
 ?>
     <section class="trainers-hero">
@@ -26,7 +24,7 @@ function output_public_nutritionists(array $nutritionists): void {
                         <h3 class="nutritionist-public-name"><?= htmlspecialchars($nutri['name']) ?></h3>
                         <p class="trainer-specialty nutritionist-public-specialty"><?= str_replace(',', ' &bull; ', htmlspecialchars($nutri['specialization'])) ?></p>
                         
-                        <a href="login.php" class="btn-outline">
+                        <a href="login.php" class="btn-text">
                             Fazer login para contactar
                         </a>
                         
@@ -40,7 +38,7 @@ function output_public_nutritionists(array $nutritionists): void {
 }
  function output_member_nutrition_view(?array $plan, array $nutritionists): void {
     
-    // Preparar as horas disponíveis
+
     $slots = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'];
     
     $dias_semana = ['Sun'=>'Dom', 'Mon'=>'Seg', 'Tue'=>'Ter', 'Wed'=>'Qua', 'Thu'=>'Qui', 'Fri'=>'Sex', 'Sat'=>'Sáb'];

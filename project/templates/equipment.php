@@ -12,25 +12,37 @@ function output_public_equipment(array $equipments): void {
         <p class="trainers-hero-subtitle">Maquinaria de topo para garantir que atinges os teus limites.</p>
     </section>
 
-    <div style="padding: 60px 5%; max-width: 1200px; margin: 0 auto;">
+    <div class="equipment-container">
         <div class="class-grid">
             <?php foreach ($equipments as $eq): 
                 $photo_src = !empty($eq['photo']) ? "../imgs/" . htmlspecialchars($eq['photo']) : "../imgs/default-equipment.png";
             ?>
-                <article class="class-card">
-                    <img src="<?= $photo_src ?>" alt="<?= htmlspecialchars($eq['name']) ?>" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
-                    <h3 style="font-size: 1.4rem; color: var(--text-main); margin-bottom: 10px;"><?= htmlspecialchars($eq['name']) ?></h3>
+                <article class="class-card equipment-card">
+                    <img src="<?= $photo_src ?>" alt="<?= htmlspecialchars($eq['name']) ?>" class="equipment-photo">
+                    <h3 class="equipment-name"><?= htmlspecialchars($eq['name']) ?></h3>
+                    
+                    <a href="login.php" class="btn-text btn-equipment-bottom">Login mais informações</a>
                 </article>
             <?php endforeach; ?>
         </div>
     </div>
 <?php
 }
-
 /**
- * Vista para Membros: Informação completa, Músculos e Vídeo
+ * Vista para Membros: Informação completa com Filtros
  */
 function output_member_equipment(array $equipments): void {
+    // 1. Extrair os valores únicos da base de dados para os filtros
+    $all_locations = [];
+    $all_muscles = [];
+    foreach ($equipments as $eq) {
+        $all_locations[] = $eq['location'] ?? 'Não especificada';
+        $all_muscles[] = $eq['muscle_name'] ?? 'Corpo Inteiro';
+    }
+    $unique_locations = array_unique($all_locations);
+    $unique_muscles = array_unique($all_muscles);
+    sort($unique_locations);
+    sort($unique_muscles);
 ?>
     <section class="trainers-hero">
         <p class="section-tag">TREINO</p>
@@ -38,30 +50,64 @@ function output_member_equipment(array $equipments): void {
         <p class="trainers-hero-subtitle">Aprende a executar os movimentos corretamente.</p>
     </section>
 
-    <div style="padding: 60px 5%; max-width: 1200px; margin: 0 auto;">
-        <div class="class-grid">
+    <div class="equipment-container">
+        
+        <div class="filters-bar">
+            <select id="filter-location" class="filter-select">
+                <option value="all">📍 Todos os Pisos</option>
+                <?php foreach($unique_locations as $loc): ?>
+                    <option value="<?= htmlspecialchars($loc) ?>"><?= htmlspecialchars($loc) ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <select id="filter-muscle" class="filter-select">
+                <option value="all">💪 Todos os Músculos</option>
+                <?php foreach($unique_muscles as $musc): ?>
+                    <option value="<?= htmlspecialchars($musc) ?>"><?= htmlspecialchars($musc) ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <select id="filter-status" class="filter-select">
+                <option value="all">⚙️ Qualquer Estado</option>
+                <option value="Disponível">✅ Disponível</option>
+                <option value="Manutenção">🛠️ Em Manutenção</option>
+            </select>
+        </div>
+
+        <div class="class-grid" id="equipment-grid">
             <?php foreach ($equipments as $eq): 
                 $photo_src = !empty($eq['photo']) ? "../imgs/" . htmlspecialchars($eq['photo']) : "../imgs/default-equipment.png";
                 $muscle = $eq['muscle_name'] ?? 'Corpo Inteiro';
+                $location = $eq['location'] ?? 'Não especificada';
+                $status_text = $eq['status'] ?? 'Disponível';
+                $status_class = ($status_text === 'Disponível') ? 'status-available' : 'status-maintenance';
             ?>
-                <article class="class-card" style="padding: 30px;">
-                    <img src="<?= $photo_src ?>" alt="<?= htmlspecialchars($eq['name']) ?>" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
-                    <h3 style="font-size: 1.4rem; color: var(--text-main); margin-bottom: 15px;"><?= htmlspecialchars($eq['name']) ?></h3>
+                <article class="class-card equipment-card" 
+                         data-location="<?= htmlspecialchars($location) ?>" 
+                         data-muscle="<?= htmlspecialchars($muscle) ?>" 
+                         data-status="<?= htmlspecialchars($status_text) ?>">
+                         
+                    <img src="<?= $photo_src ?>" alt="<?= htmlspecialchars($eq['name']) ?>" class="equipment-photo">
+                    <h3 class="equipment-name"><?= htmlspecialchars($eq['name']) ?></h3>
                     
-                    <button class="btn-text btn-toggle-eq" data-id="<?= $eq['id'] ?>" style="width: 100%; margin-top: 0;">Mais informações</button>
+                    <button class="btn-text btn-toggle-eq" data-id="<?= $eq['id'] ?>">Mais informações</button>
                     
-                    <div class="eq-details hidden" id="eq-info-<?= $eq['id'] ?>" style="width: 100%; margin-top: 20px; text-align: left; border-top: 1px solid var(--gray-border); padding-top: 20px;">
-                        
-                        <p style="font-size: 0.9rem; margin-bottom: 15px;">
-                            <strong>Foco Muscular:</strong> <span style="color: var(--orange); font-weight: 600;"><?= htmlspecialchars($muscle) ?></span>
+                    <div class="eq-details hidden" id="eq-info-<?= $eq['id'] ?>">
+                        <p class="eq-status">
+                            <strong>Estado:</strong> <span class="status-badge <?= $status_class ?>"><?= htmlspecialchars($status_text) ?></span>
+                        </p>
+                        <p class="eq-location">
+                            <strong>Localização:</strong> <span><?= htmlspecialchars($location) ?></span>
+                        </p>
+                        <p class="eq-focus">
+                            <strong>Foco Muscular:</strong> <span><?= htmlspecialchars($muscle) ?></span>
                         </p>
                         
                         <?php if(!empty($eq['video_url'])): ?>
-                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px;">
-                                <iframe src="<?= htmlspecialchars($eq['video_url']) ?>" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+                            <div class="video-wrapper">
+                                <iframe src="<?= htmlspecialchars($eq['video_url']) ?>" allowfullscreen></iframe>
                             </div>
                         <?php endif; ?>
-                        
                     </div>
                 </article>
             <?php endforeach; ?>

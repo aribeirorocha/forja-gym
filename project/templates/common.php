@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="../css/profile_styles.css">
         <link rel="stylesheet" href="../css/profile.css">
         <link rel="stylesheet" href="../css/nutrition.css">
+        <link rel="stylesheet" href="../css/equipment.css">
         
 
 
