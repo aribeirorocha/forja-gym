@@ -153,3 +153,243 @@
         grid-column: span 1;
     }
 }
+/* ── Secções colapsáveis ── */
+.profile-details {
+    padding: 0;
+    overflow: hidden;
+}
+
+.card-summary {
+    list-style: none;
+    padding: 28px 40px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.2s;
+}
+
+.card-summary::-webkit-details-marker { display: none; }
+
+.card-summary::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(45deg);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+details[open] > .card-summary::after {
+    transform: rotate(-135deg);
+}
+
+details[open] > .card-summary {
+    border-bottom-color: var(--gray-border);
+}
+
+.card-summary:hover {
+    background-color: var(--gray-bg);
+}
+
+.details-body {
+    padding: 32px 40px 36px;
+    animation: slideDown 0.25s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Registo de Peso ── */
+.weight-form-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    margin-bottom: 28px;
+}
+
+.weight-chart-wrapper {
+    width: 100%;
+    margin-bottom: 28px;
+    background: var(--gray-bg);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    border: 1px solid var(--gray-border);
+}
+
+#weightChart {
+    width: 100%;
+    display: block;
+}
+
+.weight-hint {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 20px 0;
+}
+
+/* Tabela de histórico */
+.weight-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.weight-table th {
+    text-align: left;
+    padding: 8px 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--gray-border);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.weight-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--gray-border);
+    vertical-align: middle;
+}
+
+.weight-table tr:last-child td {
+    border-bottom: none;
+}
+
+.weight-table tr:hover td {
+    background-color: var(--gray-bg);
+}
+
+.weight-diff {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.diff-down { background-color: #e8f8f0; color: #1a7f4b; }
+.diff-up   { background-color: #fff0f0; color: #c0392b; }
+.diff-same { background-color: var(--gray-bg); color: var(--text-muted); }
+
+.weight-notes {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    max-width: 200px;
+}
+
+.btn-delete-weight {
+    background: none;
+    border: 1px solid var(--gray-border);
+    color: var(--text-muted);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.btn-delete-weight:hover {
+    background-color: #fff0f0;
+    border-color: #c0392b;
+    color: #c0392b;
+}
+
+/* ── Badges extra ── */
+.badge-orange { background-color: #fff0e6; color: var(--orange); }
+.badge-blue   { background-color: #e8f0ff; color: #3b6fd4; }
+
+/* ── Sidebar info extra ── */
+.profile-at { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+.member-since {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+.btn-logout {
+    margin-top: 24px;
+    background-color: var(--gray-bg);
+    color: var(--text-main);
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid var(--gray-border);
+    cursor: pointer;
+    transition: 0.2s;
+    display: inline-block;
+}
+
+.btn-logout:hover {
+    background-color: #fff0f0;
+    border-color: #c0392b;
+    color: #c0392b;
+}
+
+/* Alertas */
+.alert {
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+.alert-success { background-color: #f0fff4; color: #1a7f4b; border: 1px solid #b2dfcc; }
+.alert-error   { background-color: #fff0f0; color: #c0392b; border: 1px solid #f5c6c6; }
+
+/* Planos */
+.current-plan { margin-bottom: 24px; }
+.current-plan-info { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.current-plan-price { font-size: 1.1rem; font-weight: 700; }
+.current-plan-features { display: flex; flex-direction: column; gap: 6px; }
+.current-plan-features li { color: var(--text-muted); font-size: 0.9rem; }
+.card-subtitle { font-size: 1rem; font-weight: 600; margin: 20px 0 12px; color: var(--text-muted); }
+
+.plans-change-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.plan-change-card { cursor: pointer; }
+.plan-change-card input[type="radio"] { display: none; }
+.plan-change-inner {
+    border: 2px solid var(--gray-border);
+    border-radius: var(--radius-sm);
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: 0.2s;
+    min-width: 120px;
+}
+.plan-change-card input:checked ~ .plan-change-inner,
+.plan-change-card.plan-current .plan-change-inner {
+    border-color: var(--orange);
+    background-color: #fff6f0;
+}
+.plan-change-name { font-weight: 700; font-size: 0.9rem; }
+.plan-change-price { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+.plan-change-price small { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
+.plan-active-tag { font-size: 0.75rem; color: var(--orange); font-weight: 600; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card-summary { padding: 20px 24px; }
+    .details-body { padding: 20px 24px 24px; }
+    .weight-form-row { flex-direction: column; }
+    .weight-table th:nth-child(4),
+    .weight-table td:nth-child(4) { display: none; } /* esconde notas no mobile */
+}

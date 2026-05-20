@@ -324,6 +324,21 @@ CREATE TABLE notification (
     FOREIGN KEY (id_user) REFERENCES user(id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE weight_log (
+    id         INTEGER  PRIMARY KEY AUTOINCREMENT,
+    id_member  INTEGER  NOT NULL,
+    weight_kg  REAL     NOT NULL CHECK (weight_kg > 0 AND weight_kg < 500),
+    logged_at  DATE     NOT NULL DEFAULT (DATE('now')),
+    notes      TEXT,
+    FOREIGN KEY (id_member) REFERENCES user(id) ON DELETE CASCADE
+);
+
+-- Apenas um registo por dia por membro
+CREATE UNIQUE INDEX uq_weight_log_member_date ON weight_log (id_member, logged_at);
+
+-- Índice para queries de histórico
+CREATE INDEX idx_weight_log_member ON weight_log (id_member, logged_at);
 -- ÍNDICES
 
 

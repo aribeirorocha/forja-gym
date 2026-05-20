@@ -23,25 +23,27 @@ class UserAuth
 
     static function login(PDO $db, string $email, string $password): ?User
     {
-        $stmt = $db->prepare('SELECT id, username, name, email, photo,password, role FROM user WHERE email = ? LIMIT 1');
+        // 1. Adicionei 'created_at' e 'age' ao SELECT
+        $stmt = $db->prepare('SELECT id, username, name, email, photo, password, role, created_at, age FROM user WHERE email = ? LIMIT 1');
         $stmt->execute([$email]);
         $row = $stmt->fetch();
 
         if (!$row) return null;
 
-       
         $valid = password_verify($password, $row['password']);
-            
 
         if (!$valid) return null;
 
+        // 2. Adicionei os 2 argumentos que faltavam aqui (o Date e o Age)
         return new User(
             $row['id'],
             $row['username'],
             $row['name'],
             $row['email'],
             $row['photo'] ?? '',
-            $row['role']
+            $row['role'],
+            new DateTime($row['created_at']), // Converte a string da base de dados para DateTime
+            $row['age']                       // Passa a idade (pode ser null)
         );
     }
 
@@ -52,6 +54,7 @@ class UserAuth
         $_SESSION['user_username'] = $user->username;
         $_SESSION['user_name']     = $user->name;
         $_SESSION['user_role']     = $user->role;
+        $_SESSION['user_photo']    = $user->photoPath; // Nova linha!
     }
 
     static function logout(): void
@@ -69,6 +72,7 @@ class UserAuth
             'username' => $_SESSION['user_username'],
             'name'     => $_SESSION['user_name'],
             'role'     => $_SESSION['user_role'],
+            'photo'    => $_SESSION['user_photo'] ?? '', // Nova linha!
         ];
     }
 
