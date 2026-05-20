@@ -56,11 +56,11 @@ INSERT INTO muscle_group (id, name, description) VALUES
 
 INSERT INTO equipment (id, name, description, status, location, photo, video_url) VALUES 
 (3, 'Lat Pulldown (Puxada Frontal)', 'Máquina fundamental para desenvolver a largura das costas.', 'Disponível', 'Piso 1 - Força', 'lat_pulldown.jpg', 'https://www.youtube.com/embed/EUIri47Epcg'),
-(4, 'Leg Extension (Cadeira Extensora)', 'Isola os quadríceps para máxima hipertrofia frontal da perna.', 'Disponível', 'Piso 1 - Força', 'leg_extension.jpg', 'https://www.youtube.com/embed/YyvSfVlfRZA'),
-(5, 'Lying Leg Curl (Mesa Flexora)', 'Foca-se no isolamento da parte de trás da coxa.', 'Disponível', 'Piso 1 - Força', 'leg_curl.jpg', 'https://www.youtube.com/embed/1Tq3QdYUuHs'),
-(6, 'Shoulder Press Machine', 'Desenvolvimento de ombros guiado e seguro para a articulação.', 'Disponível', 'Piso 1 - Força', 'shoulder_press.jpg', 'https://www.youtube.com/embed/WvLMauqrnK8'),
-(7, 'Cable Crossover (Polia Dupla)', 'Máquina super versátil com cabos para treinar o corpo todo, muito focada no peito.', 'Disponível', 'Piso 2 - Funcional', 'cable_crossover.jpg', 'https://www.youtube.com/embed/taI4XduLpTk'),
-(8, 'Abdominal Crunch Machine', 'Máquina com peso para adicionar resistência ao treino de core.', 'Disponível', 'Piso 2 - Funcional', 'ab_machine.jpg', 'https://www.youtube.com/embed/9MqwSjCEnos');
+(4, 'Leg Extension (Cadeira Extensora)', 'Isola os quadríceps para máxima hipertrofia frontal da perna.', 'Disponível', 'Piso 1 - Força', 'leg_extension.jpg', 'https://www.youtube.com/4ZDm5EbiFI8?si=RTY1p_IJKoyNLUuu'),
+(5, 'Lying Leg Curl (Mesa Flexora)', 'Foca-se no isolamento da parte de trás da coxa.', 'Disponível', 'Piso 1 - Força', 'leg_curl.jpg', 'https://youtu.be/SbSNUXPRkc8?si=txcsj-oyDxZRBC77'),
+(6, 'Shoulder Press Machine', 'Desenvolvimento de ombros guiado e seguro para a articulação.', 'Disponível', 'Piso 1 - Força', 'shoulder_press.jpg', 'https://youtu.be/d7yQMvVQaXQ?si=jnJBo8pSEBCg-QHH'),
+(7, 'Cable Crossover (Polia Dupla)', 'Máquina super versátil com cabos para treinar o corpo todo, muito focada no peito.', 'Disponível', 'Piso 2 - Funcional', 'cable_crossover.jpg', ',https://youtu.be/hhruLxo9yZU?si=L0YbajVMrLZju1SA'),
+(8, 'Abdominal Crunch Machine', 'Máquina com peso para adicionar resistência ao treino de core.', 'Disponível', 'Piso 2 - Funcional', 'ab_machine.jpg', 'https://youtu.be/fuPFq2EYswE?si=6cBb-I0N6zYyVTG1'),
 
 INSERT INTO exercises (id, name, description, id_equipment, id_muscle_group) VALUES 
 (3, 'Puxada ao Peito', 'Manter o tronco ligeiramente inclinado para trás e puxar com as costas.', 3, 3),
@@ -73,15 +73,15 @@ INSERT INTO exercises (id, name, description, id_equipment, id_muscle_group) VAL
 
 
 INSERT INTO equipment (id, name, description, status, location, photo, video_url) VALUES 
-(9, 'Smith Machine', 'Barra guiada excelente para agachamentos e supinos com maior segurança.', 'Disponível', 'Piso 1 - Força', 'smith_machine.jpg', 'https://www.youtube.com/embed/DIxwGikEQ1E'),
-(10, 'Pec Deck (Voador)', 'Isolamento perfeito do peitoral sem recrutar tanto o tríceps.', 'Disponível', 'Piso 1 - Força', 'pec_deck.jpg', 'https://www.youtube.com/embed/O-A6hYg_N2Y'),
-(11, 'Seated Row (Remada Sentada)', 'Máquina de polia baixa para trabalhar a espessura das costas.', 'Disponível', 'Piso 1 - Força', 'seated_row.jpg', 'https://www.youtube.com/embed/GZbfZ033f74'),
-(12, 'Hack Squat', 'Variação de agachamento que retira a carga direta da coluna e foca nas pernas.', 'Disponível', 'Piso 1 - Força', 'hack_squat.jpg', 'https://www.youtube.com/embed/0tn5K9NlCfo'),
-(13, 'Calf Raise Machine (Gémeos)', 'Máquina para treino focado nas panturrilhas em pé.', 'Disponível', 'Piso 1 - Força', 'calf_raise.jpg', 'https://www.youtube.com/embed/gwLz0ytvrjo'),
-(14, 'Biceps Curl Machine', 'Banco Scott em máquina para isolamento total do bíceps.', 'Disponível', 'Piso 1 - Força', 'biceps_machine.jpg', 'https://www.youtube.com/embed/wXk-i-DlyEw'),
-(15, 'Triceps Press Machine', 'Máquina que simula fundos de tríceps (dips) sentado.', 'Disponível', 'Piso 1 - Força', 'triceps_machine.jpg', 'https://www.youtube.com/embed/c1TusD4N7hY'),
-(16, 'Lateral Raise Machine', 'Elevações laterais guiadas para ombros redondos e largos.', 'Disponível', 'Piso 1 - Força', 'lateral_raise.jpg', 'https://www.youtube.com/embed/kdH9P3D8ZkM'),
-(17, 'Hip Thrust Machine', 'A melhor forma de treinar glúteos com cargas pesadas de forma confortável e segura.', 'Disponível', 'Piso 1 - Força', 'hip_thrust.jpg', 'https://www.youtube.com/embed/SEdqd1n0cvg'),
+(9, 'Smith Machine', 'Barra guiada excelente para agachamentos e supinos com maior segurança.', 'Disponível', 'Piso 1 - Força', 'smith_machine.jpg', 'https://youtu.be/ZhO7ZOgEzuI?si=fAmJaqNI6XnSao5b'),
+(10, 'Pec Deck (Voador)', 'Isolamento perfeito do peitoral sem recrutar tanto o tríceps.', 'Disponível', 'Piso 1 - Força', 'pec_deck.jpg', 'https://youtu.be/eGjt4lk6g34?si=f6XmtvlMbfOqYEU9'),
+(11, 'Seated Row (Remada Sentada)', 'Máquina de polia baixa para trabalhar a espessura das costas.', 'Disponível', 'Piso 1 - Força', 'seated_row.jpg', 'https://youtube/RPxM76cp0Y8?si=Ja5BsVH9aNcW4U4H'),
+(12, 'Hack Squat', 'Variação de agachamento que retira a carga direta da coluna e foca nas pernas.', 'Disponível', 'Piso 1 - Força', 'hack_squat.jpg', 'https://youtu.be/OXnMyNG3IkU?si=W5VK54euQYxAuDaa'),
+(13, 'Calf Raise Machine (Gémeos)', 'Máquina para treino focado nas panturrilhas em pé.', 'Disponível', 'Piso 1 - Força', 'calf_raise.jpg', 'https://youtu.be/UoYD9G2zSMo?si=5lHuwSxLmYjwa6oR'),
+(14, 'Biceps Curl Machine', 'Banco Scott em máquina para isolamento total do bíceps.', 'Disponível', 'Piso 1 - Força', 'biceps_machine.jpg', 'https://youtu.be/MAAd2MYz5i8?si=FdfzBfWCJGEoYqCU'),
+(15, 'Triceps Press Machine', 'Máquina que simula fundos de tríceps (dips) sentado.', 'Disponível', 'Piso 1 - Força', 'triceps_machine.jpg', 'https://youtu.be/4W31U8tTVAg?si=BPfdcfTUki1-JXz8'),
+(16, 'Lateral Raise Machine', 'Elevações laterais guiadas para ombros redondos e largos.', 'Disponível', 'Piso 1 - Força', 'lateral_raise.jpg', 'https://youtu.be/xMEs3zEzS8s?si=DdvF0RJsNLwyQKHB'),
+(17, 'Hip Thrust Machine', 'A melhor forma de treinar glúteos com cargas pesadas de forma confortável e segura.', 'Disponível', 'Piso 1 - Força', 'hip_thrust.jpg', 'https://youtu.be/ZSPmIyX9RZs?si=nuFJ3UkeIDqx_P-L'),
 (18, 'Graviton (Elevações Assistidas)', 'Máquina com contrapeso para ajudar nas elevações (pull-ups) e fundos (dips).', 'Disponível', 'Piso 2 - Funcional', 'graviton.jpg', 'https://www.youtube.com/embed/XqE-3jI14n4');
 
 
