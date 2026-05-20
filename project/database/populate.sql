@@ -22,10 +22,27 @@ INSERT INTO class_session (id, id_class, session_datetime, status) VALUES (1, 1,
 (2, 2, '2026-05-05 18:00:00', 'Agendada'),
 (3, 3, '2026-05-06 19:00:00', 'Agendada');
 
-INSERT INTO user (username, name, email, password, role) 
-VALUES ('nutri_ana', 'Dra. Ana Silva', 'ana@nutri.pt', '1234', 'nutritionist');
-
+INSERT INTO user (id, username, name, email, password, photo, role) 
+VALUES (7, 'nutri_ana', 'Dra. Ana Silva', 'ana@nutri.pt', '1234', 'nutritionist.jpg', 'nutritionist');
 INSERT INTO nutritionist_profile (id_user, specialization, license_number) 
 VALUES (7, 'Nutrição Desportiva', 'ORDEM-12345');
+INSERT INTO user (id, username, name, email, password, photo, role) 
+VALUES (8, 'nutri_pedro', 'Dr. Pedro Rocha', 'pedro@nutri.pt', '1234', 'nutri_pedro.jpg', 'nutritionist');
 
+INSERT INTO nutritionist_profile (id_user, specialization, license_number) 
+VALUES (8, 'Nutrição Clínica e Funcional', 'ORDEM-99887');
+-- 1. Inserir Grupos Musculares
+INSERT INTO muscle_group (id, name, description) VALUES 
+(1, 'Quadríceps e Glúteos', 'Músculos da parte inferior do corpo.'),
+(2, 'Peitoral e Tríceps', 'Músculos de empurrar da parte superior.');
+
+-- 2. Inserir Equipamentos (com os vídeos e fotos)
+INSERT INTO equipment (id, name, description, status, location, photo, video_url) VALUES 
+(1, 'Leg Press 45º', 'Máquina de empurrar com os pés.', 'Disponível', 'Piso 1 - Força', 'leg_press.jpg', 'https://www.youtube.com/embed/yZmx_Ac3880'),
+(2, 'Chest Press', 'Máquina de empurrar sentado.', 'Disponível', 'Piso 1 - Força', 'chest_press.jpg', 'https://www.youtube.com/embed/xUm0BiZCWlQ');
+
+-- 3. Fazer a ligação (O Exercício na Máquina X treina o Músculo Y)
+INSERT INTO exercises (id, name, description, id_equipment, id_muscle_group) VALUES 
+(1, 'Prensa de Pernas', 'Execução focada na amplitude', 1, 1),
+(2, 'Supino Máquina', 'Foco na contração do peito', 2, 2);
 COMMIT;

@@ -152,6 +152,8 @@ CREATE TABLE waitlist (
 CREATE TABLE equipment (
     id               INTEGER  PRIMARY KEY AUTOINCREMENT,
     name             TEXT     NOT NULL,
+    photo TEXT DEFAULT 'default-equipment.png',
+    video_url TEXT,
     description      TEXT,
     status           TEXT     NOT NULL
                               CHECK (status IN ('Disponível', 'Manutenção'))

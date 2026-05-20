@@ -35,7 +35,6 @@ $nutritionists = getNutritionists($db);
 $plan = $user ? getNutritionPlan($db, $user['id']) : null;
 
 output_header();
-
 // Lógica de visualização baseada no estado de login
 if ($user) {
     // Membro logado vê tudo
@@ -44,6 +43,33 @@ if ($user) {
     // Visitante vê apenas a equipa
     output_public_nutritionists($nutritionists);
 }
+?> <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleButtons = document.querySelectorAll('.btn-toggle-booking');
+    
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const nutriId = this.getAttribute('data-id');
+            const panel = document.getElementById('booking-' + nutriId);
+            
+            // Alterna a classe 'hidden' no painel
+            panel.classList.toggle('hidden');
+            
+            // Muda o texto do botão consoante o estado
+            if (panel.classList.contains('hidden')) {
+                this.textContent = 'Marcar Consulta';
+                this.style.backgroundColor = 'transparent';
+                this.style.color = '#1a1a1a';
+            } else {
+                this.textContent = 'Fechar perfil';
+                this.style.backgroundColor = '#1a1a1a'; // Fica preto quando ativo
+                this.style.color = '#fff';
+            }
+        });
+    });
+});
+</script>
 
+<?php 
 output_footer();
 ?>
