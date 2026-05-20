@@ -152,6 +152,8 @@ CREATE TABLE waitlist (
 CREATE TABLE equipment (
     id               INTEGER  PRIMARY KEY AUTOINCREMENT,
     name             TEXT     NOT NULL,
+    photo TEXT DEFAULT 'default-equipment.png',
+    video_url TEXT,
     description      TEXT,
     status           TEXT     NOT NULL
                               CHECK (status IN ('Disponível', 'Manutenção'))
@@ -332,6 +334,26 @@ CREATE TABLE weight_log (
     logged_at  DATE     NOT NULL DEFAULT (DATE('now')),
     notes      TEXT,
     FOREIGN KEY (id_member) REFERENCES user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE message (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_sender INTEGER NOT NULL,
+    id_receiver INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_sender) REFERENCES user(id),
+    FOREIGN KEY (id_receiver) REFERENCES user(id)
+);
+
+CREATE TABLE appointment (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_member INTEGER NOT NULL,
+    id_nutritionist INTEGER NOT NULL,
+    appointment_date DATETIME NOT NULL,
+    status TEXT CHECK(status IN ('pendente', 'confirmada', 'cancelada')) DEFAULT 'pendente',
+    FOREIGN KEY (id_member) REFERENCES user(id),
+    FOREIGN KEY (id_nutritionist) REFERENCES user(id)
 );
 
 -- Apenas um registo por dia por membro

@@ -374,3 +374,45 @@ section:has(form) > .logo {
         grid-template-columns: 1fr;
     }
 }
+
+/* Estilo geral para formulários de nutrição */
+.nutrition-section {
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.nutrition-section h2 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.nutrition-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+/* Reutiliza as tuas classes existentes para inputs e botões */
+.nutrition-form select, 
+.nutrition-form input, 
+.nutrition-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.nutrition-form button {
+    background-color: #f27a38;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
