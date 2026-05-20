@@ -60,6 +60,30 @@ class GymClass {
         return $classes;
     }
 
+    static function getClass(PDO $db, int $id) : ?GymClass
+    {
+        $stmt = $db->prepare('SELECT name, type, duration_minutes, id_trainer, capacity, local, active FROM class WHERE id = ? LIMIT 1');
+
+        $stmt->execute(array($id));
+
+        if ($class = $stmt->fetch()) {
+            return new GymClass(
+                $id,
+                $class['name'],
+                $class['type'],
+                $class['duration_minutes'],
+                $class['id_trainer'],
+                $class['capacity'],
+                $class['local'],
+                $class['active'] == 1,
+                ClassSession::getNextSession($db, $id),
+                Trainer::getTrainer($db, $class['id_trainer'])
+            );
+        }
+
+        return null;
+    }
+
     public function getPhotoPath() : string {
         return "../imgs/{$this->type}.jpg";
     }

@@ -34,7 +34,7 @@
             <nav>
                 <ul>
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="#aulas">Aulas</a></li>
+                    <li><a href="classes.php">Aulas</a></li>
                     <li><a href="trainers.php">Trainers</a></li>
                     <li><a href="equipment.php">Equipamentos</a></li>
                     <li><a href="nutrition.php">Nutrição</a></li>

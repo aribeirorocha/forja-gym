@@ -69,6 +69,7 @@ ul {
 
 .auth-buttons {
     display: flex;
+    justify-content: right;
     align-items: center;
     gap: 25px;
 }
@@ -179,6 +180,11 @@ ul {
     transform: translateY(-5px);
     transition: var(--transition);
 }
+
+main > .class-card {
+    width: fit-content;
+    margin: 20px auto;
+} 
 
 .class-grid, .trainer-grid {
     display: grid;
