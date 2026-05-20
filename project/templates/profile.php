@@ -25,7 +25,7 @@ if ($created_at) {
 $initial = strtoupper(substr($user['name'], 0, 1));
 $avatar_fallback = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 150 150%22><circle cx=%2275%22 cy=%2275%22 r=%2275%22 fill=%22%23f27a38%22/><text x=%2275%22 y=%2295%22 text-anchor=%22middle%22 font-size=%2260%22 fill=%22white%22 font-family=%22Arial%22>{$initial}</text></svg>";
 
-// Preparar dados do gráfico de peso (JSON para JS)
+
 $chart_labels = [];
 $chart_data   = [];
 foreach (array_reverse($weight_log) as $entry) {
@@ -37,7 +37,7 @@ $chart_data_json   = json_encode($chart_data);
 
 $latest_weight = !empty($weight_log) ? $weight_log[0]['weight_kg'] : null;
 
-// Tentar carregar a foto do utilizador, se não existir usa a default/fallback
+
 $photo_path = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['photo']) : "../imgs/default-avatar.png";
 ?>
 
@@ -269,7 +269,7 @@ $photo_path = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['phot
     const muted  = '#86868b';
     const border = '#d2d2d7';
 
-    // Grid lines
+
     ctx.strokeStyle = border;
     ctx.lineWidth = 1;
     const steps = 4;
@@ -286,7 +286,7 @@ $photo_path = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['phot
         ctx.fillText(v.toFixed(1), PAD.left - 8, y + 4);
     }
 
-    // X labels
+
     ctx.fillStyle = muted;
     ctx.font = '11px Segoe UI, sans-serif';
     ctx.textAlign = 'center';
@@ -296,7 +296,7 @@ $photo_path = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['phot
         }
     });
 
-    // Gradient fill
+
     const grad = ctx.createLinearGradient(0, PAD.top, 0, H - PAD.bottom);
     grad.addColorStop(0, 'rgba(242,122,56,0.18)');
     grad.addColorStop(1, 'rgba(242,122,56,0)');
@@ -309,7 +309,6 @@ $photo_path = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['phot
     ctx.fillStyle = grad;
     ctx.fill();
 
-    // Line
     ctx.beginPath();
     ctx.moveTo(xOf(0), yOf(data[0]));
     for (let i = 1; i < data.length; i++) ctx.lineTo(xOf(i), yOf(data[i]));
@@ -318,7 +317,7 @@ $photo_path = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['phot
     ctx.lineJoin = 'round';
     ctx.stroke();
 
-    // Dots
+
     data.forEach((v, i) => {
         ctx.beginPath();
         ctx.arc(xOf(i), yOf(v), 4, 0, Math.PI * 2);
@@ -329,7 +328,7 @@ $photo_path = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['phot
         ctx.stroke();
     });
 
-    // Tooltip on hover
+
     canvas.addEventListener('mousemove', function(e) {
         const rect  = canvas.getBoundingClientRect();
         const mx    = (e.clientX - rect.left) * (W / rect.width);
@@ -359,7 +358,7 @@ $photo_path = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['phot
         ctx.textAlign = 'left';
         ctx.fillText(tip, bx + 8, ty - 20);
 
-        // Highlight dot
+
         ctx.beginPath();
         ctx.arc(tx, ty, 6, 0, Math.PI * 2);
         ctx.fillStyle = orange;
