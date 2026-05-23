@@ -29,6 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating'])) {
         exit;
     }
 }
+// ==========================================
+// PROCESSAR A MARCAÇÃO DE SESSÃO PT
+// ==========================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'book_pt') {
+    if ($user) {
+        $date = $_POST['booking_date'];
+        $time = $_POST['booking_time'];
+        $notes = trim($_POST['notes'] ?? '');
+
+        bookPTSession($db, $user['id'], $id, $date, $time, $notes);
+        
+        header("Location: trainer_profile.php?id=$id&success=booking");
+        exit;
+    } else {
+        header('Location: login.php');
+        exit;
+    }
+}
 
 // ==========================================
 // BUSCAR OS DADOS PARA MOSTRAR
@@ -50,7 +68,8 @@ if (!$trainerInfo) {
 
 // Vai buscar as Estatísticas (Média/Total) e a Lista de Comentários
 $reviewStats = getTrainerReviewsStats($db, $id);
-$reviewsList = getTrainerReviews($db, $id); // NOVA FUNÇÃO
+$reviewsList = getTrainerReviews($db, $id);
+$availability = getTrainerAvailability($db, $id);
 
 $photo_src = !empty($trainerInfo['photo']) ? "../imgs/" . htmlspecialchars($trainerInfo['photo']) : "../imgs/default-avatar.png";
 $ano_entrada = date('Y', strtotime($trainerInfo['created_at']));
@@ -102,7 +121,41 @@ output_header();
                 <span><?= htmlspecialchars($trainerInfo['location']) ?></span>
             </div>
         </div>
+        <?php if (isset($_GET['success']) && $_GET['success'] === 'booking'): ?>
+            <div class="success-banner-pt">
+                Pedido de marcação enviado! O trainer irá analisar e confirmar.
+            </div>
+        <?php endif; ?>
 
+        <?php if ($user): ?>
+            <section class="booking-section">
+                <h4 class="review-box-title">Marcar Sessão de PT</h4>
+
+                <?php if (count($availability) > 0): ?>
+                    <div class="availability-list">
+                        <strong>Horário Disponível:</strong>
+                        <?php foreach ($availability as $av): ?>
+                            <p><?= htmlspecialchars($av['day_of_week']) ?>: <?= htmlspecialchars($av['start_time']) ?> às <?= htmlspecialchars($av['end_time']) ?></p>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Horários não especificados. Envia a tua preferência e o trainer confirmará.</p>
+                <?php endif; ?>
+
+                <form class="booking-form" method="post" action="trainer_profile.php?id=<?= $id ?>">
+                    <input type="hidden" name="action" value="book_pt">
+
+                    <div class="booking-row">
+                        <input type="date" name="booking_date" class="booking-input" required min="<?= date('Y-m-d', strtotime('+1 day')) ?>">
+                        <input type="time" name="booking_time" class="booking-input" required>
+                    </div>
+
+                    <textarea name="notes" class="booking-input" rows="2" placeholder="Objetivos para a sessão, lesões, etc. (Opcional)..."></textarea>
+
+                    <button type="submit" class="btn-review-submit">Pedir Marcação</button>
+                </form>
+            </section>
+        <?php endif; ?>
         <?php if ($user): ?>
             <section class="review-section">
                 <h4 class="review-box-title">Deixa a tua review</h4>

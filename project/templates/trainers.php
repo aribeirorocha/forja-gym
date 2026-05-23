@@ -11,13 +11,41 @@ require_once('../database/trainer.php');
   </section>
 <?php } ?>
 
-<?php function output_trainers(array $trainers)
-{ ?>
+<?php function output_trainers(array $trainers) { ?>
   <section class="trainers-list" id="trainers">
-    <div class="trainer-grid">
+    
+    <div class="filters-bar">
+        <select id="filter-gender" class="filter-select">
+            <option value="all">🚻 Todos os Géneros</option>
+            <option value="masculino">👨 Homens</option>
+            <option value="feminino">👩 Mulheres</option>
+        </select>
 
-      <?php foreach ($trainers as $trainer) { ?>
-        <article class="trainer-card">
+        <select id="sort-trainers" class="filter-select">
+            <option value="default">↕️ Ordenar por...</option>
+            <option value="age-asc">👶 Idade (Mais novos primeiro)</option>
+            <option value="age-desc">👴 Idade (Mais velhos primeiro)</option>
+            <option value="time-desc">⭐ Mais tempo no ginásio</option>
+            <option value="time-asc">🌱 Menos tempo no ginásio</option>
+        </select>
+    </div>
+
+    <div class="trainer-grid" id="trainers-grid-container">
+
+      <?php foreach ($trainers as $trainer) { 
+          // Prepara os dados para a ordenação/filtragem
+          $ano_entrada = $trainer->trainerCreatedAt->format('Y');
+          $idade = $trainer->age ?? 0;
+          
+          // A CORREÇÃO ESTÁ AQUI: Agora usamos $trainer->sex para ler a BD corretamente
+          $genero = isset($trainer->sex) ? strtolower($trainer->sex) : 'all'; 
+      ?>
+      
+        <article class="trainer-card" 
+                 data-gender="<?= htmlspecialchars($genero) ?>" 
+                 data-age="<?= $idade ?>" 
+                 data-year="<?= $ano_entrada ?>">
+                 
           <div class="trainer-summary">
             <img src="<?= htmlspecialchars($trainer->photoPath) ?>" alt="<?= htmlspecialchars($trainer->name) ?>" class="trainer-photo">
             <h3><?= htmlspecialchars($trainer->name) ?></h3>
@@ -30,7 +58,7 @@ require_once('../database/trainer.php');
       
     </div>
   </section>
-<?php } ?>
+<?php } ?>44
 
 <?php function output_featured_trainers(array $trainers)
 { ?>

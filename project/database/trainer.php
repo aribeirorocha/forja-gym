@@ -6,15 +6,17 @@ require_once('user.php');
 
 class Trainer extends User
 {
+    public string $sex;
     public string $specialization;
     public string $formation;
     public string $certification;
     public DateTime $trainerCreatedAt;
     public string $location;
 
-    public function __construct(int $id, string $username, string $name, string $email, string $photoPath, string $role, DateTime $createdAt, ?int $age, string $specialization, string $formation, string $certification, DateTime $trainerCreatedAt, string $location)
+    public function __construct(int $id, string $username, string $name, string $email, string $photoPath, string $role, DateTime $createdAt, ?int $age, string $sex, string $specialization, string $formation, string $certification, DateTime $trainerCreatedAt, string $location)
     {
         parent::__construct($id, $username, $name, $email, $photoPath, $role, $createdAt, $age);
+        $this->sex = $sex;
         $this->specialization = $specialization;
         $this->formation = $formation;
         $this->certification = $certification;
@@ -24,8 +26,10 @@ class Trainer extends User
 
     static function getTrainers(PDO $db, int $count) : array
     {
-        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, U.created_at as user_created_at, age, specialization, formation, certification, T.created_at as trainer_created_at, location FROM user U
-                              JOIN trainer_profile T ON T.id_user = U.id LIMIT ?');
+        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, U.created_at as user_created_at, age, T.sex, specialization, formation, certification, T.created_at as trainer_created_at, location 
+                              FROM user U
+                              JOIN trainer_profile T ON T.id_user = U.id 
+                              LIMIT ?');
 
         $stmt->execute(array($count));
 
@@ -41,6 +45,7 @@ class Trainer extends User
                 $trainer['role'],
                 new DateTime($trainer['user_created_at']),
                 $trainer['age'],
+                $trainer['sex'],
                 $trainer['specialization'],
                 $trainer['formation'],
                 $trainer['certification'],
@@ -53,8 +58,10 @@ class Trainer extends User
     }
 
     static function getTrainer(PDO $db, int $id) : ?Trainer {
-        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, U.created_at, age, specialization, formation, certification, T.created_at as trainer_created_at, location FROM user U
-                              JOIN trainer_profile T ON T.id_user = U.id WHERE U.id = ? LIMIT 1');
+        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, U.created_at, age, T.sex, specialization, formation, certification, T.created_at as trainer_created_at, location 
+                              FROM user U
+                              JOIN trainer_profile T ON T.id_user = U.id 
+                              WHERE U.id = ? LIMIT 1');
 
         $stmt->execute(array($id));
 
@@ -68,6 +75,7 @@ class Trainer extends User
                 $trainer['role'],
                 new DateTime($trainer['created_at']),
                 $trainer['age'],
+                $trainer['sex'],
                 $trainer['specialization'],
                 $trainer['formation'],
                 $trainer['certification'],
@@ -95,11 +103,7 @@ function getTrainerReviewsStats(PDO $db, int $trainerId): array {
     ];
 }
 
-/**
- * Adiciona ou atualiza a review de um membro a um trainer
- */
 function addTrainerReview(PDO $db, int $memberId, int $trainerId, int $rate, string $comment): void {
-    // Agora o ON CONFLICT coincide perfeitamente com o teu índice único condicional no SQLite
     $stmt = $db->prepare('
         INSERT INTO rating (id_member, id_trainer, rate, comment)
         VALUES (?, ?, ?, ?)
@@ -120,4 +124,41 @@ function getTrainerReviews(PDO $db, int $trainerId): array {
     $stmt->execute([$trainerId]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+/**
+ * Vai buscar os horários de disponibilidade do trainer
+ */
+function getTrainerAvailability(PDO $db, int $trainerId): array {
+    $stmt = $db->prepare('
+        SELECT day_of_week, start_time, end_time
+        FROM trainer_availability
+        WHERE id_trainer = ?
+        ORDER BY 
+             CASE day_of_week
+                  WHEN \'Segunda\' THEN 1
+                  WHEN \'Terça\' THEN 2
+                  WHEN \'Quarta\' THEN 3
+                  WHEN \'Quinta\' THEN 4
+                  WHEN \'Sexta\' THEN 5
+                  WHEN \'Sábado\' THEN 6
+                  WHEN \'Domingo\' THEN 7
+             END
+    ');
+    $stmt->execute([$trainerId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Pede uma marcação de PT (fica como "Pendente" por defeito)
+ */
+function bookPTSession(PDO $db, int $memberId, int $trainerId, string $date, string $startTime, string $notes): void {
+    // Calculamos o fim da sessão para 1 hora depois da hora de início
+    $endTime = date('H:i', strtotime($startTime) + 3600);
+
+    $stmt = $db->prepare('
+        INSERT INTO pt_booking (id_member, id_trainer, booking_date, start_time, end_time, notes, status)
+        VALUES (?, ?, ?, ?, ?, ?, \'Pendente\')
+    ');
+    $stmt->execute([$memberId, $trainerId, $date, $startTime, $endTime, $notes]);
+}
 ?>
+
