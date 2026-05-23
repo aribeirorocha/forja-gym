@@ -79,6 +79,7 @@ class Trainer extends User
         return null;
     }
 } 
+
 function getTrainerReviewsStats(PDO $db, int $trainerId): array {
     $stmt = $db->prepare('
         SELECT AVG(rate) as avg_rating, COUNT(id) as total_reviews
