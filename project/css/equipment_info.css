@@ -1,0 +1,59 @@
+/* =========================================
+   PÁGINA INDIVIDUAL DO EQUIPAMENTO
+   ========================================= */
+
+/* Adaptar a foto para Equipamentos (Retangular em vez de redonda) */
+.eq-profile-photo {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.eq-badge-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.status-badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.status-available {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.status-maintenance {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+/* Contentor do Vídeo */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border: 1px solid var(--gray-border);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}

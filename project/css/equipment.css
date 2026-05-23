@@ -39,9 +39,9 @@
     justify-content: center;
 }
 
-/* Botões do Equipamento */
+
 .btn-equipment-bottom {
-    margin-top: auto; /* Empurra o botão sempre para o fundo do cartão */
+    margin-top: auto; 
     display: inline-block;
     width: 100%;
 }
@@ -51,94 +51,39 @@
     width: 100%;
 }
 
-/* =========================================
-   EQUIPAMENTOS - DETALHES E VÍDEO (MEMBROS)
-   ========================================= */
 
-/* Caixa de detalhes (Escondida por defeito) */
-.eq-details {
-    width: 100%;
-    margin-top: 20px;
-    text-align: left;
-    border-top: 1px solid var(--gray-border);
-    padding-top: 20px;
-}
 
-.eq-details.hidden {
-    display: none;
-}
-
-/* Textos de Detalhe (Estado, Localização, Foco) */
 .eq-status, .eq-location, .eq-focus {
     font-size: 0.9rem;
     margin-bottom: 15px;
 }
 
 .eq-focus span, .eq-location span {
-    color: var(--text-main); /* A cor base para a localização */
+    color: var(--text-main); 
 }
 
-/* Opcional: Se quiseres que o Foco Muscular continue laranja, adicionas isto: */
+
 .eq-focus span {
     color: var(--orange);
     font-weight: 600;
 }
 
-/* Contentor do Vídeo Responsivo (Hack 16:9 para YouTube) */
-.video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%; /* Mantém a proporção do vídeo perfeita */
-    height: 0;
-    overflow: hidden;
-    border-radius: 12px;
-}
 
-.video-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
 
-/* Estado do Equipamento (Disponível vs Manutenção) */
+
+
 .eq-status {
     font-size: 0.9rem;
     margin-bottom: 15px;
 }
 
-.status-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    display: inline-block;
-}
-
-/* Verde para Disponível */
-.status-available {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-    border: 1px solid #c8e6c9;
-}
-
-/* Vermelho para Manutenção */
-.status-maintenance {
-    background-color: #ffebee;
-    color: #c62828;
-    border: 1px solid #ffcdd2;
-}
 
 .equipment-container .class-grid {
     align-items: flex-start;
 }
 
 
-/* =========================================
-   BARRA DE FILTROS
-   ========================================= */
+
    .filters-bar {
     display: flex;
     gap: 15px;

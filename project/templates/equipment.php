@@ -28,11 +28,7 @@ function output_public_equipment(array $equipments): void {
     </div>
 <?php
 }
-/**
- * Vista para Membros: Informação completa com Filtros
- */
 function output_member_equipment(array $equipments): void {
-    // 1. Extrair os valores únicos da base de dados para os filtros
     $all_locations = [];
     $all_muscles = [];
     foreach ($equipments as $eq) {
@@ -80,7 +76,6 @@ function output_member_equipment(array $equipments): void {
                 $muscle = $eq['muscle_name'] ?? 'Corpo Inteiro';
                 $location = $eq['location'] ?? 'Não especificada';
                 $status_text = $eq['status'] ?? 'Disponível';
-                $status_class = ($status_text === 'Disponível') ? 'status-available' : 'status-maintenance';
             ?>
                 <article class="class-card equipment-card" 
                          data-location="<?= htmlspecialchars($location) ?>" 
@@ -90,25 +85,8 @@ function output_member_equipment(array $equipments): void {
                     <img src="<?= $photo_src ?>" alt="<?= htmlspecialchars($eq['name']) ?>" class="equipment-photo">
                     <h3 class="equipment-name"><?= htmlspecialchars($eq['name']) ?></h3>
                     
-                    <button class="btn-text btn-toggle-eq" data-id="<?= $eq['id'] ?>">Mais informações</button>
+                    <a href="equipment_info.php?id=<?= $eq['id'] ?>" class="btn-text btn-equipment-bottom">Mais informações</a>
                     
-                    <div class="eq-details hidden" id="eq-info-<?= $eq['id'] ?>">
-                        <p class="eq-status">
-                            <strong>Estado:</strong> <span class="status-badge <?= $status_class ?>"><?= htmlspecialchars($status_text) ?></span>
-                        </p>
-                        <p class="eq-location">
-                            <strong>Localização:</strong> <span><?= htmlspecialchars($location) ?></span>
-                        </p>
-                        <p class="eq-focus">
-                            <strong>Foco Muscular:</strong> <span><?= htmlspecialchars($muscle) ?></span>
-                        </p>
-                        
-                        <?php if(!empty($eq['video_url'])): ?>
-                            <div class="video-wrapper">
-                                <iframe src="<?= htmlspecialchars($eq['video_url']) ?>" allowfullscreen></iframe>
-                            </div>
-                        <?php endif; ?>
-                    </div>
                 </article>
             <?php endforeach; ?>
         </div>
