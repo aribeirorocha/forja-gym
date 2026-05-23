@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 function output_public_nutritionists(array $nutritionists): void {
 ?>
     <section class="trainers-hero">
@@ -12,45 +11,25 @@ function output_public_nutritionists(array $nutritionists): void {
 
     <section class="trainers-list nutrition-list" id="nutritionists">
         <div class="nutrition-grid">
-            
             <?php foreach ($nutritionists as $nutri): 
                 $photo_src = !empty($nutri['photo']) ? "../imgs/" . htmlspecialchars($nutri['photo']) : "../imgs/default-avatar.png";
             ?>
-                <article class="trainer-card nutritionist-public-card">
-                    <div class="trainer-summary nutritionist-public-summary">
+                <article class="nutrition-card-member">
+                    <div class="nutritionist-summary">
+                        <img src="<?= $photo_src ?>" alt="Foto de <?= htmlspecialchars($nutri['name']) ?>" class="nutritionist-photo" onerror="this.onerror=null; this.src='../imgs/default-avatar.png';">
+                        <h3 class="nutritionist-name"><?= htmlspecialchars($nutri['name']) ?></h3>
+                        <p class="nutritionist-specialty"><?= str_replace(',', ' &bull; ', htmlspecialchars($nutri['specialization'])) ?></p>
                         
-                        <img src="<?= $photo_src ?>" alt="Foto de <?= htmlspecialchars($nutri['name']) ?>" class="trainer-photo nutritionist-public-photo" onerror="this.src='../imgs/default-avatar.png'">
-                        
-                        <h3 class="nutritionist-public-name"><?= htmlspecialchars($nutri['name']) ?></h3>
-                        <p class="trainer-specialty nutritionist-public-specialty"><?= str_replace(',', ' &bull; ', htmlspecialchars($nutri['specialization'])) ?></p>
-                        
-                        <a href="login.php" class="btn-text">
-                            Fazer login para contactar
-                        </a>
-                        
+                        <a href="login.php" class="btn-text" style="margin-top: 15px; display: inline-block;">Fazer login para contactar</a>
                     </div>
                 </article>
             <?php endforeach; ?>
-            
         </div>
     </section>
 <?php
 }
- function output_member_nutrition_view(?array $plan, array $nutritionists): void {
-    
 
-    $slots = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'];
-    
-    $dias_semana = ['Sun'=>'Dom', 'Mon'=>'Seg', 'Tue'=>'Ter', 'Wed'=>'Qua', 'Thu'=>'Qui', 'Fri'=>'Sex', 'Sat'=>'Sáb'];
-    $next_days = [];
-    for ($i = 0; $i < 7; $i++) {
-        $timestamp = strtotime("+$i days");
-        $next_days[] = [
-            'date_val' => date('Y-m-d', $timestamp),
-            'label' => date('d/m', $timestamp),
-            'day_pt' => $dias_semana[date('D', $timestamp)]
-        ];
-    }
+function output_member_nutrition_view(?array $plan, array $nutritionists): void {
 ?>
     <section class="trainers-hero">
         <p class="section-tag">EQUIPA</p>
@@ -75,47 +54,12 @@ function output_public_nutritionists(array $nutritionists): void {
                 $photo_src = !empty($nutri['photo']) ? "../imgs/" . htmlspecialchars($nutri['photo']) : "../imgs/default-avatar.png";
             ?>
                 <article class="nutrition-card-member">
-                    
                     <div class="nutritionist-summary">
-                        <img src="<?= $photo_src ?>" alt="Nutricionista" class="nutritionist-photo" onerror="this.src='../imgs/default-avatar.png'">
+                        <img src="<?= $photo_src ?>" alt="Nutricionista" class="nutritionist-photo" onerror="this.onerror=null; this.src='../imgs/default-avatar.png';">
                         <h3 class="nutritionist-name"><?= htmlspecialchars($nutri['name']) ?></h3>
                         <p class="nutritionist-specialty"><?= str_replace(',', ' &bull; ', htmlspecialchars($nutri['specialization'])) ?></p>
                         
-                        <button class="btn-outline-booking btn-toggle-booking" data-id="<?= $nutri['id'] ?>">Marcar Consulta</button>
-                    </div>
-
-                    <div class="booking-section hidden" id="booking-<?= $nutri['id'] ?>">
-                        <hr class="booking-divider">
-                        
-                        <form method="post" action="nutrition.php">
-                            <input type="hidden" name="action" value="schedule_appointment">
-                            <input type="hidden" name="nutritionist_id" value="<?= $nutri['id'] ?>">
-                            
-                            <div class="calendar-wrapper">
-                                <div class="calendar-grid">
-                                    <?php foreach($next_days as $day): ?>
-                                        <div class="calendar-day-col">
-                                            <div class="calendar-header">
-                                                <span class="day-name"><?= $day['day_pt'] ?></span>
-                                                <span class="day-date"><?= $day['label'] ?></span>
-                                            </div>
-                                            <div class="calendar-slots">
-                                                <?php foreach($slots as $time): 
-                                                    $slotValue = $day['date_val'] . ' ' . $time;
-                                                    $slotId = 'slot_' . $nutri['id'] . '_' . $day['date_val'] . '_' . str_replace(':','',$time);
-                                                ?>
-                                                    <div class="time-slot">
-                                                        <input type="radio" name="date" value="<?= $slotValue ?>" id="<?= $slotId ?>" required>
-                                                        <label for="<?= $slotId ?>"><?= $time ?></label>
-                                                    </div>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn-schedule">Confirmar Marcação</button>
-                        </form>
+                        <a href="nutritionist_profile.php?id=<?= $nutri['id'] ?>" class="btn-text" style="margin-top: 15px; display: inline-block;">Ver perfil e Marcar</a>
                     </div>
                 </article>
             <?php endforeach; ?>
