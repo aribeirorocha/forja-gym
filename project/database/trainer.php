@@ -6,7 +6,6 @@ require_once('user.php');
 
 class Trainer extends User
 {
-
     public string $specialization;
     public string $formation;
     public string $certification;
@@ -79,4 +78,45 @@ class Trainer extends User
 
         return null;
     }
+} 
+function getTrainerReviewsStats(PDO $db, int $trainerId): array {
+    $stmt = $db->prepare('
+        SELECT AVG(rate) as avg_rating, COUNT(id) as total_reviews
+        FROM rating
+        WHERE id_trainer = ?
+    ');
+    $stmt->execute([$trainerId]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    return [
+        'avg' => $result['avg_rating'] ? round((float)$result['avg_rating'], 1) : 0,
+        'count' => (int)$result['total_reviews']
+    ];
 }
+
+/**
+ * Adiciona ou atualiza a review de um membro a um trainer
+ */
+function addTrainerReview(PDO $db, int $memberId, int $trainerId, int $rate, string $comment): void {
+    // Agora o ON CONFLICT coincide perfeitamente com o teu índice único condicional no SQLite
+    $stmt = $db->prepare('
+        INSERT INTO rating (id_member, id_trainer, rate, comment)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(id_member, id_trainer) WHERE id_trainer IS NOT NULL
+        DO UPDATE SET rate = excluded.rate, comment = excluded.comment, created_at = CURRENT_TIMESTAMP
+    ');
+    $stmt->execute([$memberId, $trainerId, $rate, $comment]);
+}
+
+function getTrainerReviews(PDO $db, int $trainerId): array {
+    $stmt = $db->prepare('
+        SELECT r.rate, r.comment, r.created_at, u.name, u.photo
+        FROM rating r
+        JOIN user u ON r.id_member = u.id
+        WHERE r.id_trainer = ?
+        ORDER BY r.created_at DESC
+    ');
+    $stmt->execute([$trainerId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
