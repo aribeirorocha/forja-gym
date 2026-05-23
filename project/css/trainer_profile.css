@@ -302,3 +302,67 @@
     color: var(--text-main);
     line-height: 1.5;
 }
+
+/* =========================================
+   MARCAÇÃO DE PT (BOOKING)
+   ========================================= */
+
+   .booking-section {
+    text-align: left;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--gray-border);
+}
+
+.availability-list {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    background-color: var(--gray-bg);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+}
+
+.availability-list p {
+    margin: 4px 0;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.booking-row {
+    display: flex;
+    gap: 10px;
+}
+
+.booking-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.booking-input:focus {
+    outline: none;
+    border-color: var(--orange);
+}
+
+/* Reutilizamos a cor de sucesso para o banner de marcação */
+.success-banner-pt {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border: 1px solid #bbdefb;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    margin-top: 35px;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}

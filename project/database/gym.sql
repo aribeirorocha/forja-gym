@@ -26,6 +26,7 @@ CREATE TABLE user (
 
 CREATE TABLE trainer_profile (
     id_user       INTEGER PRIMARY KEY,
+    sex      TEXT    NOT NULL CHECK (sex IN ('feminino', 'masculino')),
     specialization  TEXT    NOT NULL,
     formation     TEXT    NOT NULL,
     certification TEXT    NOT NULL,
