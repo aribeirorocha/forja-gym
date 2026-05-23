@@ -67,6 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enroll'])) {
 output_header();
 
 $reviewStats = ClassSession::getSessionReviewsStats($db, $class->session->id);
-output_class_details($class, $reviewStats, $user != null, $hasEnrollment);
+
+
+$reviewsList = ClassSession::getSessionReviews($db, $class->session->id);
+
+
+output_class_details($class, $reviewStats, $reviewsList, $user != null, $hasEnrollment);
 
 output_footer();

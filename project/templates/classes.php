@@ -26,89 +26,85 @@ require_once('../database/gym_class.php');
     </section>
 <?php } ?>
 
-
-<?php function output_classes(array $classes, bool $isSignedIn)
-{ ?>
-    <section class="trainers-hero">
+<?php function output_classes(array $classes, bool $isLoggedIn) { 
+    // 1. Extrair nomes únicos de Trainers e Tipos de Aula
+    $trainers_list = [];
+    $types_list = [];
+    
+    foreach($classes as $c) {
+        $trainers_list[] = $c->trainer->name;
+        $types_list[] = $c->name;
+    }
+    
+    $unique_trainers = array_unique($trainers_list);
+    $unique_types = array_unique($types_list);
+    sort($unique_trainers);
+    sort($unique_types);
+?>
+    <section class="classes-hero">
         <p class="section-tag">AULAS</p>
-        <h1> <span class="highlight">Aulas</span></h1>
-        <p class="trainers-hero-subtitle">Aulas.</p>
+        <h1>As nossas <span class="highlight">Aulas</span></h1>
+        <p class="classes-hero-subtitle">Encontra a aula perfeita para o teu objetivo.</p>
     </section>
-    <section class="featured-classes" id="aulas">
-        <div class="class-grid">
-            <?php foreach ($classes as $index => $class) {
-                if ($class->session == null) continue; ?>
-                <article class="class-card">
-                    <img src=<?= $class->getPhotoPath() ?> alt=<?= $class->name ?> class="class-photo">
-                    <h3><?= $class->name ?></h3>
-                    <p><?= $class->session->getDayOfWeek() ?> &bull; <?= $class->session->getTime() ?></p>
-                    <p><?= $class->trainer->name ?> &bull; <?= $class->capacity ?> <?= $class->capacity == 1 ? 'vaga' : 'vagas' ?></p>
-                    <?php if ($isSignedIn) { ?>
-                        <a href=<?= "class.php?id={$class->id}" ?> class="btn-text">Ver mais</a>
-                    <?php } else { ?>
-                        <a href="login.php" class="btn-text">Fazer login para ver mais</a>
-                    <?php } ?>
-                </article>
-            <?php } ?>
+
+    <div class="classes-container" style="padding: 60px 5%; max-width: 1200px; margin: 0 auto;">
+        
+        <div class="filters-bar">
+            <select id="filter-type" class="filter-select">
+                <option value="all">🧘‍♀️ Todos os Tipos</option>
+                <?php foreach($unique_types as $type): ?>
+                    <option value="<?= htmlspecialchars($type) ?>"><?= htmlspecialchars($type) ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <select id="filter-trainer" class="filter-select">
+                <option value="all">🏋️ Todos os Trainers</option>
+                <?php foreach($unique_trainers as $trainer): ?>
+                    <option value="<?= htmlspecialchars($trainer) ?>"><?= htmlspecialchars($trainer) ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <select id="filter-period" class="filter-select">
+                <option value="all">🕒 Qualquer Horário</option>
+                <option value="Manhã">🌅 Manhã (antes das 13h)</option>
+                <option value="Tarde">☀️ Tarde (13h às 18h)</option>
+                <option value="Noite">🌙 Noite (após as 19h)</option>
+            </select>
         </div>
-    </section>
+
+        <div class="class-grid" id="classes-grid">
+            <?php foreach ($classes as $class): 
+                
+                // 2. Calcular se a aula é de Manhã, Tarde ou Noite
+                $hora = (int)$class->session->datetime->format('H');
+                if ($hora < 13) {
+                    $periodo = 'Manhã';
+                } elseif ($hora < 19) {
+                    $periodo = 'Tarde';
+                } else {
+                    $periodo = 'Noite';
+                }
+            ?>
+                <article class="class-card" 
+                         data-trainer="<?= htmlspecialchars($class->trainer->name) ?>"
+                         data-type="<?= htmlspecialchars($class->name) ?>"
+                         data-period="<?= $periodo ?>">
+                         
+                    <img src="<?= $class->getPhotoPath() ?>" alt="<?= htmlspecialchars($class->name) ?>" class="class-photo">
+                    <div class="class-summary">
+                        <h3><?= htmlspecialchars($class->name) ?></h3>
+                        <p>Trainer: <?= htmlspecialchars($class->trainer->name) ?></p>
+                        <p><?= $class->session->getTime() ?> (<?= $periodo ?>)</p>
+                        <a href="class.php?id=<?= $class->id ?>" class="btn-text">Ver detalhes</a>
+                    </div>
+                    
+                </article>
+            <?php endforeach; ?>
+        </div>
+    </div>
 <?php } ?>
 
-<?php /*function output_class_details(GymClass $class)
-{ ?>
-    <article class="class-card">
-        <img src=<?= $class->getPhotoPath() ?> alt=<?= $class->name ?> class="class-photo">
-        <h3><?= $class->name ?></h3>
-        <p><?= $class->session->getDayOfWeek() ?> &bull; <?= $class->session->getTime() ?></p>
-        <p><?= $class->trainer->name ?> &bull; <?= $class->capacity ?> <?= $class->capacity == 1 ? 'vaga' : 'vagas' ?></p>
-        <div >
-            <hr class="profile-divider">
-            <dl class="profile-info">
-                <div class="profile-row">
-                    <dt>Data</dt>
-                    <dd><?= 1 ?> anos</dd>
-                </div>
-                <div class="profile-row">
-                    <dt>Capacidade</dt>
-                    <dd><?= $class->session->enrolmentCount . '/' . $class->capacity ?></dd>
-                </div>
-                <div class="profile-row">
-                    <dt>Local</dt>
-                    <dd><?= $class->local ?></dd>
-                </div>
-                <div class="profile-row">
-                    <dt>Aulas</dt>
-                    <dd>Yoga de manhã &bull; Pilates ao início da tarde</dd>
-                </div>
-            </dl>
-            <hr class="profile-divider">
-            <section class="review-section">
-                <h4 class="review-title">Deixa a tua review</h4>
-                <form class="review-form" method="post">
-                    <fieldset class="star-rating">
-                        <legend class="sr-only">Classificação</legend>
-                        <input type="radio" id="r5-t1" name="rating-t1" value="5">
-                        <label for="r5-t1" title="5 estrelas">&#9733;</label>
-                        <input type="radio" id="r4-t1" name="rating-t1" value="4">
-                        <label for="r4-t1" title="4 estrelas">&#9733;</label>
-                        <input type="radio" id="r3-t1" name="rating-t1" value="3">
-                        <label for="r3-t1" title="3 estrelas">&#9733;</label>
-                        <input type="radio" id="r2-t1" name="rating-t1" value="2">
-                        <label for="r2-t1" title="2 estrelas">&#9733;</label>
-                        <input type="radio" id="r1-t1" name="rating-t1" value="1">
-                        <label for="r1-t1" title="1 estrela">&#9733;</label>
-                    </fieldset>
-                    <label for="review-text-t1" class="review-label">Comentário</label>
-                    <textarea id="review-text-t1" name="comentario" rows="3" placeholder="Partilha a tua experiência..."></textarea>
-                    <button type="submit" class="btn-review-submit">Enviar review</button>
-                </form>
-            </section>
-        </div>
-</article>
-    <?php } */ ?>
-
-
-<?php function output_class_details(GymClass $class, array $reviewStats, bool $isUser, bool $hasEnrollment)
+<?php function output_class_details($class, $reviewStats, array $reviewsList, bool $isLoggedIn, bool $hasEnrollment)
 { ?>
     <link rel="stylesheet" href="../css/trainer_profile.css">
 
@@ -136,12 +132,15 @@ require_once('../database/gym_class.php');
             <img src="<?= $class->getPhotoPath() ?>" alt="<?= htmlspecialchars($class->name) ?>" class="profile-big-photo">
 
             <?php if ($class->session->enrollmentCount >= $class->capacity) { ?>
-                <p class="profile-specialty">Cheio</p>
+                <p class="profile-specialty" style="color: #c62828;">Aula Cheia</p>
+                <h1 class="profile-name"><?= htmlspecialchars($class->name) ?></h1>
             <?php } else { ?>
                 <h1 class="profile-name"><?= htmlspecialchars($class->name) ?></h1>
                 <form method="POST" action=<?= "class.php?id={$class->id}" ?>>
                     <input type="hidden" name="enroll" value=<?= $class->session->id ?>>
-                    <button class="btn-schedule" type="submit"><?= $hasEnrollment ? "Desinscrever-se" : "Inscrever-se" ?></button>
+                    <button class="btn-review-submit" type="submit" style="margin-bottom: 20px; background-color: <?= $hasEnrollment ? 'var(--orange)' : 'var(--orange)' ?>;">
+                        <?= $hasEnrollment ? "Desinscrever-se" : "Inscrever-se na Aula" ?>
+                    </button>
                 </form>
             <?php } ?>
 
@@ -156,7 +155,7 @@ require_once('../database/gym_class.php');
                 </div>
                 <div class="profile-detail-item">
                     <strong>Trainer</strong>
-                    <span><a href=<?= "trainer_profile.php?id={$class->trainer->id}" ?>><?= htmlspecialchars($class->trainer->name) ?></a></span>
+                    <span><a href=<?= "trainer_profile.php?id={$class->trainer->id}" ?> style="color: var(--orange); text-decoration: underline;"><?= htmlspecialchars($class->trainer->name) ?></a></span>
                 </div>
                 <div class="profile-detail-item">
                     <strong>Duração</strong>
@@ -168,7 +167,7 @@ require_once('../database/gym_class.php');
                 </div>
             </div>
 
-            <?php if ($isUser): ?>
+            <?php if ($isLoggedIn): ?>
                 <section class="review-section">
                     <h4 class="review-box-title">Deixa a tua review</h4>
                     <form class="review-form" method="post" action="class.php?id=<?= $class->id ?>">
@@ -197,8 +196,65 @@ require_once('../database/gym_class.php');
                 </p>
             <?php endif; ?>
 
-            <a href="trainers.php" class="btn-text btn-back-team">Voltar à Equipa</a>
+            <?php if (count($reviewsList) > 0): ?>
+                <div class="reviews-container">
+                    <button type="button" class="btn-toggle-reviews" id="toggle-reviews-btn">Ver comentários (<?= count($reviewsList) ?>)</button>
+                    
+                    <div class="reviews-list hidden" id="reviews-list-container">
+                        <?php foreach ($reviewsList as $rev): 
+                            // Gerador de avatares automáticos
+                            if (!empty($rev['photo'])) {
+                                $rev_photo = "../imgs/" . htmlspecialchars($rev['photo']);
+                            } else {
+                                $nome_codificado = urlencode($rev['name']);
+                                $rev_photo = "https://ui-avatars.com/api/?name=" . $nome_codificado . "&background=ff6600&color=fff";
+                            }
+                            
+                            $rev_date = date('d/m/Y \à\s H:i', strtotime($rev['created_at']));
+                        ?>
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="review-author">
+                                        <img src="<?= $rev_photo ?>" alt="Membro" class="review-author-photo">
+                                        <div class="review-author-info">
+                                            <span class="review-author-name"><?= htmlspecialchars($rev['name']) ?></span>
+                                            <span class="review-date"><?= $rev_date ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="review-stars">
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <span class="<?= $i <= $rev['rate'] ? 'star-filled' : '' ?>">&#9733;</span>
+                                        <?php endfor; ?>
+                                    </div>
+                                </div>
+                                <p class="review-text"><?= nl2br(htmlspecialchars($rev['comment'])) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <a href="classes.php" class="btn-text btn-back-team">Voltar às Aulas</a>
 
         </article>
     </main>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toggleBtn = document.getElementById('toggle-reviews-btn');
+        const reviewsList = document.getElementById('reviews-list-container');
+        
+        if (toggleBtn && reviewsList) {
+            toggleBtn.addEventListener('click', function() {
+                reviewsList.classList.toggle('hidden');
+                
+                if (reviewsList.classList.contains('hidden')) {
+                    toggleBtn.textContent = 'Ver comentários (' + <?= count($reviewsList) ?> + ')';
+                } else {
+                    toggleBtn.textContent = 'Ocultar comentários';
+                }
+            });
+        }
+    });
+    </script>
 <?php } ?>

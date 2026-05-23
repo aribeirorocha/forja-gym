@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="../css/profile.css">
         <link rel="stylesheet" href="../css/nutrition.css">
         <link rel="stylesheet" href="../css/equipment.css">
+        <link rel="stylesheet" href="../css/classes.css">
         
 
 
