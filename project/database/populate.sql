@@ -71,7 +71,7 @@ INSERT INTO muscle_group (id, name, description) VALUES
 (6, 'Core e Abdominais', 'Centro de gravidade e estabilização do tronco.');
 
 INSERT INTO equipment (id, name, description, status, location, photo, video_url) VALUES 
-(1, 'Leg Press 45º', 'Máquina de empurrar com os pés.', 'Disponível', 'Piso 1 - Força', 'leg_press.jpg', 'https://www.youtube.com/embed/yZmx_Ac3880'),
+(1, 'Leg Press 45º', 'Máquina de empurrar com os pés.', 'Disponível', 'Piso 1 - Força', 'leg_press.jpg', 'https://youtu.be/q4W4_VJbKW0?si=JgLu2NUFYaOxO-Yg'),
 (2, 'Chest Press', 'Máquina de empurrar sentado.', 'Disponível', 'Piso 1 - Força', 'chest_press.jpg', 'https://www.youtube.com/embed/xUm0BiZCWlQ'),
 (3, 'Lat Pulldown (Puxada Frontal)', 'Máquina fundamental para desenvolver a largura das costas.', 'Disponível', 'Piso 1 - Força', 'lat_pulldown.jpg', 'https://www.youtube.com/embed/EUIri47Epcg'),
 (4, 'Leg Extension (Cadeira Extensora)', 'Isola os quadríceps para máxima hipertrofia frontal da perna.', 'Disponível', 'Piso 1 - Força', 'leg_extension.jpg', 'https://www.youtube.com/embed/YyvSfVlfRZA'),
@@ -88,7 +88,7 @@ INSERT INTO equipment (id, name, description, status, location, photo, video_url
 (15, 'Triceps Press Machine', 'Máquina que simula fundos de tríceps (dips) sentado.', 'Disponível', 'Piso 1 - Força', 'triceps_machine.jpg', 'https://www.youtube.com/embed/c1TusD4N7hY'),
 (16, 'Lateral Raise Machine', 'Elevações laterais guiadas para ombros redondos e largos.', 'Disponível', 'Piso 1 - Força', 'lateral_raise.jpg', 'https://www.youtube.com/embed/kdH9P3D8ZkM'),
 (17, 'Hip Thrust Machine', 'A melhor forma de treinar glúteos com cargas pesadas de forma confortável e segura.', 'Disponível', 'Piso 1 - Força', 'hip_thrust.jpg', 'https://www.youtube.com/embed/SEdqd1n0cvg'),
-(18, 'Graviton (Elevações Assistidas)', 'Máquina com contrapeso para ajudar nas elevações (pull-ups) e fundos (dips).', 'Disponível', 'Piso 2 - Funcional', 'graviton.jpg', 'https://www.youtube.com/embed/XqE-3jI14n4');
+(18, 'Graviton (Elevações Assistidas)', 'Máquina com contrapeso para ajudar nas elevações (pull-ups) e fundos (dips).', 'Disponível', 'Piso 2 - Funcional', 'graviton.jpg', 'https://youtu.be/36Zr0ffv0k4?si=dZt0pKTLuQhRDxVX'),
 
 INSERT INTO exercises (id, name, description, id_equipment, id_muscle_group) VALUES 
 (1, 'Prensa de Pernas', 'Execução focada na amplitude', 1, 1),
