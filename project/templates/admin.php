@@ -1,6 +1,7 @@
 <?php require_once('../database/user.php') ?>
 
-<?php function output_admin_panel(array $users, int $page, string $username) { ?>
+<?php function output_admin_panel(array $users, int $page, string $username)
+{ ?>
 
     <section class="admin-dashboard">
         <header class="admin-header">
@@ -9,7 +10,7 @@
             <p>Pesquisa utilizadores por username e altera permissoes diretamente na tabela.</p>
         </header>
 
-        <section class="profile-card" aria-labelledby="admin-users-title">
+        <section class="profile-card">
             <header class="admin-toolbar">
                 <form action="admin.php" method="get" class="admin-search">
                     <fieldset>
@@ -22,9 +23,9 @@
                 </form>
 
                 <nav class="admin-pagination">
-                    <button type="submit" form="admin-prev-page" class="btn-text" <?= $page == 1 ? 'disabled' : ''?> >Anterior</button>
+                    <button type="submit" form="admin-prev-page" class="btn-text" <?= $page == 1 ? 'disabled' : '' ?>>Anterior</button>
                     <span class="admin-page-indicator">Página <?= $page ?></span>
-                    <button type="submit" form="admin-next-page" class="btn-text" <?= count($users) < 10 ? 'disabled' : ''?>>Seguinte</button>
+                    <button type="submit" form="admin-next-page" class="btn-text" <?= count($users) < 10 ? 'disabled' : '' ?>>Seguinte</button>
                 </nav>
             </header>
 
@@ -41,7 +42,7 @@
                 <?php } ?>
             </form>
 
-            <section class="admin-table-wrap" aria-labelledby="admin-users-title">
+            <section class="admin-table-wrap">
                 <h2 id="admin-users-title" class="card-title">Utilizadores</h2>
                 <table class="admin-table">
                     <thead>
@@ -55,7 +56,7 @@
                     </thead>
                     <tbody>
                         <?php foreach ($users as $user) {
-                            output_user_row($user->createdAt->format('Y/m/d, H:i'), $user->username, $user->name, $user->name, $user->email);
+                            output_user_row($user->id, $user->createdAt->format('Y/m/d, H:i'), $user->username, $user->name, $user->role, $user->email);
                         } ?>
                     </tbody>
                 </table>
@@ -65,22 +66,20 @@
 
 <?php } ?>
 
-<?php function output_user_row(string $join_date, string $username, string $display_name, string $role, string $email) { ?>
+<?php function output_user_row(int $id, string $join_date, string $username, string $display_name, string $role, string $email)
+{ ?>
 
     <tr>
         <td><?= htmlspecialchars($join_date) ?></td>
         <td class="admin-user">@<?= htmlspecialchars($username) ?></td>
         <td><?= htmlspecialchars($display_name) ?></td>
         <td>
-            <form action="admin.php" method="post" class="role-form">
-                <input type="hidden" name="username" value="<?= htmlspecialchars($username) ?>">
-                <select name="role" class="role-select" aria-label="Alterar função de <?= htmlspecialchars($username) ?>">
-                    <option value="member" <?= $role === 'member' ? 'selected' : '' ?>>Membro</option>
-                    <option value="trainer" <?= $role === 'trainer' ? 'selected' : '' ?>>Trainer</option>
-                    <option value="nutritionist" <?= $role === 'nutritionist' ? 'selected' : '' ?>>Nutricionista</option>
-                    <option value="admin" <?= $role === 'admin' ? 'selected' : '' ?>>Admin</option>
-                </select>
-            </form>
+            <select name="role" class="role-select" data-user-id=<?= $id ?>>
+                <option value="member" <?= $role === 'member' ? 'selected' : '' ?>>Membro</option>
+                <option value="trainer" <?= $role === 'trainer' ? 'selected' : '' ?>>Trainer</option>
+                <option value="nutritionist" <?= $role === 'nutritionist' ? 'selected' : '' ?>>Nutricionista</option>
+                <option value="admin" <?= $role === 'admin' ? 'selected' : '' ?>>Admin</option>
+            </select>
         </td>
         <td class="admin-email"><?= htmlspecialchars($email) ?></td>
     </tr>

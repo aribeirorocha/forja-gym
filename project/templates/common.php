@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="../css/classes.css">
         <?php if ($user['role'] === 'admin') { ?>
         <link rel="stylesheet" href="../css/admin.css">
+        <script type="text/javascript" src="../js/admin.js" defer></script>
         <?php } ?>
     </head>
     <body>

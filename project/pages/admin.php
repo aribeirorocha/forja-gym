@@ -11,13 +11,18 @@ require_once('../database/connection.php');
 require_once('../database/user_auth.php');
 
 
-
 $db = getDatabaseConnection();
 $user = UserAuth::currentUser();
 
 if (!$user || $user['role'] !== 'admin') {
     header('Location: index.php');
     exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role']) && isset($_POST['user_id'])) {
+    $role = $_POST['role'];
+    $id = intval($_POST['user_id']);
+    User::updateRole($db, $id, $role);
 }
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;

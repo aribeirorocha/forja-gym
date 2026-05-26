@@ -75,6 +75,10 @@ class User {
         return null;
     }
 
+    static function updateRole(PDO $db, int $id, string $role) {
+        $stmt = $db->prepare('UPDATE user SET role = ? WHERE id = ?');
 
+        $stmt->execute(array($role, $id));
+    }
 
 }
