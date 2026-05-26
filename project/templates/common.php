@@ -1,11 +1,7 @@
+<?php include_once('../database/user_auth.php')?>
+
 <?php function output_header() {
-    if (session_status() === PHP_SESSION_NONE) session_start();
-    
-    $user = !empty($_SESSION['user_id']) ? [
-        'name'     => $_SESSION['user_name'],
-        'username' => $_SESSION['user_username'],
-        'photo'    => $_SESSION['user_photo'] ?? '', 
-    ] : null;
+    $user = UserAuth::currentUser();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -23,10 +19,9 @@
         <link rel="stylesheet" href="../css/nutrition.css">
         <link rel="stylesheet" href="../css/equipment.css">
         <link rel="stylesheet" href="../css/classes.css">
-        
-
-
-
+        <?php if ($user['role'] === 'admin') { ?>
+        <link rel="stylesheet" href="../css/admin.css">
+        <?php } ?>
     </head>
     <body>
         <header class="main-header">
@@ -40,6 +35,9 @@
                     <li><a href="trainers.php">Trainers</a></li>
                     <li><a href="equipment.php">Equipamentos</a></li>
                     <li><a href="nutrition.php">Nutrição</a></li>
+                    <?php if ($user['role'] === 'admin') { ?>
+                    <li><a href="admin.php">Admin</a></li>
+                    <?php } ?>
                 </ul>
             </nav>
             <div class="auth-buttons">

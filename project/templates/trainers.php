@@ -58,7 +58,7 @@ require_once('../database/trainer.php');
       
     </div>
   </section>
-<?php } ?>44
+<?php } ?>
 
 <?php function output_featured_trainers(array $trainers)
 { ?>
