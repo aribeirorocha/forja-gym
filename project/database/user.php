@@ -81,4 +81,10 @@ class User {
         $stmt->execute(array($role, $id));
     }
 
+    static function deleteUser(PDO $db, int $id) {
+        $stmt = $db->prepare('DELETE FROM user WHERE id = ? AND role NOT LIKE admin');
+
+        $stmt->execute(array($id));
+    }
+
 }

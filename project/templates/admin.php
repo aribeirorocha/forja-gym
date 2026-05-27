@@ -32,13 +32,13 @@
             <form action="admin.php" method="get" id="admin-prev-page">
                 <input type="hidden" name="page" value=<?= $page - 1 ?>>
                 <?php if ($username !== '') { ?>
-                <input type="hidden" name="username" value=<?= htmlspecialchars($username, ENT_QUOTES) ?>>
+                    <input type="hidden" name="username" value=<?= htmlspecialchars($username, ENT_QUOTES) ?>>
                 <?php } ?>
             </form>
             <form action="admin.php" method="get" id="admin-next-page">
                 <input type="hidden" name="page" value=<?= $page + 1 ?>>
                 <?php if ($username !== '') { ?>
-                <input type="hidden" name="username" value=<?= htmlspecialchars($username, ENT_QUOTES) ?>>
+                    <input type="hidden" name="username" value=<?= htmlspecialchars($username, ENT_QUOTES) ?>>
                 <?php } ?>
             </form>
 
@@ -52,6 +52,7 @@
                             <th>Nome</th>
                             <th>Função</th>
                             <th>Email</th>
+                            <th>Remover</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,6 +83,14 @@
             </select>
         </td>
         <td class="admin-email"><?= htmlspecialchars($email) ?></td>
+        <td>
+            <button
+                type="button"
+                class="delete-user-btn btn-delete"
+                data-user-id="<?= $id ?>">
+                X
+            </button>
+        </td>
     </tr>
 
 <?php } ?>

@@ -25,6 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role']) && isset($_PO
     User::updateRole($db, $id, $role);
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && isset($_POST['user_id'])) {
+    $action = $_POST['action'];
+    $id = intval($_POST['user_id']);
+    if( $action === 'delete_user')
+        User::deleteUser($db, $id);
+}
+
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
 $username = isset($_GET['username']) ? $_GET['username'] : '';
