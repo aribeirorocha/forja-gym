@@ -83,7 +83,7 @@ document.querySelectorAll('.equipment-card').forEach(card => {
                 throw new Error('Erro ao remover o equipamento');
             }
 
-            this.closest('tr').remove();
+            this.closest('article').remove();
         })
         .catch(error => {
             alert('Não foi possível remover o equipamento.');
