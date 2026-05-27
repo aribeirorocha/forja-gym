@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="../css/nutrition.css">
         <link rel="stylesheet" href="../css/equipment.css">
         <link rel="stylesheet" href="../css/classes.css">
+        <link rel="stylesheet" href="../css/trainer_profile.css">
         <?php if ($user['role'] === 'admin') { ?>
         <link rel="stylesheet" href="../css/admin.css">
         <script type="text/javascript" src="../js/admin.js" defer></script>
@@ -39,6 +40,9 @@
                     <li><a href="nutrition.php">Nutrição</a></li>
                     <?php if ($user['role'] === 'admin') { ?>
                     <li><a href="admin.php">Admin</a></li>
+                    <?php } ?>
+                    <?php if ($user['role'] === 'trainer') { ?>
+                    <li><a href="create_class.php">Criar</a></li>
                     <?php } ?>
                 </ul>
             </nav>

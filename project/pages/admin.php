@@ -12,14 +12,22 @@ require_once('../database/user_auth.php');
 require_once('../database/equipment.php');
 
 
-
 $db = getDatabaseConnection();
 $user = UserAuth::currentUser();
 
-if (!$user || $user['role'] !== 'admin') {
+if (!$user) {
     header('Location: index.php');
     exit;
 }
+
+$userFromDB = User::getUser($db, $user['id']);
+
+if(!$userFromDB || $userFromDB->role !== 'admin') {
+    header('Location: index.php');
+    exit;
+}
+
+$_SESSION['user_role'] = $userFromDB->role;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role']) && isset($_POST['user_id'])) {
     $role = $_POST['role'];

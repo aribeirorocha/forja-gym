@@ -60,6 +60,32 @@ class GymClass {
         return $classes;
     }
 
+    static function getClassesFromTrainer(PDO $db, int $id) : array
+    {
+        $stmt = $db->prepare('SELECT id, name, type, duration_minutes, id_trainer, capacity, local, active FROM class WHERE id_trainer = ?');
+
+        $stmt->execute(array($id));
+
+        $classes = array();
+
+        while ($class = $stmt->fetch()) {
+            $classes[] = new GymClass(
+                $class['id'],
+                $class['name'],
+                $class['type'],
+                $class['duration_minutes'],
+                $class['id_trainer'],
+                $class['capacity'],
+                $class['local'],
+                $class['active'] == 1,
+                null,
+                null
+            );
+        }
+
+        return $classes;
+    }
+
     static function getClass(PDO $db, int $id) : ?GymClass
     {
         $stmt = $db->prepare('SELECT name, type, duration_minutes, id_trainer, capacity, local, active FROM class WHERE id = ? LIMIT 1');
@@ -86,6 +112,13 @@ class GymClass {
 
     public function getPhotoPath() : string {
         return "../imgs/{$this->type}.jpg";
+    }
+
+    static function createClass(PDO $db, string $name, string $type, int $durationMinutes, int $trainerId, int $capacity, string $local) {
+        $stmt = $db->prepare('INSERT INTO class (name, type, duration_minutes, id_trainer, capacity, local, active) VALUES (?,?,?,?,?,?,1)');
+
+        $stmt->execute(array($name, $type, $durationMinutes, $trainerId, $capacity, $local));
+    
     }
 
 }
