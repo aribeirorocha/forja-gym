@@ -76,8 +76,10 @@ function output_member_equipment(array $equipments): void {
                 $muscle = $eq['muscle_name'] ?? 'Corpo Inteiro';
                 $location = $eq['location'] ?? 'Não especificada';
                 $status_text = $eq['status'] ?? 'Disponível';
+                $id = $eq['id'];
             ?>
-                <article class="class-card equipment-card" 
+                <article class="class-card equipment-card"
+                         data-id= "<?= $id?>"
                          data-location="<?= htmlspecialchars($location) ?>" 
                          data-muscle="<?= htmlspecialchars($muscle) ?>" 
                          data-status="<?= htmlspecialchars($status_text) ?>">

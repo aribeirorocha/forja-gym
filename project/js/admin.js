@@ -36,7 +36,7 @@ document.querySelectorAll('.delete-user-btn').forEach(button => {
             },
             body:
                 'action=delete_user' + 
-                '&user_id=' + encodeURIComponent(userId)
+                '&id=' + encodeURIComponent(userId)
         })
         .then(response => {
             if (!response.ok) {
@@ -52,7 +52,15 @@ document.querySelectorAll('.delete-user-btn').forEach(button => {
     });
 });
 
-document.querySelectorAll('.delete-equipment-btn').forEach(button => {
+document.querySelectorAll('.equipment-card').forEach(card => {
+    const button = document.createElement('button');
+
+    button.classList.add('btn-delete');
+    button.textContent = 'x';
+    button.style.margin = '10px';
+
+    card.appendChild(button);
+
     button.addEventListener('click', function () {
         const userId = this.dataset.userId;
 
@@ -68,7 +76,7 @@ document.querySelectorAll('.delete-equipment-btn').forEach(button => {
             },
             body:
                 'action=delete_equipment' + 
-                '&equipment_id=' + encodeURIComponent(userId)
+                '&id=' + encodeURIComponent(userId)
         })
         .then(response => {
             if (!response.ok) {
