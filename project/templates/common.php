@@ -41,6 +41,9 @@
                     <?php if ($user['role'] === 'admin') { ?>
                     <li><a href="admin.php">Admin</a></li>
                     <?php } ?>
+                    <?php if ($user['role'] === 'trainer') { ?>
+                    <li><a href="create_class.php">Criar</a></li>
+                    <?php } ?>
                 </ul>
             </nav>
             <div class="auth-buttons">

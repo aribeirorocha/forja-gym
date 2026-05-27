@@ -15,15 +15,28 @@ require_once('../database/user_auth.php');
 $db = getDatabaseConnection();
 $user = UserAuth::currentUser();
 
-if (!$user || $user['role'] !== 'trainer') {
+if (!$user) {
     header('Location: index.php');
     exit;
 }
 
+$userFromDB = User::getUser($db, $user['id']);
 
-/*if ($_SERVER['REQUEST_METHOD'] === 'POST' ... ) {
+if(!$userFromDB || $userFromDB->role !== 'trainer') {
+    header('Location: index.php');
+    exit;
+}
 
-}*/
+$_SESSION['user_role'] = $userFromDB->role;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    if($_POST['action'] === 'create_class') {
+        GymClass::createClass($db, $_POST['name'], $_POST['type'], intval($_POST['duration_minutes']), $user['id'], intval($_POST['capacity']), $_POST['local']);
+    }
+
+    header('Location: classes.php');
+    exit;
+}
 
 $classes = GymClass::getClassesFromTrainer($db, $user['id']);
 

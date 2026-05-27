@@ -79,6 +79,8 @@ class User {
         $stmt = $db->prepare('UPDATE user SET role = ? WHERE id = ?');
 
         $stmt->execute(array($role, $id));
+
+        
     }
 
     static function deleteUser(PDO $db, int $id) {

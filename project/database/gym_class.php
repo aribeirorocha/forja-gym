@@ -114,6 +114,13 @@ class GymClass {
         return "../imgs/{$this->type}.jpg";
     }
 
+    static function createClass(PDO $db, string $name, string $type, int $durationMinutes, int $trainerId, int $capacity, string $local) {
+        $stmt = $db->prepare('INSERT INTO class (name, type, duration_minutes, id_trainer, capacity, local, active) VALUES (?,?,?,?,?,?,1)');
+
+        $stmt->execute(array($name, $type, $durationMinutes, $trainerId, $capacity, $local));
+    
+    }
+
 }
 
 ?>

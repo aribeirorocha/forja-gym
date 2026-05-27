@@ -315,7 +315,7 @@ require_once('../database/gym_class.php');
     <section class="class-session-page">
         <section class="trainer-class-list">
             <header>
-                <p class="profile-specialty">SESSõES</p>
+                <p class="profile-specialty">SESSÕES</p>
                 <h2 id="session-form-title" class="profile-name">Criar Sessões</h2>
             </header>
 
