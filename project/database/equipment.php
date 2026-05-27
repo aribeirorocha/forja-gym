@@ -14,4 +14,12 @@ function getEquipments(PDO $db): array {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function deleteEquipment(PDO $db, int $id) {
+
+    $stmt = $db->prepare('DELETE FROM equipment WHERE id = ?');
+
+    $stmt->execute(array($id));
+
+}
 ?>

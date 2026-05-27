@@ -1,11 +1,7 @@
+<?php include_once('../database/user_auth.php')?>
+
 <?php function output_header() {
-    if (session_status() === PHP_SESSION_NONE) session_start();
-    
-    $user = !empty($_SESSION['user_id']) ? [
-        'name'     => $_SESSION['user_name'],
-        'username' => $_SESSION['user_username'],
-        'photo'    => $_SESSION['user_photo'] ?? '', 
-    ] : null;
+    $user = UserAuth::currentUser();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -23,10 +19,11 @@
         <link rel="stylesheet" href="../css/nutrition.css">
         <link rel="stylesheet" href="../css/equipment.css">
         <link rel="stylesheet" href="../css/classes.css">
-        
-
-
-
+        <?php if ($user['role'] === 'admin') { ?>
+        <link rel="stylesheet" href="../css/admin.css">
+        <script type="text/javascript" src="../js/admin.js" defer></script>
+        <?php } ?>
+        <script type="text/javascript" src="../js/script.js" defer></script>
     </head>
     <body>
         <header class="main-header">
@@ -40,6 +37,9 @@
                     <li><a href="trainers.php">Trainers</a></li>
                     <li><a href="equipment.php">Equipamentos</a></li>
                     <li><a href="nutrition.php">Nutrição</a></li>
+                    <?php if ($user['role'] === 'admin') { ?>
+                    <li><a href="admin.php">Admin</a></li>
+                    <?php } ?>
                 </ul>
             </nav>
             <div class="auth-buttons">
@@ -85,36 +85,6 @@
                 <p>&copy; 2026 FORJA Gym &middot; Porto, Portugal</p>
             </div>
         </footer>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const links = document.querySelectorAll(".main-header nav ul li a");
-                
-                // Descobre a página atual e o hash (ex: index.php#aulas)
-                let currentPage = window.location.pathname.split("/").pop();
-                if (currentPage === "") currentPage = "index.php"; // Fallback
-                let currentHash = window.location.hash;
-                
-                links.forEach(link => {
-                    let linkHref = link.getAttribute("href");
-                    
-                    // Condição 1: O link é exatamente igual à página + hash (ex: index.php#aulas)
-                    if (linkHref === (currentPage + currentHash)) {
-                        link.classList.add("active");
-                    } 
-                    // Condição 2: Estamos numa página base sem hash (ex: index.php)
-                    else if (!currentHash && linkHref === currentPage) {
-                        link.classList.add("active");
-                    }
-
-                    // Muda o destaque instantaneamente ao clicar
-                    link.addEventListener("click", function() {
-                        links.forEach(l => l.classList.remove("active"));
-                        this.classList.add("active");
-                    });
-                });
-            });
-        </script>
     </body>
 </html>
 <?php } ?>
