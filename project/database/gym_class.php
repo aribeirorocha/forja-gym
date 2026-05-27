@@ -60,6 +60,32 @@ class GymClass {
         return $classes;
     }
 
+    static function getClassesFromTrainer(PDO $db, int $id) : array
+    {
+        $stmt = $db->prepare('SELECT id, name, type, duration_minutes, id_trainer, capacity, local, active FROM class WHERE id_trainer = ?');
+
+        $stmt->execute(array($id));
+
+        $classes = array();
+
+        while ($class = $stmt->fetch()) {
+            $classes[] = new GymClass(
+                $class['id'],
+                $class['name'],
+                $class['type'],
+                $class['duration_minutes'],
+                $class['id_trainer'],
+                $class['capacity'],
+                $class['local'],
+                $class['active'] == 1,
+                null,
+                null
+            );
+        }
+
+        return $classes;
+    }
+
     static function getClass(PDO $db, int $id) : ?GymClass
     {
         $stmt = $db->prepare('SELECT name, type, duration_minutes, id_trainer, capacity, local, active FROM class WHERE id = ? LIMIT 1');
