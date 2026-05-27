@@ -121,6 +121,12 @@ class GymClass {
     
     }
 
+    static function removeClass(PDO $db, int $classId) {
+        $stmt = $db->prepare('
+            DELETE FROM class WHERE id = ?
+        ');
+        $stmt->execute([$classId]);
+    }
 }
 
 ?>

@@ -336,7 +336,6 @@ require_once('../database/gym_class.php');
             </section>
             <span class="class-type-pill"><?= htmlspecialchars($class->type) ?></span>
         </header>
-
         <section class="profile-details-list">
             <p class="profile-detail-item">
                 <strong>Duração</strong>
@@ -368,6 +367,8 @@ require_once('../database/gym_class.php');
 
             <button type="submit" class="btn-review-submit">Criar Sessão</button>
         </form>
+
+        <button data-class-id= <?= $class->id ?> class='delete-class-btn btn-text'> Remover aula </button>
     </article>
 
 <?php } ?>

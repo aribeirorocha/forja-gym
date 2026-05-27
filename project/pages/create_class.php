@@ -33,7 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if($_POST['action'] === 'create_class') {
         GymClass::createClass($db, $_POST['name'], $_POST['type'], intval($_POST['duration_minutes']), $user['id'], intval($_POST['capacity']), $_POST['local']);
     }
-
+    if($_POST['action'] === 'create_class_session') {
+        ClassSession::createSession($db, intval($_POST['id_class']), $_POST['session_date'], $_POST['session_time']);
+    }
+    if($_POST['action'] === 'remove_class') {
+        GymClass::removeClass($db, intval($_POST['id']));
+        exit;
+    }
     header('Location: classes.php');
     exit;
 }

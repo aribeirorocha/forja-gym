@@ -19,10 +19,13 @@
         <link rel="stylesheet" href="../css/nutrition.css">
         <link rel="stylesheet" href="../css/equipment.css">
         <link rel="stylesheet" href="../css/classes.css">
-        <link rel="stylesheet" href="../css/trainer_profile.css">
         <?php if ($user['role'] === 'admin') { ?>
         <link rel="stylesheet" href="../css/admin.css">
         <script type="text/javascript" src="../js/admin.js" defer></script>
+        <?php } ?>
+        <?php if ($user['role'] === 'trainer') { ?>
+        <link rel="stylesheet" href="../css/trainer_profile.css">
+        <script type="text/javascript" src="../js/trainer.js" defer></script>
         <?php } ?>
         <script type="text/javascript" src="../js/script.js" defer></script>
     </head>

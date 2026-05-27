@@ -124,4 +124,11 @@ class ClassSession
         $stmt->execute([$memberId, $sessionId]);
         return $stmt->fetch() != null;
     }
+
+    static function createSession(PDO $db, int $classId, string $date, string $time) {
+        $stmt = $db->prepare('
+            INSERT INTO class_session (id_class, session_datetime) VALUES (?,?)
+        ');
+        $stmt->execute([$classId, "{$date} {$time}"]);
+    }
 }
