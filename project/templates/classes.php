@@ -258,3 +258,116 @@ require_once('../database/gym_class.php');
     });
     </script>
 <?php } ?>
+
+<?php function output_class_form() { ?>
+    <section class="class-management-page">
+        <article class="profile-login-card class-form-card">
+            <p class="profile-specialty">GESTÃO DE AULAS</p>
+            <h1 class="profile-name">Criar Aula</h1>
+
+            <form action="create_class.php" method="post" class="class-form">
+                <input type="hidden" name="action" value="create_class">
+
+                <fieldset>
+                    <label class="full-width" for="class-name">
+                        Nome da aula
+                        <input type="text" id="class-name" name="name" placeholder="Ex: Yoga Funcional" required>
+                    </label>
+
+                    <label for="class-type">
+                        Tipo
+                        <select id="class-type" name="type" required>
+                            <option value="">Escolher tipo</option>
+                            <option value="yoga">Yoga</option>
+                            <option value="pilates">Pilates</option>
+                            <option value="spinning">Spinning</option>
+                            <option value="crossfit">Crossfit</option>
+                            <option value="zumba">Zumba</option>
+                        </select>
+                    </label>
+
+                    <label for="class-duration">
+                        Duração
+                        <input type="number" id="class-duration" name="duration_minutes" min="1" step="1" placeholder="60" required>
+                    </label>
+
+                    <label for="class-capacity">
+                        Capacidade
+                        <input type="number" id="class-capacity" name="capacity" min="1" step="1" placeholder="20" required>
+                    </label>
+
+                    <label for="class-local">
+                        Local
+                        <input type="text" id="class-local" name="local" placeholder="Porto" required>
+                    </label>
+
+                    <footer>
+                        <button type="submit" class="btn-review-submit">Criar Aula</button>
+                    </footer>
+                </fieldset>
+            </form>
+        </article>
+    </section>
+
+<?php } ?>
+
+<?php function output_class_session_forms(array $classes) { ?>
+    <section class="class-session-page">
+        <section class="trainer-class-list">
+            <header>
+                <p class="profile-specialty">SESSõES</p>
+                <h2 id="session-form-title" class="profile-name">Criar Sessões</h2>
+            </header>
+
+            <?php foreach ($classes as $class) {
+                output_class_session_form($class);
+            } ?>
+        </section>
+    </section>
+
+<?php } ?>
+
+<?php function output_class_session_form(GymClass $class) { ?>
+    <article class="trainer-class-card">
+        <header>
+            <section>
+                <h3><?= htmlspecialchars($class->name) ?></h3>
+                <p class="review-text"><?= htmlspecialchars($class->local) ?></p>
+            </section>
+            <span class="class-type-pill"><?= htmlspecialchars($class->type) ?></span>
+        </header>
+
+        <section class="profile-details-list">
+            <p class="profile-detail-item">
+                <strong>Duração</strong>
+                <span><?= $class->durationMinutes ?> mins</span>
+            </p>
+            <p class="profile-detail-item">
+                <strong>Capacidade</strong>
+                <span><?= $class->capacity ?> pessoas</span>
+            </p>
+            <p class="profile-detail-item">
+                <strong>Estado</strong>
+                <span><?= $class->active ? 'Ativa' : 'Descontinuada' ?></span>
+            </p>
+        </section>
+
+        <form action="create_class.php" method="post" class="session-form">
+            <input type="hidden" name="action" value="create_class_session">
+            <input type="hidden" name="id_class" value="<?= $class->id ?>">
+
+            <label for="session-date-<?= $class->id ?>">
+                Data
+                <input type="date" id="session-date-<?= $class->id ?>" name="session_date" required>
+            </label>
+
+            <label for="session-time-<?= $class->id ?>">
+                Hora
+                <input type="time" id="session-time-<?= $class->id ?>" name="session_time" required>
+            </label>
+
+            <button type="submit" class="btn-review-submit">Criar Sessão</button>
+        </form>
+    </article>
+
+<?php } ?>

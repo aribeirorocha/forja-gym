@@ -64,3 +64,24 @@
     font-size: 1.1rem;
   }
 }
+
+@media (max-width: 900px) {
+  .class-management-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .class-management-page {
+    padding: 48px 5%;
+  }
+
+  .class-form fieldset,
+  .session-form {
+    grid-template-columns: 1fr;
+  }
+
+  .trainer-class-card header {
+    flex-direction: column;
+  }
+}
