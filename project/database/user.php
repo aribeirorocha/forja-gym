@@ -12,8 +12,9 @@ class User {
     public string $role;
     public DateTime $createdAt;
     public ?int $age;
+    public string $membership;
 
-    public function __construct(int $id, string $username, string $name, string $email, string $photoPath, string $role, DateTime $createdAt, ?int $age) {
+    public function __construct(int $id, string $username, string $name, string $email, string $photoPath, string $role, DateTime $createdAt, ?int $age, string $membership = 'basico') {
         $this->id = $id;
         $this->username = $username;
         $this->name = $name;
@@ -22,11 +23,12 @@ class User {
         $this->role = $role;
         $this->createdAt = $createdAt;
         $this->age = $age;
+        $this->membership = $membership;
     }
 
     static function getUsers(PDO $db, string $username, int $count, int $section = 0) : array
     {
-        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, created_at, age
+        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, created_at, age, membership
                               FROM user U
                               WHERE username LIKE ? 
                               ORDER BY created_at DESC
@@ -46,6 +48,7 @@ class User {
                 $user['role'],
                 new DateTime($user['created_at']),
                 $user['age'],
+                $user['membership'] ?? 'basico',
             );
         }
 
@@ -53,7 +56,7 @@ class User {
     }
 
     static function getUser(PDO $db, int $id) : ?User {
-        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, created_at, age 
+        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, created_at, age, membership 
                               FROM user U       
                               WHERE U.id = ? LIMIT 1');
 
@@ -69,6 +72,7 @@ class User {
                 $user['role'],
                 new DateTime($user['created_at']),
                 $user['age'],
+                $user['membership'] ?? 'basico',
             );
         }
 

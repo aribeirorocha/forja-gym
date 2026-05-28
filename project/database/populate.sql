@@ -15,7 +15,8 @@ INSERT INTO user (id, username, name, email, password, photo, role, age) VALUES
 (6, 'rafaelleao', 'Rafael Leão', 'rafaelleaotrainer@gmail.com', '1234', 'trainer5.jpg', 'trainer', 36),
 (9, 'martagomes', 'Marta Gomes', 'martagomestrainer@gmail.com', '1234', 'trainer7.jpg', 'trainer', 28),
 (10, 'tiagosilva', 'Tiago Silva', 'tiagosilvatrainer@gmail.com', '1234', 'trainer8.jpg', 'trainer', 41),
-(11, 'sofiaalmeida', 'Sofia Almeida', 'sofiatrainer@gmail.com', '1234', 'trainer9.jpg', 'trainer', 26);
+(11, 'sofiaalmeida', 'Sofia Almeida', 'sofiatrainer@gmail.com', '1234', 'trainer9.jpg', 'trainer', 26),
+(12, 'gustavosantos', 'Gustavo Santos', 'gustabosantosadmin@gmail.com','1234', 'admin.jpg', 'admin', 30);
 
 INSERT INTO trainer_profile (id_user, sex, formation, certification, specialization, location) VALUES 
 (1, 'feminino', 'Licenciatura em Ciências do Desporto – FADEUP', 'Yoga Alliance RYT-200, STOTT Pilates', 'Yoga,Pilates', 'Porto, Portugal'),
