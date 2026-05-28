@@ -62,7 +62,7 @@ document.querySelectorAll('.equipment-card').forEach(card => {
     card.appendChild(button);
 
     button.addEventListener('click', function () {
-        const userId = this.dataset.userId;
+        const equipmentId = card.dataset.id;
 
         if (!confirm('Tem a certeza que quer remover este equipamento?')) {
             return;

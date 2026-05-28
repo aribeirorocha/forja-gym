@@ -32,11 +32,10 @@ class ClassSession
         $stmt->execute(array($class_id));
 
         if ($session = $stmt->fetch()) {
-            $stmt = $db->prepare('SELECT COUNT(1) as count FROM class_session S
-                                  JOIN enrollment E ON E.id_session = S.id ');
-            $stmt->execute();
+            $stmt = $db->prepare('SELECT COUNT(1) AS count FROM enrollment WHERE id_session = ?');
+            $stmt->execute([$session['id']]);
             if ($count = $stmt->fetch()) {
-                return new ClassSession($session['id'], new DateTime($session['session_datetime']), $session['status'], $count['count']);
+                return new ClassSession((int)$session['id'], new DateTime($session['session_datetime']), $session['status'], (int)$count['count']);
             }
         }
 
@@ -45,7 +44,7 @@ class ClassSession
 
     public function getDayOfWeek(): string
     {
-        return ClassSession::$daysOfWeek[intval($this->datetime->format('w'))];
+        return ClassSession::$daysOfWeek[intval($this->datetime->format('N')) - 1];
     }
 
     public function getTime(): string

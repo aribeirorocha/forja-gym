@@ -19,7 +19,7 @@ require_once('../database/gym_class.php');
                     <h3><?= $class->name ?></h3>
                     <p><?= $class->session->getDayOfWeek() ?> &bull; <?= $class->session->getTime() ?></p>
                     <p><?= $class->trainer->name ?> &bull; <?= $class->capacity ?> <?= $class->capacity == 1 ? 'vaga' : 'vagas' ?></p>
-                    <a href="#" class="btn-text">Inscrever</a>
+                    <a href="class.php?id=<?= $class->id ?>" class="btn-text">Inscrever</a>
                 </article>
             <?php } ?>
         </div>
@@ -66,9 +66,9 @@ require_once('../database/gym_class.php');
 
             <select id="filter-period" class="filter-select">
                 <option value="all">🕒 Qualquer Horário</option>
-                <option value="Manhã">🌅 Manhã (antes das 13h)</option>
-                <option value="Tarde">☀️ Tarde (13h às 18h)</option>
-                <option value="Noite">🌙 Noite (após as 19h)</option>
+                <option value="Manhã">Manhã </option>
+                <option value="Tarde">Tarde </option>
+                <option value="Noite">Noite </option>
             </select>
         </div>
 

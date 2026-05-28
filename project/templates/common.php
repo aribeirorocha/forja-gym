@@ -19,18 +19,18 @@
         <link rel="stylesheet" href="../css/nutrition.css">
         <link rel="stylesheet" href="../css/equipment.css">
         <link rel="stylesheet" href="../css/classes.css">
-        <?php if ($user['role'] === 'admin') { ?>
+        <?php if ($user && isset($user['role']) && $user['role'] === 'admin') { ?>
         <link rel="stylesheet" href="../css/admin.css">
         <script type="text/javascript" src="../js/admin.js" defer></script>
         <?php } ?>
-        <?php if ($user['role'] === 'trainer') { ?>
+        <?php if ($user && isset($user['role']) && $user['role'] === 'trainer') { ?>
         <link rel="stylesheet" href="../css/trainer_profile.css">
         <script type="text/javascript" src="../js/trainer.js" defer></script>
         <?php } ?>
         <script type="text/javascript" src="../js/script.js" defer></script>
     </head>
     <body>
-        <header class="main-header">
+    <header class="main-header">
             <div class="logo">
                 <a href="index.php">FORJA</a>
             </div>
@@ -41,10 +41,10 @@
                     <li><a href="trainers.php">Trainers</a></li>
                     <li><a href="equipment.php">Equipamentos</a></li>
                     <li><a href="nutrition.php">Nutrição</a></li>
-                    <?php if ($user['role'] === 'admin') { ?>
+                    <?php if ($user && isset($user['role']) && $user['role'] === 'admin') { ?>
                     <li><a href="admin.php">Admin</a></li>
                     <?php } ?>
-                    <?php if ($user['role'] === 'trainer') { ?>
+                    <?php if ($user && isset($user['role']) && $user['role'] === 'trainer') { ?>
                     <li><a href="create_class.php">Criar</a></li>
                     <?php } ?>
                 </ul>
@@ -53,10 +53,8 @@
                 <?php if ($user): ?>
                     <a href="profile.php" class="profile-btn">
                         <?php 
-                            
                             $initial = strtoupper(substr($user['name'], 0, 1));
                             $fallback = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><circle cx=%2220%22 cy=%2220%22 r=%2220%22 fill=%22%23f27a38%22/><text x=%2220%22 y=%2226%22 text-anchor=%22middle%22 font-size=%2218%22 fill=%22white%22 font-family=%22Arial%22>{$initial}</text></svg>";
-                            
                             
                             $photo_src = (!empty($user['photo']) && strpos($user['photo'], 'data:image') === false) 
                                          ? "../imgs/" . htmlspecialchars($user['photo']) 

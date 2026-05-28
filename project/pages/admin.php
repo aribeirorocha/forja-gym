@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && isset($_
     $id = intval($_POST['id']);
     if( $action === 'delete_user')
         User::deleteUser($db, $id);
-    if( $action === 'delete_equipment');
+    if( $action === 'delete_equipment')
         deleteEquipment($db, $id);
 }
 

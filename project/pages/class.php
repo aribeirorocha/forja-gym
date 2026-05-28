@@ -19,7 +19,12 @@ if (!$class) {
     header('Location: classes.php');
     exit;
 }
-
+if ($class->session === null) {
+    output_header();
+    echo "<p class='form-error'>Esta aula não tem nenhuma sessão agendada de momento.</p>";
+    output_footer();
+    exit;
+}
 $hasEnrollment = $user && ClassSession::hasEnrollment($db, $user['id'], $class->session->id);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating'])) {
