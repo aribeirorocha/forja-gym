@@ -233,7 +233,7 @@ require_once('../database/gym_class.php');
     <main class="profile-page-wrapper">
         <article class="profile-login-card" style="position: relative;">
 
-            <!-- PALAVRA ELIMINAR: Adicionada de forma fixa e sublinhada no canto superior esquerdo interno -->
+           
             <?php if ($canEdit): ?>
                 <button type="button" id="delete-class-detail-btn" data-class-id="<?= $class->id ?>"
                         style="position: absolute; top: 20px; left: 25px; background: none; border: none; color: #e63946; font-weight: 700; font-size: 0.9rem; text-decoration: underline; cursor: pointer; z-index: 10; padding: 0;">

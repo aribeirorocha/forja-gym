@@ -7,15 +7,15 @@ BEGIN TRANSACTION;
 -- 1. UTILIZADORES E TREINADORES (PASSWORD SIMPLES)
 -- ==========================================
 INSERT INTO user (id, username, name, email, password, photo, role, age) VALUES 
-(1, 'anasilva', 'Ana Silva', 'anasilva@gmail.com', '1234', 'trainer1.jpg', 'trainer', 31),
-(2, 'joaocosta', 'João Costa', 'joaocosta@gmail.com', '1234', 'trainer2.jpg', 'trainer', 32),
-(3, 'mariofernandes', 'Mário Fernandes', 'mariofernandes@gmail.com', '1234', 'trainer3.jpg', 'trainer', 33),
-(4, 'ruibarbosa', 'Rui Barbosa', 'ruibarbosa@gmail.com', '1234', 'trainer6.jpg', 'trainer', 34),
-(5, 'nunomendes', 'Nuno Mendes', 'nunomendes@gmail.com', '1234', 'trainer4.jpg', 'trainer', 35),
-(6, 'rafaelleao', 'Rafael Leão', 'rafaelleao@gmail.com', '1234', 'trainer5.jpg', 'trainer', 36),
-(9, 'martagomes', 'Marta Gomes', 'martagomes@gmail.com', '1234', 'trainer7.jpg', 'trainer', 28),
-(10, 'tiagosilva', 'Tiago Silva', 'tiagosilva@gmail.com', '1234', 'trainer8.jpg', 'trainer', 41),
-(11, 'sofiaalmeida', 'Sofia Almeida', 'sofia@gmail.com', '1234', 'trainer9.jpg', 'trainer', 26);
+(1, 'anasilva', 'Ana Silva', 'anasilvatrainer@gmail.com', '1234', 'trainer1.jpg', 'trainer', 31),
+(2, 'joaocosta', 'João Costa', 'joaocostatrainer@gmail.com', '1234', 'trainer2.jpg', 'trainer', 32),
+(3, 'mariofernandes', 'Mário Fernandes', 'mariofernandestrainer@gmail.com', '1234', 'trainer3.jpg', 'trainer', 33),
+(4, 'ruibarbosa', 'Rui Barbosa', 'ruibarbosatrainer@gmail.com', '1234', 'trainer6.jpg', 'trainer', 34),
+(5, 'nunomendes', 'Nuno Mendes', 'nunomendestrainer@gmail.com', '1234', 'trainer4.jpg', 'trainer', 35),
+(6, 'rafaelleao', 'Rafael Leão', 'rafaelleaotrainer@gmail.com', '1234', 'trainer5.jpg', 'trainer', 36),
+(9, 'martagomes', 'Marta Gomes', 'martagomestrainer@gmail.com', '1234', 'trainer7.jpg', 'trainer', 28),
+(10, 'tiagosilva', 'Tiago Silva', 'tiagosilvatrainer@gmail.com', '1234', 'trainer8.jpg', 'trainer', 41),
+(11, 'sofiaalmeida', 'Sofia Almeida', 'sofiatrainer@gmail.com', '1234', 'trainer9.jpg', 'trainer', 26);
 
 INSERT INTO trainer_profile (id_user, sex, formation, certification, specialization, location) VALUES 
 (1, 'feminino', 'Licenciatura em Ciências do Desporto – FADEUP', 'Yoga Alliance RYT-200, STOTT Pilates', 'Yoga,Pilates', 'Porto, Portugal'),
@@ -54,11 +54,11 @@ INSERT INTO class_session (id, id_class, session_datetime, status) VALUES
 -- 3. NUTRICIONISTAS
 -- ==========================================
 INSERT INTO user (id, username, name, email, password, photo, role) VALUES 
-(7, 'nutri_ana', 'Dra. Ana Silva', 'ana@nutri.pt', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'nutritionist.jpg', 'nutritionist'),
-(8, 'nutri_pedro', 'Dr. Pedro Rocha', 'pedro@nutri.pt', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'nutri_pedro.jpg', 'nutritionist');
+(7, 'nutri_ana', 'Dra. Ana Silva', 'ananutri@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'nutritionist.jpg', 'nutritionist'),
+(8, 'nutri_pedro', 'Dr. Pedro Rocha', 'pedronutri@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'nutri_pedro.jpg', 'nutritionist');
 
 INSERT INTO nutritionist_profile (id_user, specialization, license_number) VALUES 
-(7, 'Nutrição Desportiva', 'ORDEM-$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.5'),
+(7, 'Nutrição Desportiva', 'ORDEM-455567'),
 (8, 'Nutrição Clínica e Funcional', 'ORDEM-99887');
 
 
