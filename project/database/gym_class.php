@@ -36,7 +36,11 @@ class GymClass {
 
     static function getClasses(PDO $db, int $count) : array
     {
-        $stmt = $db->prepare('SELECT id, name, type, duration_minutes, id_trainer, capacity, local, active FROM class LIMIT ?');
+       
+        $stmt = $db->prepare('SELECT id, name, type, duration_minutes, id_trainer, capacity, local, active 
+                              FROM class 
+                              ORDER BY id DESC 
+                              LIMIT ?');
 
         $stmt->execute(array($count));
 

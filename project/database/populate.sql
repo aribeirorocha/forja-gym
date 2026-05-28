@@ -3,16 +3,19 @@ BEGIN TRANSACTION;
 -- ==========================================
 -- 1. UTILIZADORES E TREINADORES
 -- ==========================================
+-- ==========================================
+-- 1. UTILIZADORES E TREINADORES (PASSWORD SIMPLES)
+-- ==========================================
 INSERT INTO user (id, username, name, email, password, photo, role, age) VALUES 
-(1, 'anasilva', 'Ana Silva', 'anasilva@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer1.jpg', 'trainer', 31),
-(2, 'joaocosta', 'João Costa', 'joaocosta@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer2.jpg', 'trainer', 32),
-(3, 'mariofernandes', 'Mário Fernandes', 'mariofernandes@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer3.jpg', 'trainer', 33),
-(4, 'ruibarbosa', 'Rui Barbosa', 'ruibarbosa@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer6.jpg', 'trainer', 34),
-(5, 'nunomendes', 'Nuno Mendes', 'nunomendes@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer4.jpg', 'trainer', 35),
-(6, 'rafaelleao', 'Rafael Leão', 'rafaelleao@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer5.jpg', 'trainer', 36),
-(9, 'martagomes', 'Marta Gomes', 'martagomes@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer7.jpg', 'trainer', 28),
-(10, 'tiagosilva', 'Tiago Silva', 'tiagosilva@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer8.jpg', 'trainer', 41),
-(11, 'sofiaalmeida', 'Sofia Almeida', 'sofia@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'trainer9.jpg', 'trainer', 26);
+(1, 'anasilva', 'Ana Silva', 'anasilva@gmail.com', '1234', 'trainer1.jpg', 'trainer', 31),
+(2, 'joaocosta', 'João Costa', 'joaocosta@gmail.com', '1234', 'trainer2.jpg', 'trainer', 32),
+(3, 'mariofernandes', 'Mário Fernandes', 'mariofernandes@gmail.com', '1234', 'trainer3.jpg', 'trainer', 33),
+(4, 'ruibarbosa', 'Rui Barbosa', 'ruibarbosa@gmail.com', '1234', 'trainer6.jpg', 'trainer', 34),
+(5, 'nunomendes', 'Nuno Mendes', 'nunomendes@gmail.com', '1234', 'trainer4.jpg', 'trainer', 35),
+(6, 'rafaelleao', 'Rafael Leão', 'rafaelleao@gmail.com', '1234', 'trainer5.jpg', 'trainer', 36),
+(9, 'martagomes', 'Marta Gomes', 'martagomes@gmail.com', '1234', 'trainer7.jpg', 'trainer', 28),
+(10, 'tiagosilva', 'Tiago Silva', 'tiagosilva@gmail.com', '1234', 'trainer8.jpg', 'trainer', 41),
+(11, 'sofiaalmeida', 'Sofia Almeida', 'sofia@gmail.com', '1234', 'trainer9.jpg', 'trainer', 26);
 
 INSERT INTO trainer_profile (id_user, sex, formation, certification, specialization, location) VALUES 
 (1, 'feminino', 'Licenciatura em Ciências do Desporto – FADEUP', 'Yoga Alliance RYT-200, STOTT Pilates', 'Yoga,Pilates', 'Porto, Portugal'),

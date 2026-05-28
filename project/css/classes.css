@@ -190,3 +190,168 @@
     margin-top: 25px; /* Empurra o botão para baixo */
     display: inline-block; /* Necessário para o margin-top funcionar bem num link */
 }
+
+/* ==========================================================================
+   Controlo do Pop-up (Modal) de Criar Aula
+   ========================================================================== */
+
+   .add-class-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+/* O Card do Pop-up: Travado em 360px para não ficar gigante no ecrã */
+.profile-login-card.modal-card {
+    width: 360px !important;
+    max-width: 360px !important;
+    height: auto !important;
+    min-height: unset !important;
+    max-height: unset !important;
+    display: block !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    animation: modalSlideUp 0.3s ease !important;
+    text-align: center !important;
+    padding: 25px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+    background-color: #ffffff !important;
+    box-sizing: border-box !important;
+    float: none !important;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-modal-btn:hover {
+    color: var(--orange);
+}
+
+.modal-specialty {
+    margin-bottom: 5px !important;
+    font-weight: 700 !important;
+    color: var(--orange) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    font-size: 0.8rem !important;
+    text-align: center !important;
+}
+
+.modal-form {
+    text-align: left !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+.modal-title-container {
+    margin-bottom: 20px !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+/* Input do Título da Aula */
+.modal-input-title {
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    border: none !important;
+    border-bottom: 2px solid var(--gray-border) !important;
+    width: 100% !important;
+    padding: 4px !important;
+    color: var(--text-main) !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.modal-details-list {
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    display: block !important;
+    height: auto !important;
+    min-height: unset !important;
+}
+
+.modal-detail-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 8px 0 !important;
+    border-bottom: 1px solid var(--gray-bg) !important;
+    width: 100% !important;
+    float: none !important;
+}
+
+.modal-label {
+    font-size: 0.85rem !important;
+    color: var(--text-muted) !important;
+}
+
+/* OS RETÂNGULOS: Travados em 150px de largura e com cores cinzentas uniformes */
+.modal-input-compact,
+.modal-select-compact {
+    padding: 6px 10px !important;
+    border: 1px solid var(--gray-border) !important;
+    border-radius: 6px !important;
+    width: 150px !important;
+    box-sizing: border-box !important;
+    font-family: inherit !important;
+    font-size: 0.85rem !important;
+    color: var(--text-main) !important;
+    background: #ffffff !important;
+}
+
+.modal-input-group {
+    width: 150px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    box-sizing: border-box !important;
+}
+
+.modal-input-field {
+    padding: 6px 10px !important;
+    border: 1px solid var(--gray-border) !important;
+    border-radius: 6px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 0.85rem !important;
+    color: var(--text-main) !important;
+    background: #ffffff !important;
+}
+
+.modal-unit {
+    color: var(--text-muted) !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+}
+
+.modal-submit-btn {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    font-size: 0.9rem !important;
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
