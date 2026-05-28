@@ -393,3 +393,315 @@ details[open] > .card-summary {
     .weight-table th:nth-child(4),
     .weight-table td:nth-child(4) { display: none; } /* esconde notas no mobile */
 }
+/* ── Adicionar ao ficheiro css/profile.css ─────────────────────────────────── */
+ 
+/* ── Adicionar ao ficheiro css/profile.css ─────────────────────────────────── */
+
+/* Badge de Trainer */
+.badge-trainer {
+    background-color: #fff0e6;
+    color: var(--orange);
+    border: 1px solid #ffd4b2;
+}
+
+/* Especialização na sidebar */
+.trainer-specialization {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* ── Estrelas na sidebar ── */
+.sidebar-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+}
+
+.sidebar-rating-stars {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}
+
+.sidebar-rating-stars .star-filled { color: var(--orange); }
+.sidebar-rating-stars .star-empty  { color: var(--gray-border); }
+
+.sidebar-rating-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.sidebar-rating-text span {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* ── Horário da aula ── */
+.trainer-class-schedule {
+    font-size: 0.78rem;
+    color: var(--orange);
+    font-weight: 600;
+}
+
+.trainer-class-no-session {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* ── Lista de Aulas do Trainer ── */
+.trainer-classes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.trainer-class-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--gray-bg);
+    gap: 12px;
+}
+
+.trainer-class-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.trainer-class-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.trainer-class-meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.trainer-class-type {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--orange);
+    background-color: #fff0e6;
+    border: 1px solid #ffd4b2;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* ── Avaliações — cabeçalho do summary ── */
+.card-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.trainer-rating-inline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.trainer-rating-inline .star-icon {
+    color: var(--orange);
+}
+
+.review-count-inline {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 0.82rem;
+}
+
+/* ── Bloco de resumo da rating ── */
+.trainer-rating-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background-color: var(--gray-bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-border);
+    margin-bottom: 4px;
+}
+
+.trainer-rating-big {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1;
+}
+
+.trainer-rating-stars-big {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.trainer-rating-stars-big .star-filled {
+    color: var(--orange);
+}
+
+.trainer-rating-stars-big span:not(.trainer-rating-total) {
+    font-size: 1.2rem;
+    color: var(--gray-border);
+    letter-spacing: 2px;
+}
+
+.trainer-rating-total {
+    font-size: 0.82rem !important;
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    letter-spacing: 0 !important;
+}
+
+/* ── Pedidos de PT ── */
+.pt-pending-badge {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.pt-group-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 20px 0 10px;
+    font-weight: 700;
+}
+
+.pt-group-pendente  { color: #856404; }
+.pt-group-confirmado { color: #2e7d32; }
+.pt-group-cancelado  { color: var(--text-muted); }
+
+.pt-bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pt-booking-card {
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    background-color: var(--gray-bg);
+}
+
+.pt-status-pendente   { border-left: 3px solid #f0ad4e; }
+.pt-status-confirmado { border-left: 3px solid #2e7d32; }
+.pt-status-cancelado  { border-left: 3px solid var(--gray-border); opacity: 0.7; }
+
+.pt-booking-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.pt-booking-who {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pt-booking-photo {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--gray-border);
+    flex-shrink: 0;
+}
+
+.pt-booking-name {
+    display: block;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.pt-booking-datetime {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.pt-status-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.pt-status-tag-pendente   { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+.pt-status-tag-confirmado { background-color: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+.pt-status-tag-cancelado  { background-color: var(--gray-bg); color: var(--text-muted); border: 1px solid var(--gray-border); }
+
+.pt-booking-notes {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin: 6px 0 8px;
+    font-style: italic;
+}
+
+.pt-booking-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.pt-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.pt-btn-confirm {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.pt-btn-confirm:hover {
+    background-color: #2e7d32;
+    color: #fff;
+}
+
+.pt-btn-cancel {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.pt-btn-cancel:hover {
+    background-color: #c62828;
+    color: #fff;
+}
