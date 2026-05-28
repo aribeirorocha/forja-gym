@@ -30,7 +30,7 @@
         <script type="text/javascript" src="../js/script.js" defer></script>
     </head>
     <body>
-    <header class="main-header">
+        <header class="main-header">
             <div class="logo">
                 <a href="index.php">FORJA</a>
             </div>
@@ -43,9 +43,6 @@
                     <li><a href="nutrition.php">Nutrição</a></li>
                     <?php if ($user && isset($user['role']) && $user['role'] === 'admin') { ?>
                     <li><a href="admin.php">Admin</a></li>
-                    <?php } ?>
-                    <?php if ($user && isset($user['role']) && $user['role'] === 'trainer') { ?>
-                    <li><a href="create_class.php">Criar</a></li>
                     <?php } ?>
                 </ul>
             </nav>

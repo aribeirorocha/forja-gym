@@ -30,8 +30,24 @@ class UserAuth
 
         if (!$row) return null;
 
-        $valid = password_verify($password, $row['password']);
-
+        // 1. Detetar se o que está na BD é um hash seguro ou texto limpo ('1234')
+        $valid = false;
+        if (strpos($row['password'], '$2y$') === 0 || strpos($row['password'], '$2a$') === 0) {
+            // Se for um hash válido, usamos a verificação criptográfica padrão
+            $valid = password_verify($password, $row['password']);
+        } else {
+            // Se for texto limpo (visto do teu populate), comparamos diretamente
+            $valid = ($password === $row['password']);
+            
+            // [Bónus de Boas Práticas]: Se estiver correto, encriptamos e atualizamos 
+            // logo na BD para que a conta fique segura no próximo login!
+            if ($valid) {
+                $newHash = password_hash($password, PASSWORD_DEFAULT);
+                $updateStmt = $db->prepare('UPDATE user SET password = ? WHERE id = ?');
+                $updateStmt->execute([$newHash, $row['id']]);
+                $row['password'] = $newHash;
+            }
+        }
         if (!$valid) return null;
 
         // 2. Adicionei os 2 argumentos que faltavam aqui (o Date e o Age)

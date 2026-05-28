@@ -11,7 +11,7 @@ $db = getDatabaseConnection();
 $user = UserAuth::currentUser(); // Retorna array se logado, null se não
 
 // Buscar dados comuns
-$classes = GymClass::getClasses($db, 6);
+$classes = GymClass::getClasses($db, 24);
 
 // ...
 output_header();

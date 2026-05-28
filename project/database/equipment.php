@@ -22,4 +22,9 @@ function deleteEquipment(PDO $db, int $id) {
     $stmt->execute(array($id));
 
 }
+function updateEquipmentStatus(PDO $db, int $id, string $status): void {
+    $stmt = $db->prepare('UPDATE equipment SET status = ? WHERE id = ?');
+    $stmt->execute([$status, $id]);
+}
+ 
 ?>

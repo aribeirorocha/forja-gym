@@ -87,6 +87,7 @@ function output_member_equipment(array $equipments): void {
                     <img src="<?= $photo_src ?>" alt="<?= htmlspecialchars($eq['name']) ?>" class="equipment-photo">
                     <h3 class="equipment-name"><?= htmlspecialchars($eq['name']) ?></h3>
                     
+                    
                     <a href="equipment_info.php?id=<?= $eq['id'] ?>" class="btn-text btn-equipment-bottom">Mais informações</a>
                     
                 </article>
