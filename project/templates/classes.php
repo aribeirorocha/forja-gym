@@ -29,6 +29,7 @@ require_once('../database/gym_class.php');
 <?php function output_classes(array $classes, bool $isLoggedIn) { 
     $user = UserAuth::currentUser();
     $isTrainer = ($user && isset($user['role']) && $user['role'] === 'trainer');
+    $isAdmin   = ($user && isset($user['role']) && $user['role'] === 'admin');
 
     $trainers_list = [];
     $types_list = [];
@@ -53,24 +54,24 @@ require_once('../database/gym_class.php');
         
         <div class="filters-bar">
             <select id="filter-type" class="filter-select">
-                <option value="all">🧘‍♀️ Todos os Tipos</option>
+                <option value="all">Todos os Tipos</option>
                 <?php foreach($unique_types as $type): ?>
                     <option value="<?= htmlspecialchars($type) ?>"><?= htmlspecialchars($type) ?></option>
                 <?php endforeach; ?>
             </select>
 
             <select id="filter-trainer" class="filter-select">
-                <option value="all">🏋️ Todos os Trainers</option>
+                <option value="all">Todos os Trainers</option>
                 <?php foreach($unique_trainers as $trainer): ?>
                     <option value="<?= htmlspecialchars($trainer) ?>"><?= htmlspecialchars($trainer) ?></option>
                 <?php endforeach; ?>
             </select>
 
             <select id="filter-period" class="filter-select">
-                <option value="all">🕒 Qualquer Horário</option>
-                <option value="Manhã">🌅 Manhã (antes das 13h)</option>
-                <option value="Tarde">☀️ Tarde (13h às 18h)</option>
-                <option value="Noite">🌙 Noite (após as 19h)</option>
+                <option value="all">Qualquer Horário</option>
+                <option value="Manhã">Manhã (antes das 13h)</option>
+                <option value="Tarde">Tarde (13h às 18h)</option>
+                <option value="Noite">Noite (após as 19h)</option>
             </select>
         </div>
 
@@ -78,7 +79,7 @@ require_once('../database/gym_class.php');
             <?php foreach ($classes as $class): 
                 if ($class->session === null) {
                     $periodo = 'all';
-                    $tempo_texto = '🗓️ Horário não definido';
+                    $tempo_texto = 'Horário não definido';
                 } else {
                     $hora = (int)$class->session->datetime->format('H');
                     if ($hora < 13) {
@@ -105,6 +106,12 @@ require_once('../database/gym_class.php');
                         <div style="margin-top: 20px;">
                             <a href="class.php?id=<?= $class->id ?>" class="btn-text" style="display: block; text-align: center;">Ver detalhes</a>
                         </div>
+                        <?php if ($isAdmin): ?>
+                        <button type="button" class="admin-delete-class" data-id="<?= $class->id ?>"
+                                style="margin-top:10px;width:100%;background:none;border:1px solid #e53e3e;color:#e53e3e;padding:7px 0;border-radius:20px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all .2s;">
+                            Remover
+                        </button>
+                        <?php endif; ?>
                     </div>
                 </article>
             <?php endforeach; ?>
@@ -218,6 +225,26 @@ require_once('../database/gym_class.php');
             }
         });
         </script>
+    <?php endif; ?>
+
+    <!-- Remover aula (admin) -->
+    <?php if ($isAdmin): ?>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.admin-delete-class').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                if (!confirm('Remover esta aula permanentemente?')) return;
+                const id   = this.dataset.id;
+                const card = this.closest('article');
+                fetch('admin.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'action=delete_class&id=' + encodeURIComponent(id)
+                }).then(r => { if (r.ok) card.remove(); else alert('Erro ao remover aula.'); });
+            });
+        });
+    });
+    </script>
     <?php endif; ?>
 <?php } ?>
 

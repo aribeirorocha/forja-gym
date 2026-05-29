@@ -1,32 +1,27 @@
 <?php
 declare(strict_types=1);
 
-
 require_once('../templates/common.php');
 require_once('../templates/equipment.php');
 require_once('../database/connection.php');
 require_once('../database/user_auth.php');
 require_once('../database/equipment.php');
 
-
 $db = getDatabaseConnection();
-$user = UserAuth::currentUser(); 
-
+$user = UserAuth::currentUser();
 
 $equipments = getEquipments($db);
 
+$is_admin = $user && ($user['role'] ?? '') === 'admin';
 
 output_header();
 
-
 if ($user) {
-
-    output_member_equipment($equipments);
+    output_member_equipment($equipments, $is_admin);
 } else {
-
-    output_public_equipment($equipments);
+    output_public_equipment($equipments, $is_admin);
 }
-?> 
+?>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const filterLocation = document.getElementById('filter-location');
@@ -35,34 +30,39 @@ document.addEventListener("DOMContentLoaded", function() {
     const allCards = document.querySelectorAll('.equipment-card');
 
     function applyFilters() {
-        const valLocation = filterLocation.value;
-        const valMuscle = filterMuscle.value;
-        const valStatus = filterStatus.value;
+        const valLocation = filterLocation ? filterLocation.value : 'all';
+        const valMuscle   = filterMuscle   ? filterMuscle.value   : 'all';
+        const valStatus   = filterStatus   ? filterStatus.value   : 'all';
 
         allCards.forEach(card => {
-            const cardLocation = card.getAttribute('data-location');
-            const cardMuscle = card.getAttribute('data-muscle');
-            const cardStatus = card.getAttribute('data-status');
+            const matchLocation = (valLocation === 'all' || card.getAttribute('data-location') === valLocation);
+            const matchMuscle   = (valMuscle   === 'all' || card.getAttribute('data-muscle')   === valMuscle);
+            const matchStatus   = (valStatus   === 'all' || card.getAttribute('data-status')   === valStatus);
 
-            const matchLocation = (valLocation === 'all' || cardLocation === valLocation);
-            const matchMuscle = (valMuscle === 'all' || cardMuscle === valMuscle);
-            const matchStatus = (valStatus === 'all' || cardStatus === valStatus);
-
-            if (matchLocation && matchMuscle && matchStatus) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
+            card.style.display = (matchLocation && matchMuscle && matchStatus) ? 'flex' : 'none';
         });
     }
 
-    filterLocation.addEventListener('change', applyFilters);
-    filterMuscle.addEventListener('change', applyFilters);
-    filterStatus.addEventListener('change', applyFilters);
+    if (filterLocation) filterLocation.addEventListener('change', applyFilters);
+    if (filterMuscle)   filterMuscle.addEventListener('change', applyFilters);
+    if (filterStatus)   filterStatus.addEventListener('change', applyFilters);
+
+    // Botões "Remover" equipamento (admin)
+    document.querySelectorAll('.admin-delete-equipment').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            if (!confirm('Remover este equipamento permanentemente?')) return;
+            const id   = this.dataset.id;
+            const card = this.closest('article');
+            fetch('admin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=delete_equipment&id=' + encodeURIComponent(id)
+            }).then(r => { if (r.ok) card.remove(); else alert('Erro ao remover equipamento.'); });
+        });
+    });
 });
 </script>
 
-<?php 
-
+<?php
 output_footer();
 ?>

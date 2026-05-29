@@ -1,6 +1,7 @@
 <?php function output_profile(array $user, array $weight_log = [], string $success_msg = '', string $error_msg = '', array $trainer_classes = [], array $trainer_reviews = [], array $trainer_review_stats = [], array $pt_bookings = [], array $trainers_list = []) {
 
 $is_trainer = ($user['role'] ?? '') === 'trainer';
+$is_admin   = ($user['role'] ?? '') === 'admin';
 
 // ── Dados comuns ──────────────────────────────────────────────────────────────
 $created_at   = $user['created_at'] ?? '';
@@ -16,7 +17,7 @@ $avatar_fallback = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%
 $photo_path      = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['photo']) : "../imgs/default-avatar.png";
 
 // ── Dados só para members ─────────────────────────────────────────────────────
-if (!$is_trainer) {
+if (!$is_trainer && !$is_admin) {
     $membership        = $user['membership'] ?? 'basico';
     $membership_labels = ['basico' => 'Básico', 'normal' => 'Normal', 'vip' => 'VIP'];
     $membership_label  = $membership_labels[$membership] ?? ucfirst($membership);
@@ -67,7 +68,9 @@ if ($is_trainer) {
         <h2><?= htmlspecialchars($user['name']) ?></h2>
         <p class="profile-at">@<?= htmlspecialchars($user['username']) ?></p>
 
-        <?php if ($is_trainer): ?>
+        <?php if ($is_admin): ?>
+            <span class="badge" style="background:#1d1d1f;color:#fff;">Admin</span>
+        <?php elseif ($is_trainer): ?>
             <span class="badge badge-trainer">Trainer</span>
             <?php if ($specialization): ?>
                 <p class="trainer-specialization"><?= htmlspecialchars($specialization) ?></p>
@@ -94,7 +97,7 @@ if ($is_trainer) {
 
         <?php if ($member_since): ?>
             <p class="member-since">
-                <?= $is_trainer ? 'Treinador desde' : 'Membro desde' ?><br>
+                <?= $is_admin ? 'Administrador desde' : ($is_trainer ? 'Treinador desde' : 'Membro desde') ?><br>
                 <?= $member_since ?>
             </p>
         <?php endif; ?>
@@ -112,7 +115,58 @@ if ($is_trainer) {
             <div class="alert alert-error"><?= htmlspecialchars($error_msg) ?></div>
         <?php endif; ?>
 
-        <?php if ($is_trainer): ?>
+        <?php if ($is_admin): ?>
+        <!-- ════════════════════════════════════════════════════════════════
+             SECÇÕES EXCLUSIVAS DO ADMIN
+             ════════════════════════════════════════════════════════════════ -->
+
+        <!-- Dados Pessoais -->
+        <details class="profile-card profile-details" open>
+            <summary class="card-title card-summary">Dados Pessoais</summary>
+            <form action="profile.php" method="post" class="details-body">
+                <input type="hidden" name="action" value="update_details">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Nome Completo</label>
+                        <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-save">Guardar Alterações</button>
+            </form>
+        </details>
+
+        <!-- Segurança -->
+        <details class="profile-card profile-details">
+            <summary class="card-title card-summary">Segurança</summary>
+            <form action="profile.php" method="post" class="details-body">
+                <input type="hidden" name="action" value="update_password">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Password Atual</label>
+                        <input type="password" name="current_password" placeholder="Necessário para alterar">
+                    </div>
+                    <div class="form-group">
+                        <label>Nova Password</label>
+                        <input type="password" name="new_password" minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Nova Password</label>
+                        <input type="password" name="confirm_password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-save">Atualizar Password</button>
+            </form>
+        </details>
+
+        <?php elseif ($is_trainer): ?>
         <!-- ════════════════════════════════════════════════════════════════
              SECÇÕES EXCLUSIVAS DO TRAINER
              ════════════════════════════════════════════════════════════════ -->
@@ -600,7 +654,7 @@ if ($is_trainer) {
             </div>
         </details>
 
-        <?php endif; // fim is_trainer ?>
+        <?php endif; // fim is_admin / is_trainer ?>
 
     </section>
 </div>
