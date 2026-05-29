@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $new_membership = $_POST['membership'];
         $target_id = intval($_POST['user_id']);
         if (in_array($new_membership, $allowed)) {
-            $stmt = $db->prepare('UPDATE user SET membership = ? WHERE id = ? AND role = 'member'');
+            $stmt = $db->prepare("UPDATE user SET membership = ? WHERE id = ? AND role = 'member'");
             $stmt->execute([$new_membership, $target_id]);
         }
         header('Location: admin.php?tab=users');

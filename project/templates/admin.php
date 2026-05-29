@@ -64,13 +64,13 @@
                         <th>Username</th>
                         <th>Nome</th>
                         <th>Função</th>
+                        <th>Membership</th>
                         <th>Email</th>
-                        <th>Remover</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($users as $user) {
-                        output_user_row($user->id, $user->createdAt->format('Y/m/d, H:i'), $user->username, $user->name, $user->role, $user->email);
+                        output_user_row($user->id, $user->createdAt->format('Y/m/d, H:i'), $user->username, $user->name, $user->role, $user->email, $user->membership ?? 'basico');
                     } ?>
                 </tbody>
             </table>
@@ -560,7 +560,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <?php } ?>
 
-<?php function output_user_row(int $id, string $join_date, string $username, string $display_name, string $role, string $email) { ?>
+<?php function output_user_row(int $id, string $join_date, string $username, string $display_name, string $role, string $email, string $membership = 'basico') { ?>
     <tr>
         <td><?= htmlspecialchars($join_date) ?></td>
         <td class="admin-user">@<?= htmlspecialchars($username) ?></td>
@@ -575,7 +575,19 @@ document.addEventListener('DOMContentLoaded', function () {
         </td>
         <td class="admin-email"><?= htmlspecialchars($email) ?></td>
         <td>
-            <button type="button" class="delete-user-btn btn-delete" data-user-id="<?= $id ?>">X</button>
+            <?php if ($role === 'member'): ?>
+            <form method="post" action="admin.php" style="margin:0;">
+                <input type="hidden" name="action" value="update_user_membership">
+                <input type="hidden" name="user_id" value="<?= $id ?>">
+                <select name="membership" class="role-select" onchange="this.form.submit()" style="min-width:90px;">
+                    <option value="basico" <?= $membership === 'basico' ? 'selected' : '' ?>>Básico</option>
+                    <option value="normal" <?= $membership === 'normal' ? 'selected' : '' ?>>Normal</option>
+                    <option value="vip"    <?= $membership === 'vip'    ? 'selected' : '' ?>>VIP</option>
+                </select>
+            </form>
+            <?php else: ?>
+                <span style="color:var(--text-muted);font-size:0.8rem;">—</span>
+            <?php endif; ?>
         </td>
     </tr>
 <?php } ?>
