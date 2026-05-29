@@ -13,12 +13,14 @@ $user = UserAuth::currentUser();
 $nutritionists = getNutritionists($db);
 $plan = $user ? getNutritionPlan($db, $user['id']) : null;
 
+$is_admin = $user && ($user['role'] ?? '') === 'admin';
+
 output_header();
 
 if ($user) {
-    output_member_nutrition_view($plan, $nutritionists);
+    output_member_nutrition_view($plan, $nutritionists, $is_admin);
 } else {
-    output_public_nutritionists($nutritionists);
+    output_public_nutritionists($nutritionists, $is_admin);
 }
 
 output_footer();

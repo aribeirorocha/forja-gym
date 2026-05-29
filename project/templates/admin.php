@@ -1,6 +1,6 @@
 <?php require_once('../database/user.php') ?>
 
-<?php function output_admin_panel(array $users, int $page, string $username, array $all_classes = [], array $all_trainers = [], array $all_nutritionists = [], array $all_pt_bookings = []) { ?>
+<?php function output_admin_panel(array $users, int $page, string $username, array $all_classes = [], array $all_trainers = [], array $all_nutritionists = [], array $all_pt_bookings = [], array $stats = []) { ?>
 
 <section class="admin-dashboard">
     <header class="admin-header">
@@ -11,12 +11,13 @@
 
     <!-- ══ TABS ══ -->
     <div class="admin-tabs">
-        <button class="admin-tab active" data-tab="users">👥 Utilizadores</button>
-        <button class="admin-tab" data-tab="classes">📅 Aulas</button>
-        <button class="admin-tab" data-tab="trainers">🏋️ Trainers</button>
-        <button class="admin-tab" data-tab="nutritionists">🥗 Nutricionistas</button>
-        <button class="admin-tab" data-tab="pt">💪 Sessões PT</button>
-        <button class="admin-tab" data-tab="equipment">🔧 Equipamentos</button>
+        <button class="admin-tab active" data-tab="users">Utilizadores</button>
+        <button class="admin-tab" data-tab="classes">Aulas</button>
+        <button class="admin-tab" data-tab="trainers">Trainers</button>
+        <button class="admin-tab" data-tab="nutritionists">Nutricionistas</button>
+        <button class="admin-tab" data-tab="pt">Sessões PT</button>
+        <button class="admin-tab" data-tab="equipment">Equipamentos</button>
+        <button class="admin-tab" data-tab="stats">Estatísticas</button>
     </div>
 
     <!-- ══ TAB: UTILIZADORES ══ -->
@@ -94,6 +95,7 @@
                         <th>Capacidade</th>
                         <th>Local</th>
                         <th>Estado</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,6 +108,9 @@
                         <td><?= $c['enrolled'] ?? 0 ?>/<?= $c['capacity'] ?></td>
                         <td><?= htmlspecialchars($c['local']) ?></td>
                         <td><span class="<?= $c['active'] ? 'status-active' : 'status-inactive' ?>"><?= $c['active'] ? 'Ativa' : 'Inativa' ?></span></td>
+                        <td>
+                            <button type="button" class="admin-delete-class btn-delete" data-id="<?= $c['id'] ?>">Remover</button>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -148,7 +153,7 @@
                         <td><?= htmlspecialchars($t['location'] ?? '—') ?></td>
                         <td><?= $t['class_count'] ?? 0 ?></td>
                         <td>
-                            <button type="button" class="delete-user-btn btn-delete" data-user-id="<?= $t['id'] ?>">X</button>
+                            <button type="button" class="delete-user-btn btn-delete" data-user-id="<?= $t['id'] ?>">Remover</button>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -160,7 +165,10 @@
 
     <!-- ══ TAB: NUTRICIONISTAS ══ -->
     <section class="admin-tab-content profile-card" id="tab-nutritionists">
-        <h2 class="card-title">Nutricionistas</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+            <h2 class="card-title" style="margin:0;">Nutricionistas</h2>
+            <button type="button" class="btn-save" id="trigger-add-nutritionist-admin">+ Adicionar Nutricionista</button>
+        </div>
         <?php if (empty($all_nutritionists)): ?>
             <p class="weight-hint">Não há nutricionistas registados.</p>
         <?php else: ?>
@@ -187,7 +195,7 @@
                         <td><?= htmlspecialchars($n['specialization'] ?? '—') ?></td>
                         <td><?= htmlspecialchars($n['license_number'] ?? '—') ?></td>
                         <td>
-                            <button type="button" class="delete-user-btn btn-delete" data-user-id="<?= $n['id'] ?>">X</button>
+                            <button type="button" class="delete-user-btn btn-delete" data-user-id="<?= $n['id'] ?>">Remover</button>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -270,6 +278,146 @@
                 </div>
             </article>
         </div>
+    </section>
+
+    <!-- ══ TAB: ESTATÍSTICAS ══ -->
+    <section class="admin-tab-content profile-card" id="tab-stats">
+        <h2 class="card-title">Estatísticas do Ginásio</h2>
+
+        <?php
+        $s_members        = $stats['total_members']        ?? 0;
+        $s_trainers       = $stats['total_trainers']       ?? 0;
+        $s_nutritionists  = $stats['total_nutritionists']  ?? 0;
+        $s_avg_age        = $stats['avg_age']              ?? 0;
+        $s_eq_avail       = $stats['equipment_available']  ?? 0;
+        $s_eq_maint       = $stats['equipment_maintenance']?? 0;
+        $s_mem_basico     = $stats['membership_basico']    ?? 0;
+        $s_mem_normal     = $stats['membership_normal']    ?? 0;
+        $s_mem_vip        = $stats['membership_vip']       ?? 0;
+        $s_top_trainers   = $stats['top_trainers']         ?? [];
+        $s_total_eq       = max(1, $s_eq_avail + $s_eq_maint);
+        ?>
+
+        <!-- Cards de resumo -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:32px;">
+            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;text-align:center;">
+                <p style="font-size:2rem;font-weight:800;color:var(--orange);margin:0;"><?= $s_members ?></p>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;font-weight:600;text-transform:uppercase;">Membros</p>
+            </div>
+            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;text-align:center;">
+                <p style="font-size:2rem;font-weight:800;color:var(--orange);margin:0;"><?= $s_trainers ?></p>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;font-weight:600;text-transform:uppercase;">Trainers</p>
+            </div>
+            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;text-align:center;">
+                <p style="font-size:2rem;font-weight:800;color:var(--orange);margin:0;"><?= $s_nutritionists ?></p>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;font-weight:600;text-transform:uppercase;">Nutricionistas</p>
+            </div>
+            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;text-align:center;">
+                <p style="font-size:2rem;font-weight:800;color:var(--orange);margin:0;"><?= number_format((float)$s_avg_age, 1) ?></p>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;font-weight:600;text-transform:uppercase;">Idade Média</p>
+            </div>
+            <div style="background:#e8f5e9;border-radius:12px;padding:20px;text-align:center;">
+                <p style="font-size:2rem;font-weight:800;color:#2e7d32;margin:0;"><?= $s_eq_avail ?></p>
+                <p style="font-size:0.8rem;color:#2e7d32;margin:4px 0 0;font-weight:600;text-transform:uppercase;">Equip. Disponíveis</p>
+            </div>
+            <div style="background:#fff3e0;border-radius:12px;padding:20px;text-align:center;">
+                <p style="font-size:2rem;font-weight:800;color:#e65100;margin:0;"><?= $s_eq_maint ?></p>
+                <p style="font-size:0.8rem;color:#e65100;margin:4px 0 0;font-weight:600;text-transform:uppercase;">Em Manutenção</p>
+            </div>
+        </div>
+
+        <!-- Memberships + Equipamento side by side -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;">
+            
+            <!-- Memberships -->
+            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;">
+                <h3 style="font-size:0.9rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin:0 0 16px;">Distribuição de Memberships</h3>
+                <?php
+                $total_mem = max(1, $s_mem_basico + $s_mem_normal + $s_mem_vip);
+                $bars = [
+                    ['Básico', $s_mem_basico, '#bdbdbd'],
+                    ['Normal', $s_mem_normal, 'var(--orange)'],
+                    ['VIP',    $s_mem_vip,    '#f4c430'],
+                ];
+                foreach ($bars as [$label, $val, $color]):
+                    $pct = round($val / $total_mem * 100);
+                ?>
+                <div style="margin-bottom:12px;">
+                    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
+                        <span style="font-weight:600;"><?= $label ?></span>
+                        <span style="color:var(--text-muted);"><?= $val ?> (<?= $pct ?>%)</span>
+                    </div>
+                    <div style="background:#e0e0e0;border-radius:20px;height:8px;">
+                        <div style="background:<?= $color ?>;width:<?= $pct ?>%;height:8px;border-radius:20px;transition:width .5s;"></div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Equipamento disponibilidade -->
+            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;">
+                <h3 style="font-size:0.9rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin:0 0 16px;">Estado dos Equipamentos</h3>
+                <?php
+                $eq_pct_avail = round($s_eq_avail / $s_total_eq * 100);
+                $eq_pct_maint = 100 - $eq_pct_avail;
+                ?>
+                <div style="margin-bottom:12px;">
+                    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
+                        <span style="font-weight:600;">✅ Disponíveis</span>
+                        <span style="color:var(--text-muted);"><?= $s_eq_avail ?> (<?= $eq_pct_avail ?>%)</span>
+                    </div>
+                    <div style="background:#e0e0e0;border-radius:20px;height:8px;">
+                        <div style="background:#4caf50;width:<?= $eq_pct_avail ?>%;height:8px;border-radius:20px;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
+                        <span style="font-weight:600;">🛠️ Em Manutenção</span>
+                        <span style="color:var(--text-muted);"><?= $s_eq_maint ?> (<?= $eq_pct_maint ?>%)</span>
+                    </div>
+                    <div style="background:#e0e0e0;border-radius:20px;height:8px;">
+                        <div style="background:#ff9800;width:<?= $eq_pct_maint ?>%;height:8px;border-radius:20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Trainers por avaliação -->
+        <?php if (!empty($s_top_trainers)): ?>
+        <div style="background:var(--gray-bg);border-radius:12px;padding:20px;">
+            <h3 style="font-size:0.9rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin:0 0 16px;">🏆 Trainers Melhor Avaliados</h3>
+            <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Trainer</th>
+                        <th>Avaliação Média</th>
+                        <th>Nº Avaliações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($s_top_trainers as $i => $tr): ?>
+                    <tr>
+                        <td style="font-weight:700;color:var(--orange);"><?= $i + 1 ?>º</td>
+                        <td><a href="trainer_profile.php?id=<?= $tr['id'] ?>" style="color:var(--orange);text-decoration:underline;"><?= htmlspecialchars($tr['name']) ?></a></td>
+                        <td>
+                            <?php
+                            $avg = round((float)$tr['avg_rating'], 1);
+                            $stars = '';
+                            for ($s = 1; $s <= 5; $s++) $stars .= $s <= $avg ? '★' : '☆';
+                            ?>
+                            <span style="color:#f4c430;font-size:1rem;"><?= $stars ?></span>
+                            <span style="font-weight:700;margin-left:4px;"><?= number_format($avg, 1) ?></span>
+                        </td>
+                        <td style="color:var(--text-muted);"><?= $tr['review_count'] ?> avaliações</td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <?php endif; ?>
     </section>
 </section>
 
@@ -479,6 +627,54 @@
 @keyframes modalSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 </style>
 
+
+<!-- ══════════════════════════════════════════════
+     MODAL: ADICIONAR NUTRICIONISTA
+══════════════════════════════════════════════ -->
+<div id="add-nutritionist-modal" class="add-class-modal-overlay hidden">
+    <article class="profile-login-card" style="width:400px !important;max-width:95vw !important;height:auto !important;min-height:unset !important;display:block !important;margin:0 auto !important;position:relative !important;animation:modalSlideUp 0.3s ease !important;text-align:center !important;padding:25px !important;border-radius:12px !important;box-shadow:0 8px 30px rgba(0,0,0,0.15) !important;background-color:#ffffff !important;box-sizing:border-box !important;">
+        <button type="button" id="close-add-nutritionist" class="close-modal-btn">&times;</button>
+        <p class="profile-specialty" style="margin-bottom:5px !important;font-weight:700 !important;color:var(--orange) !important;text-transform:uppercase !important;letter-spacing:0.05em !important;font-size:0.8rem !important;">NOVO NUTRICIONISTA</p>
+        <form action="admin.php" method="post" enctype="multipart/form-data" style="text-align:left !important;width:100% !important;">
+            <input type="hidden" name="action" value="add_nutritionist">
+            <div style="margin-bottom:20px !important;text-align:center !important;">
+                <input type="text" name="nu_name" placeholder="Nome Completo" required
+                       style="font-size:1.3rem !important;font-weight:800 !important;text-align:center !important;border:none !important;border-bottom:2px solid var(--gray-border) !important;width:100% !important;padding:4px !important;color:var(--text-main) !important;outline:none !important;font-family:inherit !important;background:transparent !important;">
+            </div>
+            <div class="profile-details-list" style="margin-bottom:20px !important;width:100% !important;">
+                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
+                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Username</strong>
+                    <input type="text" name="nu_username" placeholder="username" required style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                </div>
+                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
+                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Email</strong>
+                    <input type="email" name="nu_email" placeholder="email@exemplo.com" required style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                </div>
+                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
+                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Password</strong>
+                    <input type="password" name="nu_password" placeholder="mínimo 6 caracteres" required minlength="6" style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                </div>
+                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
+                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Especialização</strong>
+                    <input type="text" name="nu_specialization" placeholder="ex: Desportiva, Clínica" style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                </div>
+                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
+                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Nº Cédula</strong>
+                    <input type="text" name="nu_license" placeholder="ex: ON-12345" style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                </div>
+                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;">
+                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Foto</strong>
+                    <div style="width:200px !important;">
+                        <label for="nu-photo-input" id="nu-photo-label" style="display:block;padding:6px 10px;border:1px solid var(--gray-border);border-radius:6px;cursor:pointer;font-size:0.8rem;color:var(--text-muted);text-align:center;background:#fff;box-sizing:border-box;width:100%;">📷 Escolher foto</label>
+                        <input type="file" id="nu-photo-input" name="nu_photo" accept="image/*" style="display:none;">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn-review-submit" style="width:100% !important;margin:0 !important;padding:12px !important;font-size:0.9rem !important;">Criar Nutricionista</button>
+        </form>
+    </article>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -540,7 +736,40 @@ document.addEventListener('DOMContentLoaded', function () {
         trModal.addEventListener('click',   e => { if (e.target === trModal) trModal.classList.add('hidden'); });
     }
 
-    // ── DELETE EQUIPMENT ──────────────────────────
+    // ── MODAL NUTRICIONISTA ──────────────────────
+    const nuTrigger = document.getElementById('trigger-add-nutritionist-admin');
+    const nuModal   = document.getElementById('add-nutritionist-modal');
+    const nuClose   = document.getElementById('close-add-nutritionist');
+    if (nuTrigger && nuModal) {
+        nuTrigger.addEventListener('click', () => nuModal.classList.remove('hidden'));
+        nuClose.addEventListener('click',   () => nuModal.classList.add('hidden'));
+        nuModal.addEventListener('click',   e => { if (e.target === nuModal) nuModal.classList.add('hidden'); });
+    }
+    const nuPhotoInput = document.getElementById('nu-photo-input');
+    const nuPhotoLabel = document.getElementById('nu-photo-label');
+    if (nuPhotoInput) {
+        nuPhotoInput.addEventListener('change', function() {
+            nuPhotoLabel.textContent = this.files[0] ? '✓ ' + this.files[0].name : '📷 Escolher foto';
+        });
+    }
+
+    // ── DELETE CLASS ──────────────────────────────
+    document.querySelectorAll('.admin-delete-class').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (!confirm('Remover esta aula e todas as suas sessões permanentemente?')) return;
+            const id = this.dataset.id;
+            fetch('admin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=delete_class&id=' + encodeURIComponent(id)
+            }).then(r => {
+                if (r.ok) this.closest('tr').remove();
+                else alert('Erro ao remover aula.');
+            });
+        });
+    });
+
+    // ── DELETE EQUIPMENT ──────────────────────────────
     document.querySelectorAll('.admin-delete-equipment').forEach(btn => {
         btn.addEventListener('click', function () {
             if (!confirm('Remover este equipamento permanentemente?')) return;

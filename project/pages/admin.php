@@ -54,6 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         exit;
     }
 
+    // ── Eliminar aula ────────────────────────────────────────────────────────
+    if ($action === 'delete_class' && isset($_POST['id'])) {
+        GymClass::removeClass($db, intval($_POST['id']));
+        exit;
+    }
+
     // ── Gerir membership de utilizador ──────────────────────────────────────
     if ($action === 'update_user_membership' && isset($_POST['user_id'], $_POST['membership'])) {
         $allowed = ['basico', 'normal', 'vip'];
@@ -75,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $eq_muscle   = intval($_POST['eq_muscle'] ?? 0);
 
         if ($eq_name && $eq_location) {
-            // Upload da foto
             $photo_filename = null;
             if (isset($_FILES['eq_photo']) && $_FILES['eq_photo']['error'] === UPLOAD_ERR_OK) {
                 $ext = strtolower(pathinfo($_FILES['eq_photo']['name'], PATHINFO_EXTENSION));
@@ -85,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
             }
 
-            // Inserir equipamento
             $stmt = $db->prepare('
                 INSERT INTO equipment (name, location, video_url, photo, status)
                 VALUES (?, ?, ?, ?, \'Disponível\')
@@ -93,7 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $stmt->execute([$eq_name, $eq_location, $eq_video ?: null, $photo_filename]);
             $eq_id = (int)$db->lastInsertId();
 
-            // Inserir exercício associado ao grupo muscular (se escolhido)
             if ($eq_muscle > 0 && $eq_id > 0) {
                 $stmt = $db->prepare('
                     INSERT INTO exercises (name, description, id_equipment, id_muscle_group)
@@ -120,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $tr_location       = trim($_POST['tr_location']       ?? 'Porto, Portugal');
 
         if ($tr_name && $tr_username && $tr_email && strlen($tr_password) >= 6) {
-            // Verifica se email/username já existe
             $chk = $db->prepare('SELECT id FROM user WHERE email = ? OR username = ? LIMIT 1');
             $chk->execute([$tr_email, $tr_username]);
 
@@ -133,7 +135,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->execute([$tr_username, $tr_name, $tr_email, $hashed]);
                 $new_id = (int)$db->lastInsertId();
 
-                // Criar trainer_profile
                 $stmt = $db->prepare('
                     INSERT INTO trainer_profile (id_user, sex, specialization, formation, certification, location)
                     VALUES (?, ?, ?, ?, ?, ?)
@@ -150,6 +151,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         }
 
         header('Location: admin.php?tab=trainers');
+        exit;
+    }
+
+    // ── Adicionar nutricionista ──────────────────────────────────────────────
+    if ($action === 'add_nutritionist') {
+        $nu_name          = trim($_POST['nu_name']          ?? '');
+        $nu_username      = trim($_POST['nu_username']      ?? '');
+        $nu_email         = trim($_POST['nu_email']         ?? '');
+        $nu_password      = $_POST['nu_password']           ?? '';
+        $nu_specialization = trim($_POST['nu_specialization'] ?? '');
+        $nu_license       = trim($_POST['nu_license']       ?? '');
+
+        if ($nu_name && $nu_username && $nu_email && strlen($nu_password) >= 6) {
+            $chk = $db->prepare('SELECT id FROM user WHERE email = ? OR username = ? LIMIT 1');
+            $chk->execute([$nu_email, $nu_username]);
+
+            if (!$chk->fetch()) {
+                $hashed = password_hash($nu_password, PASSWORD_DEFAULT);
+                $stmt = $db->prepare('
+                    INSERT INTO user (username, name, email, password, role, membership)
+                    VALUES (?, ?, ?, ?, \'nutritionist\', \'basico\')
+                ');
+                $stmt->execute([$nu_username, $nu_name, $nu_email, $hashed]);
+                $new_id = (int)$db->lastInsertId();
+
+                // Upload foto
+                $photo_filename = null;
+                if (isset($_FILES['nu_photo']) && $_FILES['nu_photo']['error'] === UPLOAD_ERR_OK) {
+                    $ext = strtolower(pathinfo($_FILES['nu_photo']['name'], PATHINFO_EXTENSION));
+                    if (in_array($ext, ['jpg','jpeg','png','gif','webp'])) {
+                        $photo_filename = 'nutri_' . md5(time() . $_FILES['nu_photo']['name']) . '.' . $ext;
+                        move_uploaded_file($_FILES['nu_photo']['tmp_name'], '../imgs/' . $photo_filename);
+                        $db->prepare('UPDATE user SET photo = ? WHERE id = ?')->execute([$photo_filename, $new_id]);
+                    }
+                }
+
+                $stmt = $db->prepare('
+                    INSERT INTO nutritionist_profile (id_user, specialization, license_number)
+                    VALUES (?, ?, ?)
+                ');
+                $stmt->execute([
+                    $new_id,
+                    $nu_specialization ?: 'Nutrição Geral',
+                    $nu_license        ?: '—',
+                ]);
+            }
+        }
+
+        header('Location: admin.php?tab=nutritionists');
         exit;
     }
 }
@@ -213,9 +263,54 @@ $stmt = $db->prepare('
 $stmt->execute();
 $all_pt_bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// ── Todos os equipamentos (para o template via global) ────────────────────────
+// ── Todos os equipamentos ─────────────────────────────────────────────────────
 $GLOBALS['admin_equipments'] = getEquipments($db);
 
+// ── Estatísticas ─────────────────────────────────────────────────────────────
+$stats = [];
+
+$r = $db->query("SELECT COUNT(*) FROM user WHERE role = 'member'")->fetchColumn();
+$stats['total_members'] = (int)$r;
+
+$r = $db->query("SELECT COUNT(*) FROM user WHERE role = 'trainer'")->fetchColumn();
+$stats['total_trainers'] = (int)$r;
+
+$r = $db->query("SELECT COUNT(*) FROM user WHERE role = 'nutritionist'")->fetchColumn();
+$stats['total_nutritionists'] = (int)$r;
+
+$r = $db->query("SELECT AVG(age) FROM user WHERE role = 'member' AND age IS NOT NULL AND age > 0")->fetchColumn();
+$stats['avg_age'] = $r ? round((float)$r, 1) : 0;
+
+$r = $db->query("SELECT COUNT(*) FROM equipment WHERE status = 'Disponível'")->fetchColumn();
+$stats['equipment_available'] = (int)$r;
+
+$r = $db->query("SELECT COUNT(*) FROM equipment WHERE status != 'Disponível'")->fetchColumn();
+$stats['equipment_maintenance'] = (int)$r;
+
+$r = $db->query("SELECT COUNT(*) FROM user WHERE role = 'member' AND membership = 'basico'")->fetchColumn();
+$stats['membership_basico'] = (int)$r;
+
+$r = $db->query("SELECT COUNT(*) FROM user WHERE role = 'member' AND membership = 'normal'")->fetchColumn();
+$stats['membership_normal'] = (int)$r;
+
+$r = $db->query("SELECT COUNT(*) FROM user WHERE role = 'member' AND membership = 'vip'")->fetchColumn();
+$stats['membership_vip'] = (int)$r;
+
+$stmt = $db->prepare("
+    SELECT u.id, u.name,
+           AVG(r.rate) as avg_rating,
+           COUNT(*) as review_count
+    FROM rating r
+    JOIN user u ON u.id = r.id_trainer
+    GROUP BY r.id_trainer
+    HAVING COUNT(*) >= 1
+    ORDER BY avg_rating DESC, review_count DESC
+    LIMIT 5
+");
+$stmt->execute();
+$stats['top_trainers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// ── Output ────────────────────────────────────────────────────────────────────
 output_header();
-output_admin_panel($users, $page, $username, $all_classes, $all_trainers, $all_nutritionists, $all_pt_bookings);
+output_admin_panel($users, $page, $username, $all_classes, $all_trainers, $all_nutritionists, $all_pt_bookings, $stats);
 output_footer();

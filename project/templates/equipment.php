@@ -50,23 +50,23 @@ function output_member_equipment(array $equipments, bool $is_admin = false): voi
         
         <div class="filters-bar">
             <select id="filter-location" class="filter-select">
-                <option value="all">📍 Todos os Pisos</option>
+                <option value="all">Todos os Pisos</option>
                 <?php foreach($unique_locations as $loc): ?>
                     <option value="<?= htmlspecialchars($loc) ?>"><?= htmlspecialchars($loc) ?></option>
                 <?php endforeach; ?>
             </select>
 
             <select id="filter-muscle" class="filter-select">
-                <option value="all">💪 Todos os Músculos</option>
+                <option value="all">Todos os Músculos</option>
                 <?php foreach($unique_muscles as $musc): ?>
                     <option value="<?= htmlspecialchars($musc) ?>"><?= htmlspecialchars($musc) ?></option>
                 <?php endforeach; ?>
             </select>
 
             <select id="filter-status" class="filter-select">
-                <option value="all">⚙️ Qualquer Estado</option>
-                <option value="Disponível">✅ Disponível</option>
-                <option value="Manutenção">🛠️ Em Manutenção</option>
+                <option value="all">Qualquer Estado</option>
+                <option value="Disponível">Disponível</option>
+                <option value="Manutenção">Em Manutenção</option>
             </select>
         </div>
 
@@ -89,6 +89,13 @@ function output_member_equipment(array $equipments, bool $is_admin = false): voi
                     
                     
                     <a href="equipment_info.php?id=<?= $eq['id'] ?>" class="btn-text btn-equipment-bottom">Mais informações</a>
+                    
+                    <?php if ($is_admin): ?>
+                    <button type="button" class="admin-delete-equipment" data-id="<?= $id ?>"
+                            style="margin-top:8px;width:100%;background:none;border:1px solid #e53e3e;color:#e53e3e;padding:7px 0;border-radius:20px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all .2s;">
+                        Remover
+                    </button>
+                    <?php endif; ?>
                     
                 </article>
             <?php endforeach; ?>
@@ -188,6 +195,20 @@ function output_member_equipment(array $equipments, bool $is_admin = false): voi
         const inp = document.getElementById('eq-photo-input');
         const lbl = document.getElementById('eq-photo-label');
         if (inp) inp.addEventListener('change', function() { lbl.textContent = this.files[0] ? '✓ ' + this.files[0].name : '📷 Escolher foto'; });
+
+        // Botões Remover equipamento
+        document.querySelectorAll('.admin-delete-equipment').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                if (!confirm('Remover este equipamento permanentemente?')) return;
+                const id   = this.dataset.id;
+                const card = this.closest('article');
+                fetch('admin.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'action=delete_equipment&id=' + encodeURIComponent(id)
+                }).then(r => { if (r.ok) card.remove(); else alert('Erro ao remover equipamento.'); });
+            });
+        });
     });
     </script>
     <?php endif; ?>

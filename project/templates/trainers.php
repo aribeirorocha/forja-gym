@@ -15,7 +15,7 @@ require_once('../database/trainer.php');
 
     <div class="filters-bar">
         <select id="filter-gender" class="filter-select">
-            <option value="all">🚻 Todos os Géneros</option>
+            <option value="all">Todos os Géneros</option>
             <option value="masculino">Homens</option>
             <option value="feminino">Mulheres</option>
         </select>
