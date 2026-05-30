@@ -213,14 +213,13 @@ main > .class-card {
 }
 
 .btn-delete {
-  width: 36px;
   height: 36px;
-  padding: 0;
+  padding: 10px;
   border: 1px solid var(--gray-border);
-  border-radius: 50%;
+  border-radius: 20px;
   background-color: var(--white);
   color: #c0392b;
-  font-size: 1.2rem;
+  font-size: 1em;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;

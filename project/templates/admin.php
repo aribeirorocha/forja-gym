@@ -65,8 +65,8 @@
                         <th>Username</th>
                         <th>Nome</th>
                         <th>Função</th>
-                        <th>Membership</th>
                         <th>Email</th>
+                        <th>Membership</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,7 +123,7 @@
     <section class="admin-tab-content profile-card" id="tab-trainers">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
             <h2 class="card-title" style="margin:0;">Trainers</h2>
-            <button type="button" class="btn-save" id="trigger-add-trainer">+ Adicionar Trainer</button>
+            <button type="button" class="btn-save" id="trigger-add-trainer-admin">+ Adicionar Trainer</button>
         </div>
         <?php if (empty($all_trainers)): ?>
             <p class="weight-hint">Não há trainers registados.</p>
@@ -564,68 +564,7 @@
             </button>
         </form>
     </article>
-</div>
-
-<style>
-/* ── TABS ───────────────────────────────────────── */
-.admin-tabs {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-}
-.admin-tab {
-    padding: 10px 18px;
-    border: 1px solid var(--gray-border);
-    border-radius: 30px;
-    background: var(--white);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    color: var(--text-muted);
-    transition: var(--transition);
-}
-.admin-tab:hover { border-color: var(--orange); color: var(--orange); }
-.admin-tab.active { background: var(--orange); border-color: var(--orange); color: #fff; }
-
-.admin-tab-content { display: none; }
-.admin-tab-content.active { display: block; }
-
-/* ── TABLE ──────────────────────────────────────── */
-.admin-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%; object-fit: cover;
-    border: 1px solid var(--gray-border);
-}
-.class-type-pill-sm {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    background: var(--gray-bg);
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: capitalize;
-}
-.status-active  { color: #2e7d32; font-weight: 600; font-size: 0.85rem; }
-.status-inactive { color: #c62828; font-weight: 600; font-size: 0.85rem; }
-.status-badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-.status-available   { background: #e8f5e9; color: #2e7d32; }
-.status-maintenance { background: #fff3e0; color: #e65100; }
-
-/* Modal overlay */
-.add-class-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.45); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 99999; overflow-y: auto; padding: 20px; box-sizing: border-box; }
-.add-class-modal-overlay.hidden { display: none; }
-.close-modal-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 2rem; color: var(--text-muted); cursor: pointer; line-height: 1; }
-.close-modal-btn:hover { color: var(--orange); }
-@keyframes modalSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-</style>
+</div
 
 
 <!-- ══════════════════════════════════════════════
@@ -674,118 +613,6 @@
         </form>
     </article>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    // ── TABS ──────────────────────────────────────
-    const tabs    = document.querySelectorAll('.admin-tab');
-    const panels  = document.querySelectorAll('.admin-tab-content');
-
-    // Restore active tab from URL hash or query param
-    const urlParams = new URLSearchParams(window.location.search);
-    const activeTab = urlParams.get('tab') || location.hash.replace('#','') || 'users';
-
-    tabs.forEach(tab => {
-        const target = tab.dataset.tab;
-        if (target === activeTab) {
-            tab.classList.add('active');
-        } else {
-            tab.classList.remove('active');
-        }
-    });
-    panels.forEach(panel => {
-        panel.classList.toggle('active', panel.id === 'tab-' + activeTab);
-    });
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function () {
-            tabs.forEach(t => t.classList.remove('active'));
-            panels.forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-            document.getElementById('tab-' + this.dataset.tab).classList.add('active');
-        });
-    });
-
-    // ── MODAL EQUIPAMENTO ─────────────────────────
-    const eqTrigger = document.getElementById('trigger-add-equipment');
-    const eqModal   = document.getElementById('add-equipment-modal');
-    const eqClose   = document.getElementById('close-add-equipment');
-    if (eqTrigger && eqModal) {
-        eqTrigger.addEventListener('click', () => eqModal.classList.remove('hidden'));
-        eqClose.addEventListener('click',   () => eqModal.classList.add('hidden'));
-        eqModal.addEventListener('click',   e => { if (e.target === eqModal) eqModal.classList.add('hidden'); });
-    }
-
-    // Mostrar nome do ficheiro seleccionado
-    const eqPhotoInput = document.getElementById('eq-photo-input');
-    const eqPhotoLabel = document.getElementById('eq-photo-label');
-    if (eqPhotoInput) {
-        eqPhotoInput.addEventListener('change', function () {
-            eqPhotoLabel.textContent = this.files[0] ? '✓ ' + this.files[0].name : '📷 Escolher foto';
-        });
-    }
-
-    // ── MODAL TRAINER ─────────────────────────────
-    const trTrigger = document.getElementById('trigger-add-trainer');
-    const trModal   = document.getElementById('add-trainer-modal');
-    const trClose   = document.getElementById('close-add-trainer');
-    if (trTrigger && trModal) {
-        trTrigger.addEventListener('click', () => trModal.classList.remove('hidden'));
-        trClose.addEventListener('click',   () => trModal.classList.add('hidden'));
-        trModal.addEventListener('click',   e => { if (e.target === trModal) trModal.classList.add('hidden'); });
-    }
-
-    // ── MODAL NUTRICIONISTA ──────────────────────
-    const nuTrigger = document.getElementById('trigger-add-nutritionist-admin');
-    const nuModal   = document.getElementById('add-nutritionist-modal');
-    const nuClose   = document.getElementById('close-add-nutritionist');
-    if (nuTrigger && nuModal) {
-        nuTrigger.addEventListener('click', () => nuModal.classList.remove('hidden'));
-        nuClose.addEventListener('click',   () => nuModal.classList.add('hidden'));
-        nuModal.addEventListener('click',   e => { if (e.target === nuModal) nuModal.classList.add('hidden'); });
-    }
-    const nuPhotoInput = document.getElementById('nu-photo-input');
-    const nuPhotoLabel = document.getElementById('nu-photo-label');
-    if (nuPhotoInput) {
-        nuPhotoInput.addEventListener('change', function() {
-            nuPhotoLabel.textContent = this.files[0] ? '✓ ' + this.files[0].name : '📷 Escolher foto';
-        });
-    }
-
-    // ── DELETE CLASS ──────────────────────────────
-    document.querySelectorAll('.admin-delete-class').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (!confirm('Remover esta aula e todas as suas sessões permanentemente?')) return;
-            const id = this.dataset.id;
-            fetch('admin.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'action=delete_class&id=' + encodeURIComponent(id)
-            }).then(r => {
-                if (r.ok) this.closest('tr').remove();
-                else alert('Erro ao remover aula.');
-            });
-        });
-    });
-
-    // ── DELETE EQUIPMENT ──────────────────────────────
-    document.querySelectorAll('.admin-delete-equipment').forEach(btn => {
-        btn.addEventListener('click', function () {
-            if (!confirm('Remover este equipamento permanentemente?')) return;
-            const id = this.dataset.id;
-            fetch('admin.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'action=delete_equipment&id=' + encodeURIComponent(id)
-            }).then(r => {
-                if (r.ok) this.closest('article').remove();
-                else alert('Erro ao remover equipamento.');
-            });
-        });
-    });
-});
-</script>
 
 <?php } ?>
 

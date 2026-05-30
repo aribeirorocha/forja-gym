@@ -173,6 +173,434 @@
   box-shadow: 0 0 0 3px rgba(242, 122, 56, 0.14);
 }
 
+.admin-delete-class {
+  margin-top: 10px;
+  width: 100%;
+  background: none;
+  border: 1px solid #e53e3e;
+  color: #e53e3e;
+  padding: 7px 0;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-delete-equipment {
+  margin-top: 8px;
+  width: 100%;
+  background: none;
+  border: 1px solid #e53e3e;
+  color: #e53e3e;
+  padding: 7px 0;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-delete-nutritionist {
+  margin-top: 10px;
+  width: 100%;
+  background: none;
+  border: 1px solid #e53e3e;
+  color: #e53e3e;
+  padding: 7px 0;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-delete-trainer {
+  margin-top: 10px;
+  width: 110px;
+  background: none;
+  border: 1px solid #e53e3e;
+  color: #e53e3e;
+  padding: 7px 0;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#trigger-add-trainer,
+#trigger-add-nutritionist {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--orange);
+  background-color: #fffbf9;
+  min-height: 320px;
+  transition: var(--transition);
+}
+
+#trigger-add-equipment {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--orange);
+  background-color: #fffbf9;
+  min-height: 280px;
+  transition: var(--transition);
+}
+
+#trigger-add-trainer > div,
+#trigger-add-equipment > div,
+#trigger-add-nutritionist > div {
+  text-align: center;
+  color: var(--orange);
+}
+
+#trigger-add-trainer > div > span:first-child,
+#trigger-add-equipment > div > span:first-child,
+#trigger-add-nutritionist > div > span:first-child {
+  font-size: 5rem;
+  font-weight: 200;
+  display: block;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+#trigger-add-trainer > div > span:last-child,
+#trigger-add-equipment > div > span:last-child,
+#trigger-add-nutritionist > div > span:last-child {
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+#add-equipment-modal > article {
+  width: 400px;
+  max-width: 95vw;
+  height: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  animation: modalSlideUp 0.3s ease;
+  box-sizing: border-box;
+}
+
+#add-trainer-modal > article,
+#add-nutritionist-modal > article {
+  width: 420px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  animation: modalSlideUp 0.3s ease;
+  box-sizing: border-box;
+}
+
+.add-class-modal-overlay > article > button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.add-class-modal-overlay > article > p {
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.add-class-modal-overlay form > div:nth-child(2) {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.add-class-modal-overlay form > div:nth-child(2) > input {
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-align: center;
+  border: none;
+  border-bottom: 2px solid var(--gray-border);
+  width: 100%;
+  padding: 4px;
+  color: var(--text-main);
+  outline: none;
+  font-family: inherit;
+  background: transparent;
+}
+
+.add-class-modal-overlay form > div:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--gray-border);
+  border-bottom: 1px solid var(--gray-border);
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.add-class-modal-overlay form > div:nth-child(3) > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.add-class-modal-overlay form > div:nth-child(3) > div:not(:last-child) {
+  border-bottom: 1px solid var(--gray-bg);
+}
+
+.add-class-modal-overlay form > div:nth-child(3) > div > strong {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+#add-equipment-modal form > div:nth-child(3) > div > select {
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  width: 200px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: #fff;
+  color: var(--text-main);
+}
+
+#add-equipment-modal form > div:nth-child(3) > div > input {
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  width: 200px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  background: #fff;
+}
+
+#add-trainer-modal form > div:nth-child(3) > div > select,
+#add-nutritionist-modal form > div:nth-child(3) > div > select {
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  width: 220px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: #fff;
+  color: var(--text-main);
+}
+
+#add-trainer-modal form > div:nth-child(3) > div > input,
+#add-nutritionist-modal form > div:nth-child(3) > div > input {
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  width: 220px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  background: #fff;
+}
+
+div:has(> #eq-photo-input) {
+  width: 200px;
+}
+
+div:has(> #nu-photo-input) {
+  width: 220px;
+}
+
+#eq-photo-label,
+#nu-photo-label {
+  display: block;
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  background: #fff;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#eq-photo-input,
+#nu-photo-input {
+  display: none;
+}
+
+.add-class-modal-overlay form > button {
+  width: 100%;
+  background: var(--black);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-delete-equipment:hover,
+.admin-delete-trainer:hover,
+.admin-delete-nutritionist:hover {
+  background: #e53e3e !important;
+  color: #fff !important;
+}
+
+/* ── TABS ───────────────────────────────────────── */
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.admin-tab {
+  padding: 10px 18px;
+  border: 1px solid var(--gray-border);
+  border-radius: 30px;
+  background: var(--white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+.admin-tab:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+.admin-tab.active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+}
+
+.admin-tab-content {
+  display: none;
+}
+
+.admin-tab-content.active {
+  display: block;
+}
+
+/* ── TABLE ──────────────────────────────────────── */
+.admin-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--gray-border);
+}
+
+.class-type-pill-sm {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: var(--gray-bg);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.status-active {
+  color: #2e7d32;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.status-inactive {
+  color: #c62828;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+#admin-equipment-grid .status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+#admin-equipment-grid .status-available {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+#admin-equipment-grid .status-maintenance {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+/* Modal overlay */
+.add-class-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.add-class-modal-overlay.hidden {
+  display: none;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+.close-modal-btn:hover {
+  color: var(--orange);
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 768px) {
   .admin-dashboard {
     margin: 36px auto;
