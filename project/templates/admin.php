@@ -65,8 +65,8 @@
                         <th>Username</th>
                         <th>Nome</th>
                         <th>Função</th>
-                        <th>Membership</th>
                         <th>Email</th>
+                        <th>Membership</th>
                     </tr>
                 </thead>
                 <tbody>

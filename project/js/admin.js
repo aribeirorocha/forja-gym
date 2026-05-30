@@ -35,59 +35,123 @@ document.querySelectorAll('.delete-user-btn').forEach(button => {
                     'application/x-www-form-urlencoded'
             },
             body:
-                'action=delete_user' + 
+                'action=delete_user' +
                 '&id=' + encodeURIComponent(userId)
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao remover o utilizador');
-            }
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao remover o utilizador');
+                }
 
-            this.closest('tr').remove();
-        })
-        .catch(error => {
-            alert('Não foi possível remover o utilizador.');
-            console.error(error);
+                this.closest('tr').remove();
+            })
+            .catch(error => {
+                alert('Não foi possível remover o utilizador.');
+                console.error(error);
+            });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const trigger = document.getElementById('trigger-add-nutritionist');
+    const modal = document.getElementById('add-nutritionist-modal');
+    const closeBtn = document.getElementById('close-add-nutritionist');
+    if (trigger && modal) {
+        trigger.addEventListener('click', () => modal.classList.remove('hidden'));
+        closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+    }
+    const inp = document.getElementById('nu-photo-input');
+    const lbl = document.getElementById('nu-photo-label');
+    if (inp) inp.addEventListener('change', function () { lbl.textContent = this.files[0] ? '✓ ' + this.files[0].name : '📷 Escolher foto'; });
+
+    document.querySelectorAll('.admin-delete-nutritionist').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (!confirm('Remover este nutricionista permanentemente?')) return;
+            const id = this.dataset.id;
+            const card = this.closest('article');
+            fetch('admin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=delete_user&id=' + encodeURIComponent(id)
+            }).then(r => { if (r.ok) card.remove(); else alert('Erro ao remover nutricionista.'); });
         });
     });
 });
 
-document.querySelectorAll('.equipment-card').forEach(card => {
-    const button = document.createElement('button');
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.admin-delete-class').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (!confirm('Remover esta aula permanentemente?')) return;
+            const id = this.dataset.id;
+            const card = this.closest('article');
+            fetch('admin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=delete_class&id=' + encodeURIComponent(id)
+            }).then(r => { if (r.ok) card.remove(); else alert('Erro ao remover aula.'); });
+        });
+    });
+});
 
-    button.classList.add('btn-delete');
-    button.textContent = 'x';
-    button.style.margin = '10px';
 
-    card.appendChild(button);
+document.addEventListener('DOMContentLoaded', function () {
+    const trigger = document.getElementById('trigger-add-equipment');
+    const modal = document.getElementById('add-equipment-modal');
+    const closeBtn = document.getElementById('close-add-equipment');
+    if (trigger && modal) {
+        trigger.addEventListener('click', () => modal.classList.remove('hidden'));
+        closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+    }
+    const inp = document.getElementById('eq-photo-input');
+    const lbl = document.getElementById('eq-photo-label');
+    if (inp) inp.addEventListener('change', function () { lbl.textContent = this.files[0] ? '✓ ' + this.files[0].name : '📷 Escolher foto'; });
 
-    button.addEventListener('click', function () {
-        const equipmentId = card.dataset.id;
+    // Botões Remover equipamento
+    document.querySelectorAll('.admin-delete-equipment').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (!confirm('Remover este equipamento permanentemente?')) return;
+            const id = this.dataset.id;
+            const card = this.closest('article');
+            fetch('admin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=delete_equipment&id=' + encodeURIComponent(id)
+            }).then(r => { if (r.ok) card.remove(); else alert('Erro ao remover equipamento.'); });
+        });
+    });
+});
 
-        if (!confirm('Tem a certeza que quer remover este equipamento?')) {
-            return;
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    // Abrir/fechar modal
+    const trigger = document.getElementById('trigger-add-trainer');
+    const modal = document.getElementById('add-trainer-modal');
+    const closeBtn = document.getElementById('close-add-trainer');
+    if (trigger && modal) {
+        trigger.addEventListener('click', () => modal.classList.remove('hidden'));
+        closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+    }
 
-        fetch('admin.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type':
-                    'application/x-www-form-urlencoded'
-            },
-            body:
-                'action=delete_equipment' + 
-                '&id=' + encodeURIComponent(userId)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao remover o equipamento');
-            }
+    // Preview nome da foto
+    const inp = document.getElementById('trainer-photo-input');
+    const lbl = document.getElementById('trainer-photo-label');
+    if (inp) inp.addEventListener('change', function () {
+        lbl.textContent = this.files[0] ? '✓ ' + this.files[0].name : '📷 Escolher foto';
+    });
 
-            this.closest('article').remove();
-        })
-        .catch(error => {
-            alert('Não foi possível remover o equipamento.');
-            console.error(error);
+    // Remover trainer via fetch
+    document.querySelectorAll('.admin-delete-trainer').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (!confirm('Remover este trainer permanentemente?')) return;
+            const id = this.dataset.id;
+            const card = this.closest('article');
+            fetch('admin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=delete_user&id=' + encodeURIComponent(id)
+            }).then(r => { if (r.ok) card.remove(); else alert('Erro ao remover trainer.'); });
         });
     });
 });
