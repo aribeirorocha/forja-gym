@@ -217,7 +217,7 @@
 
 .admin-delete-trainer {
   margin-top: 10px;
-  width: 100%;
+  width: 110px;
   background: none;
   border: 1px solid #e53e3e;
   color: #e53e3e;
@@ -479,11 +479,13 @@ div:has(> #nu-photo-input) {
   display: none;
 }
 
+.admin-delete-equipment:hover,
 .admin-delete-trainer:hover,
 .admin-delete-nutritionist:hover {
   background: #e53e3e !important;
   color: #fff !important;
 }
+
 
 @keyframes modalSlideUp {
   from {

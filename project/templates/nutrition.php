@@ -44,8 +44,7 @@ function output_public_nutritionists(array $nutritionists, bool $is_admin = fals
         </div>
     </section>
 
-    <?php if ($is_admin): output_nutritionist_modal();
-    endif; ?>
+    <?php if ($is_admin) output_nutritionist_modal(); ?>
 <?php
 }
 
@@ -85,8 +84,7 @@ function output_member_nutrition_view(?array $plan, array $nutritionists, bool $
                         <?php endif; ?>
 
                         <?php if ($is_admin): ?>
-                            <button type="button" class="admin-delete-nutritionist" data-id="<?= $nutri['id'] ?>"
-                                style="margin-top:10px;width:100%;background:none;border:1px solid #e53e3e;color:#e53e3e;padding:7px 0;border-radius:20px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all .2s;">
+                            <button type="button" class="admin-delete-nutritionist" data-id="<?= $nutri['id'] ?>">
                                 Remover
                             </button>
                         <?php endif; ?>
@@ -105,9 +103,8 @@ function output_member_nutrition_view(?array $plan, array $nutritionists, bool $
         </div>
     </div>
 
-    <?php if ($is_admin): output_nutritionist_modal();
-    endif; ?>
-<?php }
+    <?php if ($is_admin) output_nutritionist_modal(); ?>
+<?php } 
 
 function output_nutritionist_modal(): void
 { ?>
