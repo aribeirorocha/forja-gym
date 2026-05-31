@@ -81,10 +81,15 @@ class User {
 
     static function updateRole(PDO $db, int $id, string $role) {
         $stmt = $db->prepare('UPDATE user SET role = ? WHERE id = ?');
-
         $stmt->execute(array($role, $id));
 
-        
+        if ($role === 'trainer') {
+            $stmt = $db->prepare('INSERT OR IGNORE INTO trainer_profile (id_user, sex, specialization, formation, certification, location) VALUES (?, "masculino", "Geral", "—", "—", "Local")');
+            $stmt->execute([$id]);
+        } elseif ($role === 'nutritionist') {
+            $stmt = $db->prepare('INSERT OR IGNORE INTO nutritionist_profile (id_user, specialization, license_number) VALUES (?, "Nutrição Geral", "—")');
+            $stmt->execute([$id]);
+        }
     }
 
     static function deleteUser(PDO $db, int $id) {

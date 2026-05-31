@@ -45,6 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'], $_POST['user_
     if (in_array($role, $allowed_roles)) {
         User::updateRole($db, $id, $role);
     }
+    header('Location: admin.php');
+    exit;
 }
 
 // ── Ações com action + id ─────────────────────────────────────────────────────
@@ -242,7 +244,8 @@ $stmt = $db->prepare('
            tp.specialization, tp.location,
            (SELECT COUNT(*) FROM class c WHERE c.id_trainer = u.id) as class_count
     FROM user u
-    JOIN trainer_profile tp ON tp.id_user = u.id
+    LEFT JOIN trainer_profile tp ON tp.id_user = u.id
+    WHERE u.role = \'trainer\'
     ORDER BY u.name ASC
 ');
 $stmt->execute();
@@ -253,7 +256,8 @@ $stmt = $db->prepare('
     SELECT u.id, u.name, u.email, u.photo,
            np.specialization, np.license_number
     FROM user u
-    JOIN nutritionist_profile np ON np.id_user = u.id
+    LEFT JOIN nutritionist_profile np ON np.id_user = u.id
+    WHERE u.role = \'nutritionist\'
     ORDER BY u.name ASC
 ');
 $stmt->execute();

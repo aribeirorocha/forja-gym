@@ -366,7 +366,7 @@
                 ?>
                 <div class="admin-progress-container">
                     <div class="admin-progress-header">
-                        <span class="fw-600">✅ Disponíveis</span>
+                        <span class="fw-600">Disponíveis</span>
                         <span class="text-muted"><?= $s_eq_avail ?> (<?= $eq_pct_avail ?>%)</span>
                     </div>
                     <div class="admin-progress-track">
@@ -375,7 +375,7 @@
                 </div>
                 <div>
                     <div class="admin-progress-header">
-                        <span class="fw-600">🛠️ Em Manutenção</span>
+                        <span class="fw-600">Em Manutenção</span>
                         <span class="text-muted"><?= $s_eq_maint ?> (<?= $eq_pct_maint ?>%)</span>
                     </div>
                     <div class="admin-progress-track">
@@ -388,7 +388,7 @@
         <!-- Top Trainers por avaliação -->
         <?php if (!empty($s_top_trainers)): ?>
         <div class="admin-panel-card">
-            <h3 class="admin-panel-title">🏆 Trainers Melhor Avaliados</h3>
+            <h3 class="admin-panel-title">Trainers Melhor Avaliados</h3>
             <div class="admin-table-wrap">
             <table class="admin-table">
                 <thead>
@@ -448,13 +448,11 @@
                 <!-- Foto -->
                 <div class="profile-detail-item admin-modal-detail-item">
                     <strong class="admin-modal-label">Foto</strong>
-                    <div class="w-200">
-                        <label for="eq-photo-input" id="eq-photo-label"
-                               class="admin-modal-file-label">
-                            📷 Escolher foto
-                        </label>
-                        <input type="file" id="eq-photo-input" name="eq_photo" accept="image/*" style="display:none;">
-                    </div>
+                    <label for="eq-photo-input" id="eq-photo-label"
+                           class="admin-modal-file-label">
+                        📷 Escolher foto
+                    </label>
+                    <input type="file" id="eq-photo-input" name="eq_photo" accept="image/*" style="display:none;">
                 </div>
 
                 <!-- Grupo Muscular -->
@@ -609,10 +607,8 @@
                 </div>
                 <div class="profile-detail-item admin-modal-detail-item-no-border">
                     <strong class="admin-modal-label">Foto</strong>
-                    <div class="w-200">
-                        <label for="nu-photo-input" id="nu-photo-label" class="admin-modal-file-label">📷 Escolher foto</label>
-                        <input type="file" id="nu-photo-input" name="nu_photo" accept="image/*" style="display:none;">
-                    </div>
+                    <label for="nu-photo-input" id="nu-photo-label" class="admin-modal-file-label">📷 Escolher foto</label>
+                    <input type="file" id="nu-photo-input" name="nu_photo" accept="image/*" style="display:none;">
                 </div>
             </div>
             <button type="submit" class="btn-review-submit admin-modal-submit">Criar Nutricionista</button>
@@ -628,12 +624,16 @@
         <td class="admin-user">@<?= htmlspecialchars($username) ?></td>
         <td><?= htmlspecialchars($display_name) ?></td>
         <td>
-            <select name="role" class="role-select" data-user-id="<?= $id ?>">
-                <option value="member"       <?= $role === 'member'       ? 'selected' : '' ?>>Membro</option>
-                <option value="trainer"      <?= $role === 'trainer'      ? 'selected' : '' ?>>Trainer</option>
-                <option value="nutritionist" <?= $role === 'nutritionist' ? 'selected' : '' ?>>Nutricionista</option>
-                <option value="admin"        <?= $role === 'admin'        ? 'selected' : '' ?>>Admin</option>
-            </select>
+            <form method="post" action="admin.php" class="m-0">
+                <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+                <input type="hidden" name="user_id" value="<?= $id ?>">
+                <select name="role" class="role-select" onchange="this.form.submit()">
+                    <option value="member"       <?= $role === 'member'       ? 'selected' : '' ?>>Membro</option>
+                    <option value="trainer"      <?= $role === 'trainer'      ? 'selected' : '' ?>>Trainer</option>
+                    <option value="nutritionist" <?= $role === 'nutritionist' ? 'selected' : '' ?>>Nutricionista</option>
+                    <option value="admin"        <?= $role === 'admin'        ? 'selected' : '' ?>>Admin</option>
+                </select>
+            </form>
         </td>
         <td class="admin-email"><?= htmlspecialchars($email) ?></td>
         <td>
@@ -642,7 +642,7 @@
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_user_membership">
                 <input type="hidden" name="user_id" value="<?= $id ?>">
-                <select name="membership" class="role-select" onchange="this.form.submit()" class="min-w-90">
+                <select name="membership" class="role-select min-w-90" onchange="this.form.submit()">
                     <option value="basico" <?= $membership === 'basico' ? 'selected' : '' ?>>Básico</option>
                     <option value="normal" <?= $membership === 'normal' ? 'selected' : '' ?>>Normal</option>
                     <option value="vip"    <?= $membership === 'vip'    ? 'selected' : '' ?>>VIP</option>

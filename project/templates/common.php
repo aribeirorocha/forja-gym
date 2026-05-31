@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="../css/equipment.css">
         <link rel="stylesheet" href="../css/classes.css">
         <?php if ($user && isset($user['role']) && $user['role'] === 'admin') { ?>
-        <link rel="stylesheet" href="../css/admin.css">
+        <link rel="stylesheet" href="../css/admin.css?v=<?= filemtime(__DIR__.'/../css/admin.css') ?>">
         <script type="text/javascript" src="../js/admin.js" defer></script>
         <?php } ?>
         <?php if ($user && isset($user['role']) && $user['role'] === 'trainer') { ?>
