@@ -136,6 +136,7 @@ require_once('../database/gym_class.php');
                 </header>
                 
                 <form action="create_class.php" method="post" class="modal-form">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <input type="hidden" name="action" value="create_class_with_session">
                     
                     <div class="form-group full-width">
@@ -283,7 +284,8 @@ require_once('../database/gym_class.php');
             <?php } else { ?>
                 <h1 class="profile-name"><?= htmlspecialchars($class->name) ?></h1>
                 <?php if ($class->session && !$isTrainer): ?>
-                    <form method="POST" action=<?= "class.php?id={$class->id}" ?>>
+                    <form method="POST" action="class.php?id=<?= $class->id ?>" id="enroll-form">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                         <input type="hidden" name="enroll" value=<?= $class->session->id ?>>
                         <button class="btn-review-submit" type="submit" style="margin-bottom: 20px;">
                             <?= $hasEnrollment ? "Desinscrever-se" : "Inscrever-se na Aula" ?>
@@ -304,6 +306,7 @@ require_once('../database/gym_class.php');
                     </div>
                     <?php if ($canEdit && $class->session !== null): ?>
                         <form action="create_class.php" method="post" class="inline-edit-form" style="display: none; margin-top: 6px; gap: 8px; flex-wrap: wrap;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_session">
                             <input type="hidden" name="id_session" value="<?= $class->session->id ?>">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
@@ -318,13 +321,16 @@ require_once('../database/gym_class.php');
                 <div class="profile-detail-item">
                     <strong>Capacidade</strong>
                     <div class="inline-view-mode">
-                        <span><?= htmlspecialchars($class->session ? ($class->session->enrollmentCount . '/' . $class->capacity) : ('0/' . $class->capacity)) ?></span>
+                        <span>
+                            <span id="enrollment-count"><?= htmlspecialchars($class->session ? $class->session->enrollmentCount : 0) ?></span>/<?= htmlspecialchars($class->capacity) ?>
+                        </span>
                         <?php if ($canEdit): ?>
                             <span class="inline-edit-trigger" style="text-decoration: underline; cursor: pointer; margin-left: 8px; color: var(--orange); font-size: 0.85rem; font-weight:600;">Alterar</span>
                         <?php endif; ?>
                     </div>
                     <?php if ($canEdit): ?>
                         <form action="create_class.php" method="post" class="inline-edit-form" style="display: none; margin-top: 6px; gap: 8px; align-items: center;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_capacity">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
                             <input type="number" name="capacity" value="<?= $class->capacity ?>" min="1" required style="padding: 4px 8px; border: 1px solid var(--gray-border); border-radius: 6px; font-family: inherit; font-size:0.85rem; width: 80px;">
@@ -344,6 +350,7 @@ require_once('../database/gym_class.php');
                     </div>
                     <?php if ($canEdit): ?>
                         <form action="create_class.php" method="post" class="inline-edit-form" style="display: none; margin-top: 6px; gap: 8px; align-items: center;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_duration">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
                             <input type="number" name="duration_minutes" value="<?= $class->durationMinutes ?>" min="1" required style="padding: 4px 8px; border: 1px solid var(--gray-border); border-radius: 6px; font-family: inherit; font-size:0.85rem; width: 80px;">
@@ -363,6 +370,7 @@ require_once('../database/gym_class.php');
                     </div>
                     <?php if ($canEdit): ?>
                         <form action="create_class.php" method="post" class="inline-edit-form" style="display: none; margin-top: 6px; gap: 8px; align-items: center;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_local">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
                             <input type="text" name="local" value="<?= htmlspecialchars($class->local) ?>" required style="padding: 4px 8px; border: 1px solid var(--gray-border); border-radius: 6px; font-family: inherit; font-size:0.85rem; width: 60%;">
@@ -383,6 +391,7 @@ require_once('../database/gym_class.php');
                     <section class="review-section">
                         <h4 class="review-box-title">Deixa a tua review</h4>
                         <form class="review-form" method="post" action="class.php?id=<?= $class->id ?>">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <fieldset class="star-rating">
                                 <input type="radio" id="r5" name="rating" value="5">
                                 <label for="r5" title="5 estrelas">&#9733;</label>
@@ -539,6 +548,7 @@ require_once('../database/gym_class.php');
         </section>
 
         <form action="create_class.php" method="post" class="session-form">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="create_class_session">
             <input type="hidden" name="id_class" value="<?= $class->id ?>">
 

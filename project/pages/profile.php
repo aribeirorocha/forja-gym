@@ -437,6 +437,15 @@ if (!$is_trainer && !$is_nutritionist) {
 
 output_header();
 require_once('../templates/profile.php');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        http_response_code(403);
+        die('Invalid CSRF token');
+    }
+}
+
 output_profile($user_data, $weight_log, $success_msg, $error_msg, $trainer_classes, $trainer_reviews, $trainer_review_stats, $pt_bookings, $trainers_list, $nutri_appointments, $my_nutrition_plan, $my_meals, $nutritionists_list, $my_appointments, $my_classes);
 output_footer();
 ?>

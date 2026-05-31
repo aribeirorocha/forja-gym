@@ -7,6 +7,15 @@ require_once('../database/user_auth.php');
 require_once('../database/gym_class.php');
 require_once('../database/class_session.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        http_response_code(403);
+        die('Invalid CSRF token');
+    }
+}
+
+
 // 1. Garantir que apenas utilizadores logados e do tipo 'trainer' acedem
 UserAuth::requireLogin();
 $user = UserAuth::currentUser();

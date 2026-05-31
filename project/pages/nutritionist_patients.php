@@ -26,6 +26,15 @@ $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 require_once('../templates/nutritionist_patients.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        http_response_code(403);
+        die('Invalid CSRF token');
+    }
+}
+
+
 output_header();
 output_nutritionist_patients($patients);
 output_footer();

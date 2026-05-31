@@ -98,6 +98,15 @@ if ($plan) {
 
 require_once('../templates/edit_nutrition_plan.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        http_response_code(403);
+        die('Invalid CSRF token');
+    }
+}
+
+
 output_header();
 output_edit_nutrition_plan($patient, $plan, $meals, $success_msg, $error_msg);
 output_footer();

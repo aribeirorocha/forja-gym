@@ -1,3 +1,4 @@
+const csrfToken = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').content : '';
 document.querySelectorAll('.delete-class-btn').forEach(button => {
     button.addEventListener('click', function () {
         const classId = this.dataset.classId;
@@ -13,7 +14,7 @@ document.querySelectorAll('.delete-class-btn').forEach(button => {
                     'application/x-www-form-urlencoded'
             },
             body:
-                'action=remove_class' + 
+                'csrf=' + encodeURIComponent(csrfToken) + '&action=remove_class' + 
                 '&id=' + encodeURIComponent(classId)
         })
         .then(response => {

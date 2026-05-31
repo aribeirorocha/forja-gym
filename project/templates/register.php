@@ -14,6 +14,7 @@
             <?php endif; ?>
 
             <form name="register" id="register" method="post" action="register.php">
+                <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="step" value="1">
                 <label>
                     Nome <input type="text" name="name" placeholder="O teu nome completo..." required>

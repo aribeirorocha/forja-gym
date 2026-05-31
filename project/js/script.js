@@ -97,3 +97,52 @@ function updateGrid() {
 
 if (filterGender) filterGender.addEventListener('change', updateGrid);
 if (sortTrainers) sortTrainers.addEventListener('change', updateGrid);
+// Live update for Class Enrollment
+document.addEventListener("DOMContentLoaded", function () {
+    const enrollForm = document.getElementById('enroll-form');
+    if (enrollForm) {
+        enrollForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            
+            const submitBtn = enrollForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'A processar...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(enrollForm);
+            formData.append('ajax', '1');
+
+            try {
+                const response = await fetch(enrollForm.action, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.action === 'enroll') {
+                        submitBtn.textContent = 'Desinscrever-se';
+                    } else {
+                        submitBtn.textContent = 'Inscrever-se na Aula';
+                    }
+                    
+                    // Update capacity counter if it exists on page
+                    const capacityElem = document.getElementById('enrollment-count');
+                    if (capacityElem && data.new_count !== undefined) {
+                        capacityElem.textContent = data.new_count;
+                    }
+                } else {
+                    alert(data.message || 'Erro ao processar inscrição.');
+                    submitBtn.textContent = originalText;
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Ocorreu um erro de rede.');
+                submitBtn.textContent = originalText;
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    }
+});

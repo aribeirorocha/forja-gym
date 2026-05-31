@@ -123,6 +123,7 @@ function output_nutritionist_modal(): void
             <p>NOVO NUTRICIONISTA</p>
 
             <form action="admin.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="add_nutritionist">
 
                 <div>

@@ -9,6 +9,15 @@ require_once('../database/trainer.php');
 require_once('../database/gym_class.php');
 require_once('../database/connection.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        http_response_code(403);
+        die('Invalid CSRF token');
+    }
+}
+
+
 $db = getDatabaseConnection();
 
 $trainers = Trainer::getTrainers($db, 3);

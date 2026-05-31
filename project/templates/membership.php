@@ -12,6 +12,7 @@
 
         <form method="post" action="register.php" class="register-form">
             
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="username" value="<?= htmlspecialchars($formData['username'] ?? '') ?>">
             <input type="hidden" name="name"     value="<?= htmlspecialchars($formData['name']     ?? '') ?>">
             <input type="hidden" name="email"    value="<?= htmlspecialchars($formData['email']    ?? '') ?>">

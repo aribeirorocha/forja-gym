@@ -8,6 +8,15 @@ require_once('../database/connection.php');
 require_once('../database/user_auth.php');
 require_once('../database/gym_class.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        http_response_code(403);
+        die('Invalid CSRF token');
+    }
+}
+
+
 $db = getDatabaseConnection();
 $user = UserAuth::currentUser(); // Retorna array se logado, null se não
 
@@ -49,36 +58,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rating'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enroll'])) {
     if ($user) {
 
+                $isAjax = isset($_POST['ajax']);
+        
         if ($class->session->enrollmentCount >= $class->capacity) {
-            header("Location: class.php?id=$id");
-            exit;
+            if ($isAjax) { echo json_encode(['success' => false, 'message' => 'Aula lotada']); exit; }
+            header("Location: class.php?id=$id"); exit;
         }
         if ($hasEnrollment) {
             ClassSession::removeEnrollment($db, $user['id'], $class->session->id);
-            header("Location: class.php?id=$id");
-            exit;
+            if ($isAjax) { echo json_encode(['success' => true, 'action' => 'unenroll', 'new_count' => $class->session->enrollmentCount - 1]); exit; }
+            header("Location: class.php?id=$id"); exit;
         }
 
-        // Verifica os limites do plano
         $membership = $user['membership'] ?? 'basico';
         if ($membership !== 'vip') {
             $weekly_count = ClassSession::getWeeklyClassCount($db, $user['id']);
             $max_classes = ($membership === 'normal') ? 3 : 1;
             
             if ($weekly_count >= $max_classes) {
-                header("Location: class.php?id=$id&error=membership_limit");
-                exit;
+                if ($isAjax) { echo json_encode(['success' => false, 'message' => 'Atingiste o limite de aulas semanais do teu plano.']); exit; }
+                header("Location: class.php?id=$id&error=membership_limit"); exit;
             }
         }
 
         ClassSession::enrollInSession($db, $user['id'], $class->session->id);
-        header("Location: class.php?id=$id&success=enroll");
-        exit;
+        if ($isAjax) { echo json_encode(['success' => true, 'action' => 'enroll', 'new_count' => $class->session->enrollmentCount + 1]); exit; }
+        header("Location: class.php?id=$id&success=enroll"); exit;
     } else {
-
-        header('Location: login.php');
-        exit;
+        if (isset($_POST['ajax'])) { echo json_encode(['success' => false, 'message' => 'Não autenticado']); exit; }
+        header('Location: login.php'); exit;
     }
+}
 }
 
 output_header();

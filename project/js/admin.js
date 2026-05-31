@@ -1,3 +1,4 @@
+const csrfToken = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').content : '';
 
 setupModal('trigger-add-equipment', 'add-equipment-modal', 'close-add-equipment');
 setupFileLabel('eq-photo-input', 'eq-photo-label');
@@ -80,7 +81,7 @@ function setupDeleteButtons(selector, options) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body:
-                    'action=' + encodeURIComponent(options.action) +
+                    'csrf=' + encodeURIComponent(csrfToken) + '&action=' + encodeURIComponent(options.action) +
                     '&id=' + encodeURIComponent(id)
             }).then(response => {
                 if (response.ok) {

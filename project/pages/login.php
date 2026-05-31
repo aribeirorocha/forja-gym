@@ -9,6 +9,11 @@ $error      = '';
 $registered = isset($_GET['registered']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        die('Invalid CSRF token');
+    }
+
     $email    = trim($_POST['email']    ?? '');
     $password = $_POST['password']      ?? '';
 
