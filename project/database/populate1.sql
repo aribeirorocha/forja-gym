@@ -59,8 +59,8 @@ INSERT INTO trainer_profile (id_user, sex, formation, certification, specializat
 -- 2. NUTRICIONISTAS
 -- ==========================================
 INSERT INTO user (id, username, name, email, password, photo, role, created_at) VALUES 
-(7, 'nutri_ana',   'Dra. Ana Silva',   'ananutri@gmail.com',   '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'nutritionist.jpg', 'nutritionist', '2024-01-10 09:00:00'),
-(8, 'nutri_pedro', 'Dr. Pedro Rocha',  'pedronutri@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', 'nutri_pedro.jpg',  'nutritionist', '2024-01-10 09:00:00');
+(7, 'nutri_ana',   'Dra. Ana Silva',   'ananutri@gmail.com',   '1234', 'nutritionist.jpg', 'nutritionist', '2024-01-10 09:00:00'),
+(8, 'nutri_pedro', 'Dr. Pedro Rocha',  'pedronutri@gmail.com', '1234', 'nutri_pedro.jpg',  'nutritionist', '2024-01-10 09:00:00');
 
 INSERT INTO nutritionist_profile (id_user, specialization, license_number) VALUES 
 (7, 'Nutrição Desportiva',            'ORDEM-455567'),
@@ -70,26 +70,26 @@ INSERT INTO nutritionist_profile (id_user, specialization, license_number) VALUE
 -- 3. MEMBROS (20 membros com datas variadas)
 -- ==========================================
 INSERT INTO user (id, username, name, email, password, photo, role, age, membership, created_at) VALUES
-(13, 'pedro_m',      'Pedro Martins',     'pedro.martins@gmail.com',    '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 27, 'normal', '2024-02-03 10:15:00'),
-(14, 'rita_f',       'Rita Ferreira',     'rita.ferreira@gmail.com',    '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 24, 'vip',    '2024-02-10 11:30:00'),
-(15, 'carlos_o',     'Carlos Oliveira',   'carlos.oliveira@gmail.com',  '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 35, 'basico', '2024-02-15 09:00:00'),
-(16, 'ines_s',       'Inês Santos',       'ines.santos@gmail.com',      '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 22, 'vip',    '2024-03-01 14:00:00'),
-(17, 'tomas_r',      'Tomás Rodrigues',   'tomas.rodrigues@gmail.com',  '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 30, 'normal', '2024-03-12 16:45:00'),
-(18, 'beatriz_n',    'Beatriz Neves',     'beatriz.neves@gmail.com',    '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 26, 'normal', '2024-03-20 10:00:00'),
-(19, 'diogo_c',      'Diogo Carvalho',    'diogo.carvalho@gmail.com',   '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 29, 'basico', '2024-04-05 09:30:00'),
-(20, 'mariana_l',    'Mariana Lopes',     'mariana.lopes@gmail.com',    '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 23, 'vip',    '2024-04-18 11:00:00'),
-(21, 'rui_a',        'Rui Azevedo',       'rui.azevedo@gmail.com',      '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 38, 'normal', '2024-05-02 08:00:00'),
-(22, 'francisca_p',  'Francisca Pinto',   'francisca.pinto@gmail.com',  '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 21, 'basico', '2024-05-14 13:00:00'),
-(23, 'andre_v',      'André Vieira',      'andre.vieira@gmail.com',     '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 33, 'vip',    '2024-06-01 10:30:00'),
-(24, 'catarina_m',   'Catarina Moreira',  'catarina.moreira@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 28, 'normal', '2024-06-20 15:00:00'),
-(25, 'miguel_b',     'Miguel Braga',      'miguel.braga@gmail.com',     '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 31, 'basico', '2024-07-08 09:00:00'),
-(26, 'leonor_g',     'Leonor Goncalves',  'leonor.goncalves@gmail.com', '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 25, 'vip',    '2024-07-22 11:45:00'),
-(27, 'hugo_t',       'Hugo Teixeira',     'hugo.teixeira@gmail.com',    '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 40, 'normal', '2024-08-05 14:00:00'),
-(28, 'sofia_r',      'Sofia Ribeiro',     'sofia.ribeiro@gmail.com',    '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 29, 'basico', '2024-09-10 10:00:00'),
-(29, 'joao_d',       'João Dias',         'joao.dias@gmail.com',        '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 36, 'normal', '2024-10-01 09:15:00'),
-(30, 'ana_c',        'Ana Coelho',        'ana.coelho@gmail.com',       '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 27, 'vip',    '2024-10-15 12:00:00'),
-(31, 'bruno_s',      'Bruno Sousa',       'bruno.sousa@gmail.com',      '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 32, 'normal', '2024-11-03 08:30:00'),
-(32, 'marta_a',      'Marta Alves',       'marta.alves@gmail.com',      '$2y$10$g9OuzvBvQpA5hX/Fm72E/.B8mNl0GzXmU5S88H90N6wz6gK1b6W2.', NULL, 'member', 24, 'basico', '2024-11-20 17:00:00');
+(13, 'pedro_m',      'Pedro Martins',     'pedro.martins@gmail.com',    '1234', NULL, 'member', 27, 'normal', '2024-02-03 10:15:00'),
+(14, 'rita_f',       'Rita Ferreira',     'rita.ferreira@gmail.com',    '1234', NULL, 'member', 24, 'vip',    '2024-02-10 11:30:00'),
+(15, 'carlos_o',     'Carlos Oliveira',   'carlos.oliveira@gmail.com',  '1234', NULL, 'member', 35, 'basico', '2024-02-15 09:00:00'),
+(16, 'ines_s',       'Inês Santos',       'ines.santos@gmail.com',      '1234', NULL, 'member', 22, 'vip',    '2024-03-01 14:00:00'),
+(17, 'tomas_r',      'Tomás Rodrigues',   'tomas.rodrigues@gmail.com',  '1234', NULL, 'member', 30, 'normal', '2024-03-12 16:45:00'),
+(18, 'beatriz_n',    'Beatriz Neves',     'beatriz.neves@gmail.com',    '1234', NULL, 'member', 26, 'normal', '2024-03-20 10:00:00'),
+(19, 'diogo_c',      'Diogo Carvalho',    'diogo.carvalho@gmail.com',   '1234', NULL, 'member', 29, 'basico', '2024-04-05 09:30:00'),
+(20, 'mariana_l',    'Mariana Lopes',     'mariana.lopes@gmail.com',    '1234', NULL, 'member', 23, 'vip',    '2024-04-18 11:00:00'),
+(21, 'rui_a',        'Rui Azevedo',       'rui.azevedo@gmail.com',      '1234', NULL, 'member', 38, 'normal', '2024-05-02 08:00:00'),
+(22, 'francisca_p',  'Francisca Pinto',   'francisca.pinto@gmail.com',  '1234', NULL, 'member', 21, 'basico', '2024-05-14 13:00:00'),
+(23, 'andre_v',      'André Vieira',      'andre.vieira@gmail.com',     '1234', NULL, 'member', 33, 'vip',    '2024-06-01 10:30:00'),
+(24, 'catarina_m',   'Catarina Moreira',  'catarina.moreira@gmail.com', '1234', NULL, 'member', 28, 'normal', '2024-06-20 15:00:00'),
+(25, 'miguel_b',     'Miguel Braga',      'miguel.braga@gmail.com',     '1234', NULL, 'member', 31, 'basico', '2024-07-08 09:00:00'),
+(26, 'leonor_g',     'Leonor Goncalves',  'leonor.goncalves@gmail.com', '1234', NULL, 'member', 25, 'vip',    '2024-07-22 11:45:00'),
+(27, 'hugo_t',       'Hugo Teixeira',     'hugo.teixeira@gmail.com',    '1234', NULL, 'member', 40, 'normal', '2024-08-05 14:00:00'),
+(28, 'sofia_r',      'Sofia Ribeiro',     'sofia.ribeiro@gmail.com',    '1234', NULL, 'member', 29, 'basico', '2024-09-10 10:00:00'),
+(29, 'joao_d',       'João Dias',         'joao.dias@gmail.com',        '1234', NULL, 'member', 36, 'normal', '2024-10-01 09:15:00'),
+(30, 'ana_c',        'Ana Coelho',        'ana.coelho@gmail.com',       '1234', NULL, 'member', 27, 'vip',    '2024-10-15 12:00:00'),
+(31, 'bruno_s',      'Bruno Sousa',       'bruno.sousa@gmail.com',      '1234', NULL, 'member', 32, 'normal', '2024-11-03 08:30:00'),
+(32, 'marta_a',      'Marta Alves',       'marta.alves@gmail.com',      '1234', NULL, 'member', 24, 'basico', '2024-11-20 17:00:00');
 
 -- ==========================================
 -- 4. AULAS E SESSÕES
@@ -386,6 +386,33 @@ INSERT INTO nutrition_plan (id_member, id_nutritionist, goal, notes, start_date,
 (23, 8, 'Recomposição corporal', 'Perder gordura e ganhar músculo simultaneamente.', '2025-04-01', NULL, 'Ativo'),
 (30, 7, 'Alimentação equilibrada', 'Sem objetivos específicos, apenas melhorar hábitos alimentares.', '2025-03-15', NULL, 'Ativo'),
 (14, 8, 'Perda de peso', 'Reduzir 8kg para o verão com dieta mediterrânica.', '2025-04-10', '2025-07-10', 'Ativo');
+
+-- ==========================================
+-- 10.1. REFEIÇÕES
+-- ==========================================
+INSERT INTO meal (id_plan, day_of_week, meal_type, description, calories, protein_g, carbs_g, fat_g) VALUES
+-- Plano 1 (Pedro Martins - Ganho de massa)
+(1, 'Segunda', 'Pequeno-Almoço', 'Papas de aveia com whey protein e frutos vermelhos. 1 ovo cozido.', 450, 35, 50, 10),
+(1, 'Segunda', 'Almoço', '150g peito de frango grelhado, 200g arroz basmati, brócolos a vapor.', 600, 45, 80, 10),
+(1, 'Segunda', 'Lanche', 'Iogurte grego natural com 30g de nozes e mel.', 300, 15, 10, 20),
+(1, 'Segunda', 'Jantar', '200g de salmão grelhado, 150g batata doce, espargos e azeite.', 650, 40, 40, 30),
+(1, 'Terça', 'Pequeno-Almoço', 'Pão integral com 2 ovos mexidos e meio abacate.', 500, 25, 40, 25),
+(1, 'Terça', 'Almoço', '150g peru grelhado, 150g massa integral, salada com tomate.', 550, 40, 60, 15),
+(1, 'Terça', 'Lanche', 'Batido de proteína e 1 banana.', 250, 25, 30, 2),
+(1, 'Terça', 'Jantar', 'Bife de vaca magro, 150g quinoa, legumes salteados.', 600, 45, 50, 20),
+(1, 'Quarta', 'Pequeno-Almoço', 'Panquecas de aveia e claras de ovo com manteiga de amendoim.', 400, 30, 40, 15),
+(1, 'Quarta', 'Almoço', '1 Lata de atum ao natural, feijão frade, ovo cozido e cebola.', 500, 40, 45, 15),
+
+-- Plano 6 (Rita Ferreira - Perda de peso)
+(6, 'Segunda', 'Pequeno-Almoço', '1 fatia de pão integral com queijo fresco magro e chá verde.', 200, 10, 25, 5),
+(6, 'Segunda', 'Almoço', '100g peito frango desfiado, salada mista à vontade, 1 c. chá azeite.', 350, 30, 15, 15),
+(6, 'Segunda', 'Lanche', '1 peça de fruta (maçã) e 10 amêndoas torradas.', 150, 3, 20, 8),
+(6, 'Segunda', 'Jantar', '1 posta de pescada cozida, curgete e cenoura cozidas, sem batata.', 300, 25, 15, 10),
+(6, 'Terça', 'Pequeno-Almoço', 'Iogurte natural magro com 2 c. sopa de flocos de aveia.', 200, 12, 25, 4),
+(6, 'Terça', 'Almoço', 'Omelete de 2 ovos com espinafres, salada de tomate, sem pão.', 350, 20, 10, 20),
+(6, 'Terça', 'Jantar', 'Sopa de legumes sem batata. 100g de tofu salteado.', 250, 15, 20, 10),
+(6, 'Quarta', 'Almoço', 'Lombos de salmão no forno com brócolos e couve-flor.', 400, 30, 10, 25);
+
 
 -- ==========================================
 -- 11. CONSULTAS COM NUTRICIONISTAS

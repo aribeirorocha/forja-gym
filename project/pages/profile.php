@@ -12,6 +12,7 @@ $success_msg = '';
 $error_msg   = '';
 
 $is_trainer = ($current_user['role'] ?? '') === 'trainer';
+$is_nutritionist = ($current_user['role'] ?? '') === 'nutritionist';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -73,7 +74,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$current_user['id'], $formation, $certification, $specialization, $location]);
         $success_msg = 'Perfil atualizado com sucesso.';
 
-    } elseif ($action === 'update_membership' && !$is_trainer) {
+    } elseif ($action === 'update_nutritionist_profile' && $is_nutritionist) {
+        $specialization = trim($_POST['specialization'] ?? '');
+        $license_number = trim($_POST['license_number'] ?? '');
+
+        $stmt = $db->prepare('
+            INSERT INTO nutritionist_profile (id_user, specialization, license_number)
+            VALUES (?, ?, ?)
+            ON CONFLICT(id_user) DO UPDATE SET
+                specialization = excluded.specialization,
+                license_number = excluded.license_number
+        ');
+        $stmt->execute([$current_user['id'], $specialization, $license_number]);
+        $success_msg = 'Perfil de Nutricionista atualizado com sucesso.';
+
+    } elseif ($action === 'update_appointment_status' && $is_nutritionist) {
+        $appointment_id = intval($_POST['appointment_id'] ?? 0);
+        $new_status = $_POST['new_status'] ?? '';
+        if ($appointment_id > 0 && in_array($new_status, ['confirmada', 'cancelada'])) {
+            $stmt = $db->prepare('UPDATE appointment SET status = ? WHERE id = ? AND id_nutritionist = ?');
+            $stmt->execute([$new_status, $appointment_id, $current_user['id']]);
+            $success_msg = $new_status === 'confirmada' ? 'Consulta confirmada.' : 'Consulta cancelada.';
+        }
+
+    } elseif ($action === 'update_membership' && !$is_trainer && !$is_nutritionist) {
         $membership = $_POST['membership'] ?? '';
         if (in_array($membership, ['basico', 'normal', 'vip'])) {
             $stmt = $db->prepare('UPDATE user SET membership = ? WHERE id = ?');
@@ -81,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $success_msg = 'Plano atualizado com sucesso.';
         }
 
-    } elseif ($action === 'log_weight' && !$is_trainer) {
+    } elseif ($action === 'log_weight' && !$is_trainer && !$is_nutritionist) {
         $weight_kg = floatval($_POST['weight_kg'] ?? 0);
         $logged_at = $_POST['logged_at'] ?? date('Y-m-d');
         $notes     = trim($_POST['notes'] ?? '');
@@ -98,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $success_msg = 'Peso registado com sucesso.';
         }
 
-    } elseif ($action === 'delete_weight' && !$is_trainer) {
+    } elseif ($action === 'delete_weight' && !$is_trainer && !$is_nutritionist) {
         $weight_id = intval($_POST['weight_id'] ?? 0);
         if ($weight_id > 0) {
             $stmt = $db->prepare('DELETE FROM weight_log WHERE id = ? AND id_member = ?');
@@ -106,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $success_msg = 'Registo eliminado.';
         }
 
-    } elseif ($action === 'book_pt' && !$is_trainer) {
+    } elseif ($action === 'book_pt' && !$is_trainer && !$is_nutritionist) {
         $trainer_id   = intval($_POST['trainer_id'] ?? 0);
         $booking_date = trim($_POST['booking_date'] ?? '');
         $booking_time = trim($_POST['booking_time'] ?? '');
@@ -136,11 +160,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $success_msg = $new_status === 'Confirmado' ? 'Sessão confirmada.' : 'Sessão cancelada.';
         }
 
-    } elseif ($action === 'cancel_pt' && !$is_trainer) {
+    } elseif ($action === 'cancel_pt' && !$is_trainer && !$is_nutritionist) {
         $booking_id = intval($_POST['booking_id'] ?? 0);
         if ($booking_id > 0) {
             $stmt = $db->prepare('UPDATE pt_booking SET status = \'Cancelado\' WHERE id = ? AND id_member = ? AND status = \'Pendente\'');
             $stmt->execute([$booking_id, $current_user['id']]);
+            $success_msg = 'Pedido cancelado.';
+        }
+
+    } elseif ($action === 'book_nutrition' && !$is_trainer && !$is_nutritionist) {
+        $nutritionist_id   = intval($_POST['nutritionist_id'] ?? 0);
+        $appointment_date = trim($_POST['appointment_date'] ?? '');
+        $appointment_time = trim($_POST['appointment_time'] ?? '');
+
+        if ($nutritionist_id <= 0 || !$appointment_date || !$appointment_time) {
+            $error_msg = 'Preenche todos os campos obrigatórios.';
+        } elseif ($appointment_date < date('Y-m-d', strtotime('+1 day'))) {
+            $error_msg = 'Escolhe uma data a partir de amanhã.';
+        } else {
+            $datetime = $appointment_date . ' ' . $appointment_time . ':00';
+            $stmt = $db->prepare('
+                INSERT INTO appointment (id_member, id_nutritionist, appointment_date, status)
+                VALUES (?, ?, ?, \'pendente\')
+            ');
+            $stmt->execute([$current_user['id'], $nutritionist_id, $datetime]);
+            $success_msg = 'Pedido de consulta enviado! Aguarda confirmação do nutricionista.';
+        }
+
+    } elseif ($action === 'cancel_nutrition' && !$is_trainer && !$is_nutritionist) {
+        $appointment_id = intval($_POST['appointment_id'] ?? 0);
+        if ($appointment_id > 0) {
+            $stmt = $db->prepare('UPDATE appointment SET status = \'cancelada\' WHERE id = ? AND id_member = ? AND status = \'pendente\'');
+            $stmt->execute([$appointment_id, $current_user['id']]);
             $success_msg = 'Pedido cancelado.';
         }
 
@@ -212,12 +263,26 @@ if ($is_trainer) {
     $trainer_reviews      = getTrainerReviews($db, $current_user['id']);
 }
 
+if ($is_nutritionist) {
+    $stmt = $db->prepare('SELECT specialization, license_number FROM nutritionist_profile WHERE id_user = ? LIMIT 1');
+    $stmt->execute([$current_user['id']]);
+    $nutri_extra = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($nutri_extra) {
+        $user_data = array_merge($user_data, $nutri_extra);
+    }
+}
+
 // Registos de peso (só para members)
 $weight_log = [];
 $pt_bookings = [];
 $trainers_list = [];
+$nutritionists_list = [];
+$my_appointments = [];
+$nutri_appointments = [];
+$my_nutrition_plan = null;
+$my_meals = [];
 
-if (!$is_trainer) {
+if (!$is_trainer && !$is_nutritionist) {
     $stmt = $db->prepare('SELECT id, weight_kg, logged_at, notes FROM weight_log WHERE id_member = ? ORDER BY logged_at DESC LIMIT 30');
     $stmt->execute([$current_user['id']]);
     $weight_log = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -239,7 +304,41 @@ if (!$is_trainer) {
     $stmt->execute();
     $trainers_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-} else {
+    // Lista de nutricionistas para o formulário de pedido
+    $stmt = $db->prepare('SELECT u.id, u.name, u.photo, np.specialization FROM user u JOIN nutritionist_profile np ON np.id_user = u.id ORDER BY u.name ASC');
+    $stmt->execute();
+    $nutritionists_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Pedidos de consulta do member
+    $stmt = $db->prepare('
+        SELECT a.id, a.appointment_date, a.status,
+               u.name as nutritionist_name, u.photo as nutritionist_photo
+        FROM appointment a
+        JOIN user u ON u.id = a.id_nutritionist
+        WHERE a.id_member = ?
+        ORDER BY a.appointment_date DESC
+    ');
+    $stmt->execute([$current_user['id']]);
+    $my_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Plano de Nutrição Ativo
+    $stmt = $db->prepare('
+        SELECT p.*, u.name as nutritionist_name 
+        FROM nutrition_plan p
+        JOIN user u ON p.id_nutritionist = u.id
+        WHERE p.id_member = ? AND p.status = "Ativo"
+        ORDER BY p.id DESC LIMIT 1
+    ');
+    $stmt->execute([$current_user['id']]);
+    $my_nutrition_plan = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($my_nutrition_plan) {
+        $stmt = $db->prepare('SELECT * FROM meal WHERE id_plan = ? ORDER BY day_of_week, meal_type');
+        $stmt->execute([$my_nutrition_plan['id']]);
+        $my_meals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+} else if ($is_trainer) {
     // Pedidos PT recebidos pelo trainer
     $stmt = $db->prepare('
         SELECT pb.id, pb.booking_date, pb.start_time, pb.end_time, pb.notes, pb.status, pb.created_at,
@@ -251,9 +350,22 @@ if (!$is_trainer) {
     ');
     $stmt->execute([$current_user['id']]);
     $pt_bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else if ($is_nutritionist) {
+    // Pedidos de consulta recebidos pelo nutricionista
+    $stmt = $db->prepare('
+        SELECT a.id, a.appointment_date, a.status,
+               u.name as member_name, u.photo as member_photo
+        FROM appointment a
+        JOIN user u ON u.id = a.id_member
+        WHERE a.id_nutritionist = ?
+        ORDER BY a.status ASC, a.appointment_date ASC
+    ');
+    $stmt->execute([$current_user['id']]);
+    $nutri_appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 output_header();
-output_profile($user_data, $weight_log, $success_msg, $error_msg, $trainer_classes, $trainer_reviews, $trainer_review_stats, $pt_bookings, $trainers_list);
+require_once('../templates/profile.php');
+output_profile($user_data, $weight_log, $success_msg, $error_msg, $trainer_classes, $trainer_reviews, $trainer_review_stats, $pt_bookings, $trainers_list, $nutri_appointments, $my_nutrition_plan, $my_meals, $nutritionists_list, $my_appointments);
 output_footer();
 ?>
