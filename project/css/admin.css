@@ -328,12 +328,12 @@
   margin-bottom: 5px;
 }
 
-.add-class-modal-overlay form > div:nth-child(2) {
+.add-class-modal-overlay form > .admin-modal-field {
   margin-bottom: 20px;
   text-align: center;
 }
 
-.add-class-modal-overlay form > div:nth-child(2) > input {
+.add-class-modal-overlay form > .admin-modal-field > input {
   font-size: 1.3rem;
   font-weight: 800;
   text-align: center;
@@ -347,7 +347,7 @@
   background: transparent;
 }
 
-.add-class-modal-overlay form > div:nth-child(3) {
+.add-class-modal-overlay form > .admin-modal-field-group {
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -357,23 +357,23 @@
   margin-bottom: 20px;
 }
 
-.add-class-modal-overlay form > div:nth-child(3) > div {
+.add-class-modal-overlay form > .admin-modal-field-group > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
 }
 
-.add-class-modal-overlay form > div:nth-child(3) > div:not(:last-child) {
+.add-class-modal-overlay form > .admin-modal-field-group > div:not(:last-child) {
   border-bottom: 1px solid var(--gray-bg);
 }
 
-.add-class-modal-overlay form > div:nth-child(3) > div > strong {
+.add-class-modal-overlay form > .admin-modal-field-group > div > strong {
   font-size: 0.85rem;
   color: var(--text-muted);
 }
 
-#add-equipment-modal form > div:nth-child(3) > div > select {
+#add-equipment-modal form > .admin-modal-field-group > div > select {
   padding: 6px 10px;
   border: 1px solid var(--gray-border);
   border-radius: 6px;
@@ -384,7 +384,7 @@
   color: var(--text-main);
 }
 
-#add-equipment-modal form > div:nth-child(3) > div > input {
+#add-equipment-modal form > .admin-modal-field-group > div > input {
   padding: 6px 10px;
   border: 1px solid var(--gray-border);
   border-radius: 6px;
@@ -396,8 +396,8 @@
   background: #fff;
 }
 
-#add-trainer-modal form > div:nth-child(3) > div > select,
-#add-nutritionist-modal form > div:nth-child(3) > div > select {
+#add-trainer-modal form > .admin-modal-field-group > div > select,
+#add-nutritionist-modal form > .admin-modal-field-group > div > select {
   padding: 6px 10px;
   border: 1px solid var(--gray-border);
   border-radius: 6px;
@@ -408,8 +408,8 @@
   color: var(--text-main);
 }
 
-#add-trainer-modal form > div:nth-child(3) > div > input,
-#add-nutritionist-modal form > div:nth-child(3) > div > input {
+#add-trainer-modal form > .admin-modal-field-group > div > input,
+#add-nutritionist-modal form > .admin-modal-field-group > div > input {
   padding: 6px 10px;
   border: 1px solid var(--gray-border);
   border-radius: 6px;
@@ -571,6 +571,7 @@ div:has(> #nu-photo-input) {
   padding: 20px;
   box-sizing: border-box;
 }
+
 .add-class-modal-overlay.hidden {
   display: none;
 }

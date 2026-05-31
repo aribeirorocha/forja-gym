@@ -271,10 +271,7 @@
             <?php endforeach; ?>
 
             <!-- Card "+" para adicionar equipamento -->
-            <article class="class-card" id="trigger-add-equipment"
-                     style="cursor:pointer;display:flex;align-items:center;justify-content:center;
-                            border:2px dashed var(--orange);background-color:#fffbf9;
-                            min-height:280px;transition:var(--transition);">
+            <article class="class-card" id="trigger-add-equipment">
                 <div class="text-center text-orange">
                     <span class="create-class-icon">+</span>
                     <span class="create-class-text">Adicionar Equipamento</span>

@@ -126,11 +126,11 @@ function output_nutritionist_modal(): void
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="add_nutritionist">
 
-                <div>
+                <div class="admin-modal-field">
                     <input type="text" name="nu_name" placeholder="Nome completo" required>
                 </div>
 
-                <div>
+                <div class="admin-modal-field-group">
 
                     <div>
                         <strong>Username</strong>

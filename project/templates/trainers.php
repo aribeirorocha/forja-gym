@@ -86,11 +86,11 @@ require_once('../database/trainer.php');
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <input type="hidden" name="action" value="add_trainer">
 
-                    <div>
+                    <div class="admin-modal-field">
                         <input type="text" name="trainer_name" placeholder="Nome completo" required>
                     </div>
 
-                    <div>
+                    <div class="admin-modal-field-group">
 
                         <div>
                             <strong>Email</strong>
