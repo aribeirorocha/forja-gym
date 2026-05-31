@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Validate step 1 fields
         $name     = trim($_POST['name']     ?? '');
         $username = trim($_POST['username'] ?? '');
-        $email    = trim($_POST['email']    ?? '');
+        $email    = strtolower(trim($_POST['email']    ?? ''));
         $password = $_POST['password']      ?? '';
 
         if (!$name || !$username || !$email || !$password) {
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($step === 2) {
         $name       = trim($_POST['name']       ?? '');
         $username   = trim($_POST['username']   ?? '');
-        $email      = trim($_POST['email']      ?? '');
+        $email      = strtolower(trim($_POST['email']      ?? ''));
         $password   = $_POST['password']        ?? '';
         $membership = $_POST['membership']      ?? 'basico';
 

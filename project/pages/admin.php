@@ -323,6 +323,44 @@ $stmt = $db->prepare("
 $stmt->execute();
 $stats['top_trainers'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$stmt = $db->prepare("
+    SELECT c.id, c.name,
+           AVG(r.rate) as avg_rating,
+           COUNT(*) as review_count
+    FROM rating r
+    JOIN class_session cs ON r.id_session = cs.id
+    JOIN class c ON cs.id_class = c.id
+    WHERE r.id_session IS NOT NULL
+    GROUP BY c.id
+    HAVING COUNT(*) >= 1
+    ORDER BY avg_rating DESC, review_count DESC
+    LIMIT 5
+");
+$stmt->execute();
+$stats['top_classes'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $db->prepare("
+    SELECT c.id as entity_id, r.rate, r.comment, u.name as member_name
+    FROM rating r
+    JOIN class_session cs ON r.id_session = cs.id
+    JOIN class c ON cs.id_class = c.id
+    JOIN user u ON r.id_member = u.id
+    WHERE r.id_session IS NOT NULL AND r.comment IS NOT NULL AND trim(r.comment) != ''
+    ORDER BY r.created_at DESC
+");
+$stmt->execute();
+$stats['class_reviews'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $db->prepare("
+    SELECT r.id_trainer as entity_id, r.rate, r.comment, u.name as member_name
+    FROM rating r
+    JOIN user u ON r.id_member = u.id
+    WHERE r.id_trainer IS NOT NULL AND r.comment IS NOT NULL AND trim(r.comment) != ''
+    ORDER BY r.created_at DESC
+");
+$stmt->execute();
+$stats['trainer_reviews'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // ── Output ────────────────────────────────────────────────────────────────────
 output_header();
 output_admin_panel($users, $page, $username, $all_classes, $all_trainers, $all_nutritionists, $all_pt_bookings, $stats);

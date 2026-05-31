@@ -278,7 +278,195 @@
   letter-spacing: 0.05em;
 }
 
-/* Modal overlay and cards unified below */
+#add-equipment-modal > article {
+  width: 400px;
+  max-width: 95vw;
+  height: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  animation: modalSlideUp 0.3s ease;
+  box-sizing: border-box;
+}
+
+#add-trainer-modal > article,
+#add-nutritionist-modal > article {
+  width: 420px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  animation: modalSlideUp 0.3s ease;
+  box-sizing: border-box;
+}
+
+.add-class-modal-overlay > article > button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.add-class-modal-overlay > article > p {
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.add-class-modal-overlay form > .admin-modal-field {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.add-class-modal-overlay form > .admin-modal-field > input {
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-align: center;
+  border: none;
+  border-bottom: 2px solid var(--gray-border);
+  width: 100%;
+  padding: 4px;
+  color: var(--text-main);
+  outline: none;
+  font-family: inherit;
+  background: transparent;
+}
+
+.add-class-modal-overlay form > .admin-modal-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--gray-border);
+  border-bottom: 1px solid var(--gray-border);
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.add-class-modal-overlay form > .admin-modal-field-group > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.add-class-modal-overlay form > .admin-modal-field-group > div:not(:last-child) {
+  border-bottom: 1px solid var(--gray-bg);
+}
+
+.add-class-modal-overlay form > .admin-modal-field-group > div > strong {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+#add-equipment-modal form > .admin-modal-field-group > div > select {
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  width: 200px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: #fff;
+  color: var(--text-main);
+}
+
+#add-equipment-modal form > .admin-modal-field-group > div > input {
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  width: 200px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  background: #fff;
+}
+
+#add-trainer-modal form > .admin-modal-field-group > div > select,
+#add-nutritionist-modal form > .admin-modal-field-group > div > select {
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  width: 220px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: #fff;
+  color: var(--text-main);
+}
+
+#add-trainer-modal form > .admin-modal-field-group > div > input,
+#add-nutritionist-modal form > .admin-modal-field-group > div > input {
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  width: 220px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  background: #fff;
+}
+
+div:has(> #eq-photo-input) {
+  width: 200px;
+}
+
+div:has(> #nu-photo-input) {
+  width: 220px;
+}
+
+#eq-photo-label,
+#nu-photo-label {
+  display: block;
+  padding: 6px 10px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  background: #fff;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#eq-photo-input,
+#nu-photo-input {
+  display: none;
+}
+
+.add-class-modal-overlay form > button {
+  width: 100%;
+  background: var(--black);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-delete-equipment:hover,
+.admin-delete-trainer:hover,
+.admin-delete-nutritionist:hover {
+  background: #e53e3e !important;
+  color: #fff !important;
+}
 
 /* ── TABS ───────────────────────────────────────── */
 .admin-tabs {
@@ -383,6 +571,7 @@
   padding: 20px;
   box-sizing: border-box;
 }
+
 .add-class-modal-overlay.hidden {
   display: none;
 }

@@ -1,6 +1,6 @@
-# FORJA Gym
+# FORJA Gym - Gestão de Ginásio
 
-Plataforma web para gestão de um ginásio, desenvolvida no âmbito da unidade curricular de Laboratório de Tecnologias Web (LTW) da FEUP, edição 2026.
+Projeto desenvolvido no âmbito da unidade curricular de **Laboratório de Tecnologias Web (LTW)** da Faculdade de Engenharia da Universidade do Porto (FEUP), edição 2026.
 
 ## Grupo LTW07G08
 
@@ -8,68 +8,92 @@ Plataforma web para gestão de um ginásio, desenvolvida no âmbito da unidade c
 - Ricardo Oliveira - up202404557
 - Cândido Junior - up202409106
 
-## Descrição
+---
 
-A FORJA é uma plataforma que permite a membros, trainers e administradores gerir as atividades de um ginásio. Na primeira entrega, foram desenvolvidas três páginas em HTML e CSS:
+## 📌 Descrição do Projeto
 
-- **Homepage** — página principal com hero section, missão, aulas em destaque e equipa de trainers
-- **Trainers** — listagem dos trainers com perfis expansíveis e sistema de reviews por estrelas
-- **Login / Registo** — formulário com troca entre login e registo sem recarregar a página, usando apenas CSS e radio buttons
+A **FORJA** é uma plataforma web completa projetada para facilitar e digitalizar as operações de um ginásio moderno. Com um design sofisticado e focado na usabilidade, a aplicação serve diferentes tipos de utilizadores (Administradores, Instrutores, Nutricionistas e Membros), cumprindo os requisitos funcionais e técnicos exigidos. Foi construída estritamente com tecnologias web base (HTML, CSS, PHP, SQLite e JavaScript/AJAX), sem o uso de frameworks.
 
-## Estrutura de ficheiros
+## 🚀 Como Executar o Projeto
 
-```
-project/
-├── css/
-│   ├── style.css        # variáveis globais, reset, componentes reutilizáveis (header, footer, cards, botões)
-│   ├── forms.css        # estilos específicos de formulários (login/registo)
-│   ├── homepage.css     # estilos específicos da homepage (hero, mission, classes, trainers)
-│   ├── trainers.css     # estilos específicos da página de trainers (perfis, reviews, estrelas)
-│   └── responsive.css   # media queries e comportamento responsivo
-├── html/
-│   ├── homepage.html
-│   ├── login.html
-│   └── trainers.html
-└── imgs/
-    ├── trainer1.jpg
-    ├── trainer2.jpg
-    ├── trainer3.jpg
-    ├── trainer4.jpg
-    ├── trainer5.jpg
-    ├── trainer6.jpg
-    ├── yoga.jpg
-    ├── crossfit.jpg
-    ├── spinning.jpg
-    └── hiit.jpg
-```
+Para correr este projeto localmente, são necessários apenas o terminal e uma instalação do PHP:
 
-## Organização do CSS
+1. Abra o terminal e navegue para o diretório `project` do repositório:
+   ```bash
+   cd project
+   ```
 
-O CSS está dividido em três camadas:
+2. Inicie o servidor local embutido do PHP na porta 9000:
+   ```bash
+   php -S localhost:9000
+   ```
 
-1. **Base** (`style.css`) — variáveis de cor e tipografia, reset, estilização de elementos HTML base (`body`, `a`, `ul`), componentes globais reutilizáveis como o header, footer, cards e botões.
-2. **Componentes** (`forms.css`) — estilos de formulários usados em várias situações (inputs, botões de submit, separadores).
-3. **Casos específicos** (`homepage.css`, `trainers.css`, `responsive.css`) — estilos exclusivos de cada página e media queries para adaptação a diferentes tamanhos de ecrã.
+3. Abra o seu navegador e aceda à página inicial:
+   [http://localhost:9000](http://localhost:9000)
 
-## Como abrir o projeto
+## 🗂️ Organização do Projeto
 
-As páginas podem ser abertas diretamente no browser, ou servidas via PHP para garantir os caminhos relativos corretos:
+A arquitetura da aplicação segue o padrão de estruturação MVC (Model-View-Controller), promovendo uma clara separação de responsabilidades e facilitando a manutenção e escalabilidade do código:
 
-```bash
-cd LTW_PROJECT
-php -S localhost:5500
-```
+- `css/`: Folhas de estilo modulares (CSS Vanilla), assegurando um design moderno e responsivo (*Mobile First*).
+- `database/`: Modelos de dados. Contém o ficheiro SQLite (`gym.db`), os guiões SQL de criação e povoamento (`gym.sql`, `populate1.sql`) e os ficheiros PHP com as queries (PDO).
+- `js/`: Scripts de JavaScript para interatividade no lado do cliente, validações e pedidos assíncronos (AJAX).
+- `pages/`: Controladores lógicos que gerem os pedidos HTTP, interagem com a base de dados e chamam os templates adequados.
+- `templates/`: Componentes visuais PHP reutilizáveis (Vistas), que geram o HTML final da aplicação (ex: `header.php`, modais, listagens).
+- `imgs/`: Recursos estáticos (imagens, ícones e fotografias de perfil).
 
-Depois aceder a:
+## 🔑 Contas de Teste
 
-- [http://localhost:5500/project/html/homepage.html](http://localhost:5500/project/html/homepage.html)
-- [http://localhost:5500/project/html/trainers.html](http://localhost:5500/project/html/trainers.html)
-- [http://localhost:5500/project/html/login.html](http://localhost:5500/project/html/login.html)
+Pode explorar todas as funcionalidades do sistema através das seguintes contas pré-configuradas (a palavra-passe para todas as contas é **`1234`**):
 
-## Decisões de design
+| Papel (Role) | Email de Login | Password | Descrição |
+| :--- | :--- | :--- | :--- |
+| **Administrador** | `gustavosantosadmin@gmail.com` | `1234` | Acesso total à gestão do sistema e utilizadores. |
+| **Trainer** | `anasilvatrainer@gmail.com` | `1234` | Instrutor: Gestão de aulas, disponibilidade e PT. |
+| **Nutricionista** | `ananutri@gmail.com` | `1234` | Gestão de pacientes e planos alimentares. |
+| **Membro (VIP)** | `rita.ferreira@gmail.com` | `1234` | Membro com privilégios VIP. |
+| **Membro (Normal)** | `pedro.martins@gmail.com` | `1234` | Membro com acesso standard. |
 
-- Paleta baseada em preto, branco e laranja (#f27a38), transmitindo energia e foco.
-- Cards com hover animado para feedback visual imediato.
-- A página de trainers usa checkboxes escondidas e o seletor `:checked` para expandir perfis sem JavaScript.
-- O formulário de login/registo usa radio buttons e seletores CSS (`~`) para alternar entre os dois tabs sem JavaScript.
-- Design responsivo com breakpoint a 600px, reorganizando o header em grid para mobile.
+---
+
+## ⚙️ Funcionalidades Implementadas (Requisitos Base e Extra)
+
+A plataforma cobre integralmente os requisitos exigidos e vai mais além com funcionalidades exclusivas:
+
+### 1. Perfil de Membro (Sócio)
+- **Registo e Perfil:** Criação de conta, login/logout, edição de perfil e foto.
+- **Catálogo de Aulas e Reservas:** Consulta de aulas disponíveis com filtros (tipo, trainer). Inscrição e cancelamento com gestão de capacidade.
+- **Personal Training (Extra):** Possibilidade de agendar sessões 1-para-1 com os trainers.
+- **Planos de Subscrição (Extra):** Diferenciação de acessos via planos (Básico, Normal, VIP).
+- **Reviews e Avaliações:** Os membros podem avaliar (com estrelas e texto) aulas em que participaram e instrutores.
+
+### 2. Perfil de Trainer (Instrutor)
+- **Gestão de Perfil:** Atualização de bio, especializações e foto.
+- **Gestão de Aulas:** Visualização das suas aulas atribuídas e da lista de inscritos.
+- **Gestão de PT:** Aceitar, gerir ou rejeitar pedidos de Personal Training.
+
+### 3. Perfil de Nutricionista (Inovação Exclusiva do Grupo)
+- Criámos um papel inteiramente novo! Os nutricionistas gerem os seus pacientes e criam **Planos de Nutrição** detalhados (divisão por refeições, macronutrientes, peso e calorias).
+- Os membros podem consultar as suas dietas ativas diretamente na plataforma.
+
+### 4. Perfil de Administrador
+- **Dashboard de Gestão:** Painel estatístico para controlo do ginásio (aulas com melhor avaliação, top trainers).
+- **Gestão de Utilizadores:** Promoção de membros a admin, trainer ou nutricionista, e desativação de contas.
+- **Gestão do Catálogo:** Adição/edição de aulas e equipamentos.
+
+### 5. Biblioteca Interativa de Equipamentos (E-Learning)
+- Catálogo de máquinas com filtragem por grupo muscular.
+- Integração dinâmica de tutoriais do YouTube para demonstrar a biomecânica correta dos exercícios.
+
+---
+
+## 🛡️ Medidas de Segurança
+
+A segurança dos dados dos utilizadores foi uma prioridade absoluta no desenvolvimento:
+- **Prevenção contra SQL Injection:** Uso rigoroso e exclusivo de *Prepared Statements* via PDO.
+- **Defesa contra XSS (Cross-Site Scripting):** Sanitização de todo o output gerado por utilizadores com `htmlspecialchars()`.
+- **Prevenção contra CSRF:** Implementação de um sistema de tokens CSRF obrigatório em todas as submissões de formulários e ações sensíveis (ex: apagar conta, alterar privilégios, inscrições).
+- **Armazenamento Seguro de Passwords:** As palavras-passe são encriptadas de forma unidirecional (hash) na base de dados utilizando o algoritmo nativo `password_hash()` do PHP.
+
+---
+*Projeto realizado para a cadeira LTW da FEUP - 2026. André Restivo.*

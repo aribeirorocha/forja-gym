@@ -20,7 +20,11 @@
         <link rel="stylesheet" href="../css/nutrition.css">
         <link rel="stylesheet" href="../css/equipment.css">
         <link rel="stylesheet" href="../css/classes.css">
-        <?php if ($user && isset($user['role']) && $user['role'] === 'admin') { ?>
+        <link rel="stylesheet" href="../css/contacts.css">
+        <link rel="stylesheet" href="../css/services.css">
+        <link rel="stylesheet" href="../css/privacy.css">
+        <link rel="stylesheet" href="../css/admin.css"> 
+        <?php if ($user && isset($user['role']) & $user['role'] === 'admin') { ?>
         <link rel="stylesheet" href="../css/admin.css?v=<?= filemtime(__DIR__.'/../css/admin.css') ?>">
         <script type="text/javascript" src="../js/admin.js" defer></script>
         <?php } ?>
@@ -82,9 +86,9 @@
                     <a href="index.php">FORJA</a>
                 </div>
                 <nav class="footer-nav">
-                    <a href="#">Contactos</a>
-                    <a href="#">Serviço</a>
-                    <a href="#">Privacidade</a>
+                    <a href="contacts.php">Contactos</a>
+                    <a href="services.php">Serviço</a>
+                    <a href="privacy.php">Privacidade</a>
                 </nav>
             </div>
             <div class="footer-bottom">

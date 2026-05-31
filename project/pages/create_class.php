@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 UserAuth::requireLogin();
 $user = UserAuth::currentUser();
 
-if (!$user || $user['role'] !== 'trainer') {
+if (!$user || $user['role'] !== 'trainer' || $user['role'] !== 'admin') {
     header('Location: index.php');
     exit;
 }
@@ -41,10 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $local    = trim($_POST['local'] ?? '');
         $date     = $_POST['session_date'] ?? '';
         $time     = $_POST['session_time'] ?? '';
+        $email = strtolower(trim($_POST['trainer_email'] ?? ''));
 
-        if ($name && $type && $duration > 0 && $capacity > 0 && $local && $date && $time) {
+        $trainer = $email !== '' && $user['role'] === 'admin' ? Trainer::getTrainerByEmail($db, $email) : null;
+
+        $userId = $user['role'] === 'trainer' ? (int)$user['id'] : ($trainer ? $trainer->id : null);
+
+        if ($name && $type && $duration > 0 && $capacity > 0 && $local && $date && $time && $userId) {
             // Cria a modalidade base
-            GymClass::createClass($db, $name, $type, $duration, (int)$user['id'], $capacity, $local);
+            GymClass::createClass($db, $name, $type, $duration, $userId, $capacity, $local);
             
             // Obtém o ID da aula que acabou de ser inserida e cria a sessão na agenda
             $classId = (int)$db->lastInsertId();
@@ -65,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($sessionId > 0 && $classId > 0 && $date && $time) {
             // SEGURANÇA: Validar se a aula pertence mesmo à treinadora logada
             $class = GymClass::getClass($db, $classId);
-            if ($class && (int)$class->trainerId === (int)$user['id']) {
+            if ($class && ((int)$class->trainerId === (int)$user['id'] || $user['role'] === 'admin')) {
                 $stmt = $db->prepare('UPDATE class_session SET session_datetime = ? WHERE id = ?');
                 $stmt->execute(["{$date} {$time}", $sessionId]);
             }
@@ -82,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($classId > 0 && $capacity > 0) {
             $class = GymClass::getClass($db, $classId);
-            if ($class && (int)$class->trainerId === (int)$user['id']) {
+            if ($class && ((int)$class->trainerId === (int)$user['id'] || $user['role'] === 'admin')) {
                 $stmt = $db->prepare('UPDATE class SET capacity = ? WHERE id = ?');
                 $stmt->execute([$capacity, $classId]);
             }
@@ -99,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($classId > 0 && $duration > 0) {
             $class = GymClass::getClass($db, $classId);
-            if ($class && (int)$class->trainerId === (int)$user['id']) {
+            if ($class && ((int)$class->trainerId === (int)$user['id'] || $user['role'] === 'admin')) {
                 $stmt = $db->prepare('UPDATE class SET duration_minutes = ? WHERE id = ?');
                 $stmt->execute([$duration, $classId]);
             }
@@ -116,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($classId > 0 && $local !== '') {
             $class = GymClass::getClass($db, $classId);
-            if ($class && (int)$class->trainerId === (int)$user['id']) {
+            if ($class && ((int)$class->trainerId === (int)$user['id'] || $user['role'] === 'admin')) {
                 $stmt = $db->prepare('UPDATE class SET local = ? WHERE id = ?');
                 $stmt->execute([$local, $classId]);
             }
@@ -131,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $classId = intval($_POST['id'] ?? 0);
         if ($classId > 0) {
             $class = GymClass::getClass($db, $classId);
-            if ($class && (int)$class->trainerId === (int)$user['id']) {
+            if ($class && ((int)$class->trainerId === (int)$user['id'] || $user['role'] === 'admin')) {
                 GymClass::removeClass($db, $classId);
             } else {
                 http_response_code(403);
@@ -141,10 +146,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
-$classes = GymClass::getClassesFromTrainer($db, $user['id']);
-
-output_header();
-output_class_form();
-output_class_session_forms($classes);
-output_footer();
 ?>

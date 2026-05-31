@@ -6,7 +6,7 @@
                     Aulas, trainers e equipamentos num só lugar. Começa hoje.
                 </p>
                 <div class = "hero-actions">
-                    <a href = "aulas.html" class = "btn-primary" > Ver aulas</a>
+                    <a href = "classes.php" class = "btn-primary" > Ver aulas</a>
                     <a href = "trainers.php" class = "btn-secondary"> Saber mais</a>
                 </div>
             </section>

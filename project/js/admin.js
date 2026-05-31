@@ -117,3 +117,8 @@ tabs.forEach(tab => {
         document.getElementById('tab-' + this.dataset.tab).classList.add('active');
     });
 });
+
+document.querySelectorAll('[id^="trigger-reviews-"]').forEach(btn => {
+    const entityId = btn.id.replace('trigger-reviews-', '');
+    setupModal(btn.id, 'modal-reviews-' + entityId, 'close-modal-reviews-' + entityId);
+});

@@ -271,10 +271,7 @@
             <?php endforeach; ?>
 
             <!-- Card "+" para adicionar equipamento -->
-            <article class="class-card" id="trigger-add-equipment"
-                     style="cursor:pointer;display:flex;align-items:center;justify-content:center;
-                            border:2px dashed var(--orange);background-color:#fffbf9;
-                            min-height:280px;transition:var(--transition);">
+            <article class="class-card" id="trigger-add-equipment">
                 <div class="text-center text-orange">
                     <span class="create-class-icon">+</span>
                     <span class="create-class-text">Adicionar Equipamento</span>
@@ -413,7 +410,11 @@
                             <span class="text-gold text-1rem"><?= $stars ?></span>
                             <span class="fw-700 ml-4"><?= number_format($avg, 1) ?></span>
                         </td>
-                        <td class="text-muted"><?= $tr['review_count'] ?> avaliações</td>
+                        <td class="text-muted">
+                            <a class="link-orange" id="trigger-reviews-tr-<?= $tr['id'] ?>" style="cursor:pointer; text-decoration:underline; background:none; border:none;">
+                                <?= $tr['review_count'] ?> avaliações
+                            </a>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -421,6 +422,54 @@
             </div>
         </div>
         <?php endif; ?>
+
+
+            <!-- Top Aulas por avaliação -->
+            <?php 
+            $s_top_classes = $stats['top_classes'] ?? [];
+            if (!empty($s_top_classes)): 
+            ?>
+            <div class="admin-panel-card">
+                <h3 class="admin-panel-title">Aulas Melhor Avaliadas</h3>
+                <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Aula</th>
+                            <th>Avaliação Média</th>
+                            <th>Nº Avaliações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($s_top_classes as $i => $cl): ?>
+                        <tr>
+                            <td class="fw-700 text-orange"><?= $i + 1 ?>º</td>
+                            <td><a href="class.php?id=<?= $cl['id'] ?>" class="link-orange"><?= htmlspecialchars($cl['name']) ?></a></td>
+                            <td>
+                                <?php
+                                $avg = round((float)$cl['avg_rating'], 1);
+                                $stars = '';
+                                for ($s = 1; $s <= 5; $s++) $stars .= $s <= $avg ? '★' : '☆';
+                                ?>
+                                <span class="text-gold text-1rem"><?= $stars ?></span>
+                                <span class="fw-700 ml-4"><?= number_format($avg, 1) ?></span>
+                            </td>
+                            <td class="text-muted">
+                                <a class="link-orange" id="trigger-reviews-cl-<?= $cl['id'] ?>" style="cursor:pointer; text-decoration:underline; background:none; border:none;">
+                                    <?= $cl['review_count'] ?> avaliações
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <?php endif; ?>
+
+
+
     </section>
 </section>
 
@@ -616,7 +665,49 @@
     </article>
 </div>
 
-<?php } ?>
+<?php
+// Geração das Modais de Avaliações no final do template
+if (isset($stats['top_trainers']) && isset($stats['trainer_reviews'])) {
+    foreach ($stats['top_trainers'] as $tr) {
+        $reviews = array_filter($stats['trainer_reviews'], function($r) use ($tr) { return $r['entity_id'] == $tr['id']; });
+        output_reviews_modal('tr-'.$tr['id'], 'Avaliações: '.$tr['name'], $reviews);
+    }
+}
+if (isset($stats['top_classes']) && isset($stats['class_reviews'])) {
+    foreach ($stats['top_classes'] as $cl) {
+        $reviews = array_filter($stats['class_reviews'], function($r) use ($cl) { return $r['entity_id'] == $cl['id']; });
+        output_reviews_modal('cl-'.$cl['id'], 'Avaliações: '.$cl['name'], $reviews);
+    }
+}
+
+
+?><script>
+document.addEventListener('click', function(e) {
+    const trigger = e.target.closest('[id^="trigger-reviews-"]');
+    if (trigger) {
+        e.preventDefault();
+        const entityId = trigger.id.replace('trigger-reviews-', '');
+        const modal = document.getElementById('modal-reviews-' + entityId);
+        if (modal) {
+            modal.classList.remove('hidden');
+        } else {
+            alert('Ainda não existem comentários textuais para esta avaliação.');
+        }
+    }
+
+    const closeBtn = e.target.closest('[id^="close-modal-reviews-"]');
+    if (closeBtn) {
+        e.preventDefault();
+        const entityId = closeBtn.id.replace('close-modal-reviews-', '');
+        const modal = document.getElementById('modal-reviews-' + entityId);
+        if (modal) modal.classList.add('hidden');
+    }
+
+    if (e.target.classList.contains('add-class-modal-overlay')) {
+        e.target.classList.add('hidden');
+    }
+});
+</script><?php } ?>
 
 <?php function output_user_row(int $id, string $join_date, string $username, string $display_name, string $role, string $email, string $membership = 'basico') { ?>
     <tr>
@@ -653,4 +744,36 @@
             <?php endif; ?>
         </td>
     </tr>
+<?php } ?>
+<?php function output_reviews_modal($entity_id, $title, $reviews) {
+?>
+<div id="modal-reviews-<?= $entity_id ?>" class="add-class-modal-overlay hidden">
+    <article class="profile-login-card admin-modal-card" style="width: 500px; max-width: 95vw;">
+        <button type="button" id="close-modal-reviews-<?= $entity_id ?>" class="close-modal-btn">&times;</button>
+        <p class="profile-specialty admin-modal-subtitle text-orange">REVIEWS</p>
+        <h2 class="card-title" style="margin-bottom: 20px; text-align:center;"><?= htmlspecialchars($title) ?></h2>
+        
+        <div style="max-height: 50vh; overflow-y: auto; text-align: left; padding-right: 10px;">
+            <?php if (empty($reviews)): ?>
+                <p class="text-muted text-center">Nenhum comentário textual encontrado para esta avaliação.</p>
+            <?php else: ?>
+                <?php foreach ($reviews as $rev): ?>
+                    <div style="background: var(--gray-bg); padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                            <strong style="color:var(--text-color);"><?= htmlspecialchars($rev['member_name']) ?></strong>
+                            <span class="text-gold">
+                                <?php
+                                $stars = '';
+                                for ($s = 1; $s <= 5; $s++) $stars .= $s <= $rev['rate'] ? '★' : '☆';
+                                echo $stars;
+                                ?>
+                            </span>
+                        </div>
+                        <p class="weight-notes" style="margin:0; font-style: italic;">"<?= htmlspecialchars($rev['comment']) ?>"</p>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </article>
+</div>
 <?php } ?>
