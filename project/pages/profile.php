@@ -237,13 +237,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $mime_type = mime_content_type($fileTmpPath);
                     if (strpos($mime_type, 'image/') === 0) {
                         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-                    if (move_uploaded_file($fileTmpPath, '../imgs/' . $newFileName)) {
-                        $stmt = $db->prepare('UPDATE user SET photo = ? WHERE id = ?');
-                        $stmt->execute([$newFileName, $current_user['id']]);
-                        $_SESSION['user_photo'] = $newFileName;
-                        $success_msg = 'Foto de perfil atualizada com sucesso.';
+                        if (move_uploaded_file($fileTmpPath, '../imgs/' . $newFileName)) {
+                            $stmt = $db->prepare('UPDATE user SET photo = ? WHERE id = ?');
+                            $stmt->execute([$newFileName, $current_user['id']]);
+                            $_SESSION['user_photo'] = $newFileName;
+                            $success_msg = 'Foto de perfil atualizada com sucesso.';
+                        } else {
+                            $error_msg = 'Erro ao mover a imagem. Verifica as permissões da pasta imgs.';
+                        }
                     } else {
-                        $error_msg = 'Erro ao mover a imagem. Verifica as permissões da pasta imgs.';
+                        $error_msg = 'O ficheiro enviado não é uma imagem válida.';
                     }
                 } else {
                     $error_msg = 'Formato inválido. Usa JPG, PNG, GIF ou WEBP.';
