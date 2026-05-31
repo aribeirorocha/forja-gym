@@ -50,7 +50,7 @@ require_once('../database/gym_class.php');
         <p class="classes-hero-subtitle">Encontra a aula perfeita para o teu objetivo.</p>
     </section>
 
-    <div class="classes-container" style="padding: 60px 5%; max-width: 1200px; margin: 0 auto;">
+    <div class="classes-container">
         
         <div class="filters-bar">
             <select id="filter-type" class="filter-select">
@@ -92,7 +92,7 @@ require_once('../database/gym_class.php');
                     $tempo_texto = $class->session->getTime() . " ($periodo)";
                 }
             ?>
-                <article class="class-card" style="position: relative;"
+                <article class="class-card card-relative"
                          data-trainer="<?= htmlspecialchars($class->trainer->name ?? 'Sem Trainer') ?>"
                          data-type="<?= htmlspecialchars($class->name) ?>"
                          data-period="<?= $periodo ?>">
@@ -101,10 +101,10 @@ require_once('../database/gym_class.php');
                     <div class="class-summary">
                         <h3><?= htmlspecialchars($class->name) ?></h3>
                         <p>Trainer: <?= htmlspecialchars($class->trainer->name ?? 'Não atribuído') ?></p>
-                        <p style="font-weight: 600; color: <?= $class->session === null ? 'var(--orange)' : 'inherit' ?>;"><?= $tempo_texto ?></p>
+                        <p class="<?= $class->session === null ? 'text-orange' : '' ?>" style="font-weight: 600;"><?= $tempo_texto ?></p>
                         
-                        <div style="margin-top: 20px;">
-                            <a href="class.php?id=<?= $class->id ?>" class="btn-text" style="display: block; text-align: center;">Ver detalhes</a>
+                        <div class="mt-20">
+                            <a href="class.php?id=<?= $class->id ?>" class="btn-text d-block text-center">Ver detalhes</a>
                         </div>
                         <?php if ($isAdmin): ?>
                         <button type="button" class="admin-delete-class" data-id="<?= $class->id ?>">
@@ -116,10 +116,10 @@ require_once('../database/gym_class.php');
             <?php endforeach; ?>
 
             <?php if ($isTrainer): ?>
-                <article class="class-card text-center" id="trigger-add-class" style="cursor: pointer; display: flex; align-items: center; justify-content: center; border: 2px dashed var(--orange); background-color: #fffbf9; min-height: 310px; transition: var(--transition);">
-                    <div style="text-align: center; color: var(--orange);">
-                        <span style="font-size: 5rem; font-weight: 200; display: block; line-height: 1; margin-bottom: 5px;">+</span>
-                        <span style="font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">Criar Aula</span>
+                <article class="class-card text-center create-class-card" id="trigger-add-class">
+                    <div class="text-center text-orange">
+                        <span class="create-class-icon">+</span>
+                        <span class="create-class-text">Criar Aula</span>
                     </div>
                 </article>
             <?php endif; ?>
@@ -131,8 +131,8 @@ require_once('../database/gym_class.php');
             <article class="modal-card">
                 <button type="button" id="close-add-class" class="close-modal-btn">&times;</button>
                 <header class="modal-header">
-                    <p class="section-tag" style="margin-bottom: 5px; font-size: 0.85rem; letter-spacing: 0.05em;">NOVA AULA</p>
-                    <h2 style="font-size: 1.6rem; margin-bottom: 25px; color: var(--text-main);">Detalhes da Aula</h2>
+                    <p class="section-tag">NOVA AULA</p>
+                    <h2 class="section-title">Detalhes da Aula</h2>
                 </header>
                 
                 <form action="create_class.php" method="post" class="modal-form">
@@ -158,7 +158,7 @@ require_once('../database/gym_class.php');
                             <input type="number" name="capacity" min="1" placeholder="20" required class="form-input">
                         </div>
                         <div class="form-group">
-                            <label>Duração <small style="font-weight: 400;">(min)</small></label>
+                            <label>Duração <small class="font-normal">(min)</small></label>
                             <input type="number" name="duration_minutes" min="1" placeholder="60" required class="form-input">
                         </div>
                         <div class="form-group full-width">
@@ -167,7 +167,7 @@ require_once('../database/gym_class.php');
                         </div>
                         <div class="form-group full-width">
                             <label>Tipo de Aula</label>
-                            <select name="type" required class="form-input" style="background-color: white;">
+                            <select name="type" required class="form-input bg-white">
                                 <option value="" disabled selected>Seleciona o tipo...</option>
                                 <option value="yoga">Yoga</option>
                                 <option value="pilates">Pilates</option>
@@ -178,57 +178,10 @@ require_once('../database/gym_class.php');
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-save" style="margin-top: 10px; width: 100%;">Publicar Aula</button>
+                    <button type="submit" class="btn-save mt-10 w-100">Publicar Aula</button>
                 </form>
             </article>
         </div>
-        <style>
-        .add-class-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px);
-            display: flex; justify-content: center; align-items: center; z-index: 99999;
-        }
-        .add-class-modal-overlay.hidden { display: none; }
-        
-        .modal-card {
-            width: 90%; max-width: 480px; background: #fff; border-radius: 12px;
-            padding: 30px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            animation: modalSlideUp 0.3s ease; text-align: left; box-sizing: border-box;
-        }
-        .modal-header { text-align: center; }
-        .modal-form { display: flex; flex-direction: column; gap: 15px; }
-        
-        .form-grid-modal { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        @media (max-width: 480px) { .form-grid-modal { grid-template-columns: 1fr; } }
-        
-        .form-group.full-width { grid-column: 1 / -1; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
-        
-        .form-input { 
-            width: 100%; padding: 10px 14px; border: 1px solid var(--gray-border); 
-            border-radius: 8px; font-family: inherit; font-size: 0.95rem; color: var(--text-main);
-            box-sizing: border-box; transition: all 0.2s;
-        }
-        .form-input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,102,0,0.1); outline: none; }
-        
-        .btn-save {
-            background-color: var(--orange); color: white; padding: 12px; border: none;
-            border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background-color 0.2s;
-        }
-        .btn-save:hover { background-color: var(--orange-dark, #e65c00); }
-
-        .close-modal-btn {
-            position: absolute; top: 15px; right: 20px; background: none; border: none;
-            font-size: 2rem; color: var(--text-muted); cursor: pointer; line-height: 1; transition: color 0.2s;
-        }
-        .close-modal-btn:hover { color: var(--orange); }
-        
-        @keyframes modalSlideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        </style>
-
         <script>
         document.addEventListener("DOMContentLoaded", function() {
             const trigger = document.getElementById('trigger-add-class');
@@ -249,7 +202,7 @@ require_once('../database/gym_class.php');
 <?php } ?>
 
 
-<?php function output_class_details($class, $reviewStats, array $reviewsList, bool $isLoggedIn, bool $hasEnrollment)
+<?php function output_class_details(GymClass $class, array $reviewStats, array $reviewsList, bool $isLoggedIn, bool $hasEnrollment)
 { 
     $user = UserAuth::currentUser();
     $isTrainer = ($user && $user['role'] === 'trainer');
@@ -258,12 +211,12 @@ require_once('../database/gym_class.php');
     <link rel="stylesheet" href="../css/trainer_profile.css">
 
     <main class="profile-page-wrapper">
-        <article class="profile-login-card" style="position: relative;">
+        <article class="profile-login-card card-relative">
 
            
             <?php if ($canEdit): ?>
                 <button type="button" id="delete-class-detail-btn" data-class-id="<?= $class->id ?>"
-                        style="position: absolute; top: 20px; left: 25px; background: none; border: none; color: #e63946; font-weight: 700; font-size: 0.9rem; text-decoration: underline; cursor: pointer; z-index: 10; padding: 0;">
+                        class="close-detail-btn">
                     Eliminar
                 </button>
             <?php endif; ?>
@@ -279,7 +232,7 @@ require_once('../database/gym_class.php');
             <img src="<?= $class->getPhotoPath() ?>" alt="<?= htmlspecialchars($class->name) ?>" class="profile-big-photo">
 
             <?php if ($class->session && $class->session->enrollmentCount >= $class->capacity) { ?>
-                <p class="profile-specialty" style="color: #c62828;">Aula Cheia</p>
+                <p class="profile-specialty text-danger">Aula Cheia</p>
                 <h1 class="profile-name"><?= htmlspecialchars($class->name) ?></h1>
             <?php } else { ?>
                 <h1 class="profile-name"><?= htmlspecialchars($class->name) ?></h1>
@@ -287,7 +240,7 @@ require_once('../database/gym_class.php');
                     <form method="POST" action="class.php?id=<?= $class->id ?>" id="enroll-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                         <input type="hidden" name="enroll" value=<?= $class->session->id ?>>
-                        <button class="btn-review-submit" type="submit" style="margin-bottom: 20px;">
+                        <button class="btn-review-submit mb-20" type="submit">
                             <?= $hasEnrollment ? "Desinscrever-se" : "Inscrever-se na Aula" ?>
                         </button>
                     </form>
@@ -301,19 +254,19 @@ require_once('../database/gym_class.php');
                     <div class="inline-view-mode">
                         <span><?= $class->session ? ($class->session->getDayOfWeek() . ', ' . $class->session->getDateText() . ' às ' . $class->session->getTime()) : '🗓️ Horário não definido' ?></span>
                         <?php if ($canEdit && $class->session !== null): ?>
-                            <span class="inline-edit-trigger" style="text-decoration: underline; cursor: pointer; margin-left: 8px; color: var(--orange); font-size: 0.85rem; font-weight:600;">Alterar</span>
+                            <span class="inline-edit-trigger">Alterar</span>
                         <?php endif; ?>
                     </div>
                     <?php if ($canEdit && $class->session !== null): ?>
-                        <form action="create_class.php" method="post" class="inline-edit-form" style="display: none; margin-top: 6px; gap: 8px; flex-wrap: wrap;">
+                        <form action="create_class.php" method="post" class="inline-edit-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_session">
                             <input type="hidden" name="id_session" value="<?= $class->session->id ?>">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
-                            <input type="date" name="session_date" value="<?= $class->session->datetime->format('Y-m-d') ?>" required style="padding: 4px 8px; border: 1px solid var(--gray-border); border-radius: 6px; font-family: inherit; font-size:0.85rem;">
-                            <input type="time" name="session_time" value="<?= $class->session->datetime->format('H:i') ?>" required style="padding: 4px 8px; border: 1px solid var(--gray-border); border-radius: 6px; font-family: inherit; font-size:0.85rem;">
-                            <button type="submit" class="btn-review-submit" style="margin:0; padding: 4px 12px; width:auto; font-size:0.8rem; border-radius:20px;">✓</button>
-                            <span class="inline-cancel-trigger" style="text-decoration: underline; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; margin-left: 4px; align-self: center;">Cancelar</span>
+                            <input type="date" name="session_date" value="<?= $class->session->datetime->format('Y-m-d') ?>" required class="inline-edit-input">
+                            <input type="time" name="session_time" value="<?= $class->session->datetime->format('H:i') ?>" required class="inline-edit-input">
+                            <button type="submit" class="btn-review-submit inline-edit-submit">✓</button>
+                            <span class="inline-cancel-trigger">Cancelar</span>
                         </form>
                     <?php endif; ?>
                 </div>
@@ -325,17 +278,17 @@ require_once('../database/gym_class.php');
                             <span id="enrollment-count"><?= htmlspecialchars($class->session ? $class->session->enrollmentCount : 0) ?></span>/<?= htmlspecialchars($class->capacity) ?>
                         </span>
                         <?php if ($canEdit): ?>
-                            <span class="inline-edit-trigger" style="text-decoration: underline; cursor: pointer; margin-left: 8px; color: var(--orange); font-size: 0.85rem; font-weight:600;">Alterar</span>
+                            <span class="inline-edit-trigger">Alterar</span>
                         <?php endif; ?>
                     </div>
                     <?php if ($canEdit): ?>
-                        <form action="create_class.php" method="post" class="inline-edit-form" style="display: none; margin-top: 6px; gap: 8px; align-items: center;">
+                        <form action="create_class.php" method="post" class="inline-edit-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_capacity">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
-                            <input type="number" name="capacity" value="<?= $class->capacity ?>" min="1" required style="padding: 4px 8px; border: 1px solid var(--gray-border); border-radius: 6px; font-family: inherit; font-size:0.85rem; width: 80px;">
-                            <button type="submit" class="btn-review-submit" style="margin:0; padding: 4px 12px; width:auto; font-size:0.8rem; border-radius:20px;">✓</button>
-                            <span class="inline-cancel-trigger" style="text-decoration: underline; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; margin-left: 4px;">Cancelar</span>
+                            <input type="number" name="capacity" value="<?= $class->capacity ?>" min="1" required class="inline-edit-input inline-edit-input-small">
+                            <button type="submit" class="btn-review-submit inline-edit-submit">✓</button>
+                            <span class="inline-cancel-trigger">Cancelar</span>
                         </form>
                     <?php endif; ?>
                 </div>
@@ -345,17 +298,17 @@ require_once('../database/gym_class.php');
                     <div class="inline-view-mode">
                         <span><?= htmlspecialchars($class->durationMinutes . " min") ?></span>
                         <?php if ($canEdit): ?>
-                            <span class="inline-edit-trigger" style="text-decoration: underline; cursor: pointer; margin-left: 8px; color: var(--orange); font-size: 0.85rem; font-weight:600;">Alterar</span>
+                            <span class="inline-edit-trigger">Alterar</span>
                         <?php endif; ?>
                     </div>
                     <?php if ($canEdit): ?>
-                        <form action="create_class.php" method="post" class="inline-edit-form" style="display: none; margin-top: 6px; gap: 8px; align-items: center;">
+                        <form action="create_class.php" method="post" class="inline-edit-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_duration">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
-                            <input type="number" name="duration_minutes" value="<?= $class->durationMinutes ?>" min="1" required style="padding: 4px 8px; border: 1px solid var(--gray-border); border-radius: 6px; font-family: inherit; font-size:0.85rem; width: 80px;">
-                            <button type="submit" class="btn-review-submit" style="margin:0; padding: 4px 12px; width:auto; font-size:0.8rem; border-radius:20px;">✓</button>
-                            <span class="inline-cancel-trigger" style="text-decoration: underline; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; margin-left: 4px;">Cancelar</span>
+                            <input type="number" name="duration_minutes" value="<?= $class->durationMinutes ?>" min="1" required class="inline-edit-input inline-edit-input-small">
+                            <button type="submit" class="btn-review-submit inline-edit-submit">✓</button>
+                            <span class="inline-cancel-trigger">Cancelar</span>
                         </form>
                     <?php endif; ?>
                 </div>
@@ -365,24 +318,24 @@ require_once('../database/gym_class.php');
                     <div class="inline-view-mode">
                         <span><?= htmlspecialchars($class->local) ?></span>
                         <?php if ($canEdit): ?>
-                            <span class="inline-edit-trigger" style="text-decoration: underline; cursor: pointer; margin-left: 8px; color: var(--orange); font-size: 0.85rem; font-weight:600;">Alterar</span>
+                            <span class="inline-edit-trigger">Alterar</span>
                         <?php endif; ?>
                     </div>
                     <?php if ($canEdit): ?>
-                        <form action="create_class.php" method="post" class="inline-edit-form" style="display: none; margin-top: 6px; gap: 8px; align-items: center;">
+                        <form action="create_class.php" method="post" class="inline-edit-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_local">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
-                            <input type="text" name="local" value="<?= htmlspecialchars($class->local) ?>" required style="padding: 4px 8px; border: 1px solid var(--gray-border); border-radius: 6px; font-family: inherit; font-size:0.85rem; width: 60%;">
-                            <button type="submit" class="btn-review-submit" style="margin:0; padding: 4px 12px; width:auto; font-size:0.8rem; border-radius:20px;">✓</button>
-                            <span class="inline-cancel-trigger" style="text-decoration: underline; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; margin-left: 4px;">Cancelar</span>
+                            <input type="text" name="local" value="<?= htmlspecialchars($class->local) ?>" required class="inline-edit-input inline-edit-input-medium">
+                            <button type="submit" class="btn-review-submit inline-edit-submit">✓</button>
+                            <span class="inline-cancel-trigger">Cancelar</span>
                         </form>
                     <?php endif; ?>
                 </div>
 
                 <div class="profile-detail-item">
                     <strong>Trainer</strong>
-                    <span><a href=<?= "trainer_profile.php?id={$class->trainer->id}" ?> style="color: var(--orange); text-decoration: underline;"><?= htmlspecialchars($class->trainer->name) ?></a></span>
+                    <span><a href=<?= "trainer_profile.php?id={$class->trainer->id}" ?> class="link-orange"><?= htmlspecialchars($class->trainer->name) ?></a></span>
                 </div>
             </div>
 
@@ -409,8 +362,8 @@ require_once('../database/gym_class.php');
                         </form>
                     </section>
                 <?php else: ?>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
-                        Faz <a href="login.php" style="color: var(--orange); text-decoration: underline;">login</a> para deixar uma review.
+                    <p class="text-muted mb-20" style="font-size: 0.9rem;">
+                        Faz <a href="login.php" class="link-orange">login</a> para deixar uma review.
                     </p>
                 <?php endif; ?>
             <?php endif; ?>

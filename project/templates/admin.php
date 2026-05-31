@@ -104,10 +104,10 @@
                 <tbody>
                     <?php foreach ($all_classes as $c): ?>
                     <tr>
-                        <td><a href="class.php?id=<?= $c['id'] ?>" style="color:var(--orange);text-decoration:underline;"><?= htmlspecialchars($c['name']) ?></a></td>
+                        <td><a href="class.php?id=<?= $c['id'] ?>" class="link-orange"><?= htmlspecialchars($c['name']) ?></a></td>
                         <td><span class="class-type-pill-sm"><?= htmlspecialchars($c['type']) ?></span></td>
                         <td><?= htmlspecialchars($c['trainer_name'] ?? '—') ?></td>
-                        <td><?= $c['next_session'] ? date('d/m/Y H:i', strtotime($c['next_session'])) : '<span style="color:var(--text-muted)">Sem sessão</span>' ?></td>
+                        <td><?= $c['next_session'] ? date('d/m/Y H:i', strtotime($c['next_session'])) : '<span class="text-muted">Sem sessão</span>' ?></td>
                         <td><?= $c['enrolled'] ?? 0 ?>/<?= $c['capacity'] ?></td>
                         <td><?= htmlspecialchars($c['local']) ?></td>
                         <td><span class="<?= $c['active'] ? 'status-active' : 'status-inactive' ?>"><?= $c['active'] ? 'Ativa' : 'Inativa' ?></span></td>
@@ -124,8 +124,8 @@
 
     <!-- ══ TAB: TRAINERS ══ -->
     <section class="admin-tab-content profile-card" id="tab-trainers">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
-            <h2 class="card-title" style="margin:0;">Trainers</h2>
+        <div class="admin-header-flex">
+            <h2 class="card-title" class="m-0">Trainers</h2>
             <button type="button" class="btn-save" id="trigger-add-trainer-admin">+ Adicionar Trainer</button>
         </div>
         <?php if (empty($all_trainers)): ?>
@@ -150,7 +150,7 @@
                     ?>
                     <tr>
                         <td><img src="<?= $photo ?>" alt="" class="admin-avatar" onerror="this.src='../imgs/default-avatar.png'"></td>
-                        <td><a href="trainer_profile.php?id=<?= $t['id'] ?>" style="color:var(--orange);text-decoration:underline;"><?= htmlspecialchars($t['name']) ?></a></td>
+                        <td><a href="trainer_profile.php?id=<?= $t['id'] ?>" class="link-orange"><?= htmlspecialchars($t['name']) ?></a></td>
                         <td class="admin-email"><?= htmlspecialchars($t['email']) ?></td>
                         <td><?= htmlspecialchars($t['specialization'] ?? '—') ?></td>
                         <td><?= htmlspecialchars($t['location'] ?? '—') ?></td>
@@ -168,8 +168,8 @@
 
     <!-- ══ TAB: NUTRICIONISTAS ══ -->
     <section class="admin-tab-content profile-card" id="tab-nutritionists">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
-            <h2 class="card-title" style="margin:0;">Nutricionistas</h2>
+        <div class="admin-header-flex">
+            <h2 class="card-title" class="m-0">Nutricionistas</h2>
             <button type="button" class="btn-save" id="trigger-add-nutritionist-admin">+ Adicionar Nutricionista</button>
         </div>
         <?php if (empty($all_nutritionists)): ?>
@@ -245,8 +245,8 @@
 
     <!-- ══ TAB: EQUIPAMENTOS ══ -->
     <section class="admin-tab-content profile-card" id="tab-equipment">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
-            <h2 class="card-title" style="margin:0;">Equipamentos</h2>
+        <div class="admin-header-flex">
+            <h2 class="card-title" class="m-0">Equipamentos</h2>
         </div>
 
         <!-- Grelha com card "+" igual ao das aulas -->
@@ -258,15 +258,15 @@
                 $photo = !empty($eq['photo']) ? "../imgs/".htmlspecialchars($eq['photo']) : "../imgs/default-equipment.png";
                 $status_class = ($eq['status'] === 'Disponível') ? 'status-available' : 'status-maintenance';
             ?>
-            <article class="class-card equipment-card" data-id="<?= $eq['id'] ?>" style="position:relative;">
-                <span class="status-badge <?= $status_class ?>" style="position:absolute;top:12px;right:12px;font-size:0.7rem;padding:4px 10px;"><?= htmlspecialchars($eq['status']) ?></span>
+            <article class="class-card equipment-card card-relative" data-id="<?= $eq['id'] ?>">
+                <span class="status-badge <?= $status_class ?>" class="admin-badge"><?= htmlspecialchars($eq['status']) ?></span>
                 <img src="<?= $photo ?>" alt="<?= htmlspecialchars($eq['name']) ?>" class="equipment-photo"
                      onerror="this.onerror=null;this.src='../imgs/default-equipment.png'">
                 <h3 class="equipment-name"><?= htmlspecialchars($eq['name']) ?></h3>
-                <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;"><?= htmlspecialchars($eq['muscle_name'] ?? 'Corpo Inteiro') ?></p>
-                <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:16px;">📍 <?= htmlspecialchars($eq['location']) ?></p>
+                <p class="admin-eq-muscle"><?= htmlspecialchars($eq['muscle_name'] ?? 'Corpo Inteiro') ?></p>
+                <p class="loc-text">📍 <?= htmlspecialchars($eq['location']) ?></p>
                 <button type="button" class="btn-delete admin-delete-equipment" data-id="<?= $eq['id'] ?>"
-                        style="width:100%;margin-top:auto;">Remover</button>
+                        class="btn-remove-eq">Remover</button>
             </article>
             <?php endforeach; ?>
 
@@ -275,9 +275,9 @@
                      style="cursor:pointer;display:flex;align-items:center;justify-content:center;
                             border:2px dashed var(--orange);background-color:#fffbf9;
                             min-height:280px;transition:var(--transition);">
-                <div style="text-align:center;color:var(--orange);">
-                    <span style="font-size:5rem;font-weight:200;display:block;line-height:1;margin-bottom:5px;">+</span>
-                    <span style="font-weight:700;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.05em;">Adicionar Equipamento</span>
+                <div class="text-center text-orange">
+                    <span class="create-class-icon">+</span>
+                    <span class="create-class-text">Adicionar Equipamento</span>
                 </div>
             </article>
         </div>
@@ -302,39 +302,39 @@
         ?>
 
         <!-- Cards de resumo -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:32px;">
-            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;text-align:center;">
-                <p style="font-size:2rem;font-weight:800;color:var(--orange);margin:0;"><?= $s_members ?></p>
-                <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;font-weight:600;text-transform:uppercase;">Membros</p>
+        <div class="admin-dash-grid-4">
+            <div class="admin-stat-card">
+                <p class="admin-stat-number"><?= $s_members ?></p>
+                <p class="admin-stat-label">Membros</p>
             </div>
-            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;text-align:center;">
-                <p style="font-size:2rem;font-weight:800;color:var(--orange);margin:0;"><?= $s_trainers ?></p>
-                <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;font-weight:600;text-transform:uppercase;">Trainers</p>
+            <div class="admin-stat-card">
+                <p class="admin-stat-number"><?= $s_trainers ?></p>
+                <p class="admin-stat-label">Trainers</p>
             </div>
-            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;text-align:center;">
-                <p style="font-size:2rem;font-weight:800;color:var(--orange);margin:0;"><?= $s_nutritionists ?></p>
-                <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;font-weight:600;text-transform:uppercase;">Nutricionistas</p>
+            <div class="admin-stat-card">
+                <p class="admin-stat-number"><?= $s_nutritionists ?></p>
+                <p class="admin-stat-label">Nutricionistas</p>
             </div>
-            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;text-align:center;">
-                <p style="font-size:2rem;font-weight:800;color:var(--orange);margin:0;"><?= number_format((float)$s_avg_age, 1) ?></p>
-                <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 0;font-weight:600;text-transform:uppercase;">Idade Média</p>
+            <div class="admin-stat-card">
+                <p class="admin-stat-number"><?= number_format((float)$s_avg_age, 1) ?></p>
+                <p class="admin-stat-label">Idade Média</p>
             </div>
-            <div style="background:#e8f5e9;border-radius:12px;padding:20px;text-align:center;">
-                <p style="font-size:2rem;font-weight:800;color:#2e7d32;margin:0;"><?= $s_eq_avail ?></p>
-                <p style="font-size:0.8rem;color:#2e7d32;margin:4px 0 0;font-weight:600;text-transform:uppercase;">Equip. Disponíveis</p>
+            <div class="admin-stat-card-green">
+                <p class="admin-stat-number-green"><?= $s_eq_avail ?></p>
+                <p class="admin-stat-label-green">Equip. Disponíveis</p>
             </div>
-            <div style="background:#fff3e0;border-radius:12px;padding:20px;text-align:center;">
-                <p style="font-size:2rem;font-weight:800;color:#e65100;margin:0;"><?= $s_eq_maint ?></p>
-                <p style="font-size:0.8rem;color:#e65100;margin:4px 0 0;font-weight:600;text-transform:uppercase;">Em Manutenção</p>
+            <div class="admin-stat-card-orange">
+                <p class="admin-stat-number-orange"><?= $s_eq_maint ?></p>
+                <p class="admin-stat-label-orange">Em Manutenção</p>
             </div>
         </div>
 
         <!-- Memberships + Equipamento side by side -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;">
+        <div class="admin-dash-grid-2">
             
             <!-- Memberships -->
-            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;">
-                <h3 style="font-size:0.9rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin:0 0 16px;">Distribuição de Memberships</h3>
+            <div class="admin-panel-card">
+                <h3 class="admin-panel-title">Distribuição de Memberships</h3>
                 <?php
                 $total_mem = max(1, $s_mem_basico + $s_mem_normal + $s_mem_vip);
                 $bars = [
@@ -345,41 +345,41 @@
                 foreach ($bars as [$label, $val, $color]):
                     $pct = round($val / $total_mem * 100);
                 ?>
-                <div style="margin-bottom:12px;">
-                    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
-                        <span style="font-weight:600;"><?= $label ?></span>
-                        <span style="color:var(--text-muted);"><?= $val ?> (<?= $pct ?>%)</span>
+                <div class="admin-progress-container">
+                    <div class="admin-progress-header">
+                        <span class="fw-600"><?= $label ?></span>
+                        <span class="text-muted"><?= $val ?> (<?= $pct ?>%)</span>
                     </div>
-                    <div style="background:#e0e0e0;border-radius:20px;height:8px;">
-                        <div style="background:<?= $color ?>;width:<?= $pct ?>%;height:8px;border-radius:20px;transition:width .5s;"></div>
+                    <div class="admin-progress-track">
+                        <div class="admin-progress-bar" style="background:<?= $color ?>;width:<?= $pct ?>%;"></div>
                     </div>
                 </div>
                 <?php endforeach; ?>
             </div>
 
             <!-- Equipamento disponibilidade -->
-            <div style="background:var(--gray-bg);border-radius:12px;padding:20px;">
-                <h3 style="font-size:0.9rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin:0 0 16px;">Estado dos Equipamentos</h3>
+            <div class="admin-panel-card">
+                <h3 class="admin-panel-title">Estado dos Equipamentos</h3>
                 <?php
                 $eq_pct_avail = round($s_eq_avail / $s_total_eq * 100);
                 $eq_pct_maint = 100 - $eq_pct_avail;
                 ?>
-                <div style="margin-bottom:12px;">
-                    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
-                        <span style="font-weight:600;">✅ Disponíveis</span>
-                        <span style="color:var(--text-muted);"><?= $s_eq_avail ?> (<?= $eq_pct_avail ?>%)</span>
+                <div class="admin-progress-container">
+                    <div class="admin-progress-header">
+                        <span class="fw-600">✅ Disponíveis</span>
+                        <span class="text-muted"><?= $s_eq_avail ?> (<?= $eq_pct_avail ?>%)</span>
                     </div>
-                    <div style="background:#e0e0e0;border-radius:20px;height:8px;">
-                        <div style="background:#4caf50;width:<?= $eq_pct_avail ?>%;height:8px;border-radius:20px;"></div>
+                    <div class="admin-progress-track">
+                        <div class="admin-progress-bar" style="background:#4caf50;width:<?= $eq_pct_avail ?>%;"></div>
                     </div>
                 </div>
                 <div>
-                    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
-                        <span style="font-weight:600;">🛠️ Em Manutenção</span>
-                        <span style="color:var(--text-muted);"><?= $s_eq_maint ?> (<?= $eq_pct_maint ?>%)</span>
+                    <div class="admin-progress-header">
+                        <span class="fw-600">🛠️ Em Manutenção</span>
+                        <span class="text-muted"><?= $s_eq_maint ?> (<?= $eq_pct_maint ?>%)</span>
                     </div>
-                    <div style="background:#e0e0e0;border-radius:20px;height:8px;">
-                        <div style="background:#ff9800;width:<?= $eq_pct_maint ?>%;height:8px;border-radius:20px;"></div>
+                    <div class="admin-progress-track">
+                        <div class="admin-progress-bar" style="background:#ff9800;width:<?= $eq_pct_maint ?>%;"></div>
                     </div>
                 </div>
             </div>
@@ -387,8 +387,8 @@
 
         <!-- Top Trainers por avaliação -->
         <?php if (!empty($s_top_trainers)): ?>
-        <div style="background:var(--gray-bg);border-radius:12px;padding:20px;">
-            <h3 style="font-size:0.9rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin:0 0 16px;">🏆 Trainers Melhor Avaliados</h3>
+        <div class="admin-panel-card">
+            <h3 class="admin-panel-title">🏆 Trainers Melhor Avaliados</h3>
             <div class="admin-table-wrap">
             <table class="admin-table">
                 <thead>
@@ -402,18 +402,18 @@
                 <tbody>
                     <?php foreach ($s_top_trainers as $i => $tr): ?>
                     <tr>
-                        <td style="font-weight:700;color:var(--orange);"><?= $i + 1 ?>º</td>
-                        <td><a href="trainer_profile.php?id=<?= $tr['id'] ?>" style="color:var(--orange);text-decoration:underline;"><?= htmlspecialchars($tr['name']) ?></a></td>
+                        <td class="fw-700 text-orange"><?= $i + 1 ?>º</td>
+                        <td><a href="trainer_profile.php?id=<?= $tr['id'] ?>" class="link-orange"><?= htmlspecialchars($tr['name']) ?></a></td>
                         <td>
                             <?php
                             $avg = round((float)$tr['avg_rating'], 1);
                             $stars = '';
                             for ($s = 1; $s <= 5; $s++) $stars .= $s <= $avg ? '★' : '☆';
                             ?>
-                            <span style="color:#f4c430;font-size:1rem;"><?= $stars ?></span>
-                            <span style="font-weight:700;margin-left:4px;"><?= number_format($avg, 1) ?></span>
+                            <span class="text-gold text-1rem"><?= $stars ?></span>
+                            <span class="fw-700 ml-4"><?= number_format($avg, 1) ?></span>
                         </td>
-                        <td style="color:var(--text-muted);"><?= $tr['review_count'] ?> avaliações</td>
+                        <td class="text-muted"><?= $tr['review_count'] ?> avaliações</td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -429,28 +429,28 @@
      MODAL: ADICIONAR EQUIPAMENTO
 ══════════════════════════════════════════════ -->
 <div id="add-equipment-modal" class="add-class-modal-overlay hidden">
-    <article class="profile-login-card" style="width:400px !important;max-width:95vw !important;height:auto !important;min-height:unset !important;display:block !important;margin:0 auto !important;position:relative !important;animation:modalSlideUp 0.3s ease !important;text-align:center !important;padding:25px !important;border-radius:12px !important;box-shadow:0 8px 30px rgba(0,0,0,0.15) !important;background-color:#ffffff !important;box-sizing:border-box !important;">
+    <article class="profile-login-card admin-modal-card">
         <button type="button" id="close-add-equipment" class="close-modal-btn">&times;</button>
-        <p class="profile-specialty" style="margin-bottom:5px !important;font-weight:700 !important;color:var(--orange) !important;text-transform:uppercase !important;letter-spacing:0.05em !important;font-size:0.8rem !important;">NOVO EQUIPAMENTO</p>
+        <p class="profile-specialty admin-modal-subtitle">NOVO EQUIPAMENTO</p>
 
-        <form action="admin.php" method="post" enctype="multipart/form-data" style="text-align:left !important;width:100% !important;">
+        <form action="admin.php" method="post" enctype="multipart/form-data" class="admin-modal-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="add_equipment">
 
             <!-- Nome -->
-            <div style="margin-bottom:20px !important;text-align:center !important;">
+            <div class="mb-20 text-center">
                 <input type="text" name="eq_name" placeholder="Nome do Equipamento" required
-                       style="font-size:1.3rem !important;font-weight:800 !important;text-align:center !important;border:none !important;border-bottom:2px solid var(--gray-border) !important;width:100% !important;padding:4px !important;color:var(--text-main) !important;outline:none !important;font-family:inherit !important;background:transparent !important;">
+                       class="admin-modal-title-input">
             </div>
 
-            <div class="profile-details-list" style="margin-bottom:20px !important;width:100% !important;">
+            <div class="profile-details-list admin-modal-details-list">
 
                 <!-- Foto -->
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Foto</strong>
-                    <div style="width:200px !important;">
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Foto</strong>
+                    <div class="w-200">
                         <label for="eq-photo-input" id="eq-photo-label"
-                               style="display:block;padding:6px 10px;border:1px solid var(--gray-border);border-radius:6px;cursor:pointer;font-size:0.8rem;color:var(--text-muted);text-align:center;background:#fff;box-sizing:border-box;width:100%;">
+                               class="admin-modal-file-label">
                             📷 Escolher foto
                         </label>
                         <input type="file" id="eq-photo-input" name="eq_photo" accept="image/*" style="display:none;">
@@ -458,9 +458,9 @@
                 </div>
 
                 <!-- Grupo Muscular -->
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Grupo Muscular</strong>
-                    <select name="eq_muscle" style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;font-family:inherit !important;font-size:0.85rem !important;background:#fff !important;color:var(--text-main) !important;">
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Grupo Muscular</strong>
+                    <select name="eq_muscle" class="admin-modal-input">
                         <option value="">Seleciona...</option>
                         <option value="1">Quadríceps e Glúteos</option>
                         <option value="2">Peitoral e Tríceps</option>
@@ -472,21 +472,21 @@
                 </div>
 
                 <!-- Localização -->
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Localização</strong>
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Localização</strong>
                     <input type="text" name="eq_location" placeholder="ex: Piso 1 - Força" required
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
 
                 <!-- Vídeo de Execução -->
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Vídeo (URL)</strong>
+                <div class="profile-detail-item admin-modal-detail-item-no-border">
+                    <strong class="admin-modal-label">Vídeo (URL)</strong>
                     <input type="text" name="eq_video" placeholder="https://youtube.com/embed/..."
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
             </div>
 
-            <button type="submit" class="btn-review-submit" style="width:100% !important;margin:0 !important;padding:12px !important;font-size:0.9rem !important;">
+            <button type="submit" class="btn-review-submit admin-modal-submit">
                 Adicionar Equipamento
             </button>
         </form>
@@ -497,74 +497,74 @@
      MODAL: ADICIONAR TRAINER
 ══════════════════════════════════════════════ -->
 <div id="add-trainer-modal" class="add-class-modal-overlay hidden">
-    <article class="profile-login-card" style="width:400px !important;max-width:95vw !important;height:auto !important;min-height:unset !important;display:block !important;margin:0 auto !important;position:relative !important;animation:modalSlideUp 0.3s ease !important;text-align:center !important;padding:25px !important;border-radius:12px !important;box-shadow:0 8px 30px rgba(0,0,0,0.15) !important;background-color:#ffffff !important;box-sizing:border-box !important;">
+    <article class="profile-login-card admin-modal-card">
         <button type="button" id="close-add-trainer" class="close-modal-btn">&times;</button>
-        <p class="profile-specialty" style="margin-bottom:5px !important;font-weight:700 !important;color:var(--orange) !important;text-transform:uppercase !important;letter-spacing:0.05em !important;font-size:0.8rem !important;">NOVO TRAINER</p>
+        <p class="profile-specialty admin-modal-subtitle">NOVO TRAINER</p>
 
-        <form action="admin.php" method="post" enctype="multipart/form-data" style="text-align:left !important;width:100% !important;">
+        <form action="admin.php" method="post" enctype="multipart/form-data" class="admin-modal-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="add_trainer">
 
-            <div style="margin-bottom:20px !important;text-align:center !important;">
+            <div class="mb-20 text-center">
                 <input type="text" name="tr_name" placeholder="Nome Completo" required
-                       style="font-size:1.3rem !important;font-weight:800 !important;text-align:center !important;border:none !important;border-bottom:2px solid var(--gray-border) !important;width:100% !important;padding:4px !important;color:var(--text-main) !important;outline:none !important;font-family:inherit !important;background:transparent !important;">
+                       class="admin-modal-title-input">
             </div>
 
-            <div class="profile-details-list" style="margin-bottom:20px !important;width:100% !important;">
+            <div class="profile-details-list admin-modal-details-list">
 
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Username</strong>
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Username</strong>
                     <input type="text" name="tr_username" placeholder="username" required
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
 
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Email</strong>
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Email</strong>
                     <input type="email" name="tr_email" placeholder="email@exemplo.com" required
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
 
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Password</strong>
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Password</strong>
                     <input type="password" name="tr_password" placeholder="mínimo 6 caracteres" required minlength="6"
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
 
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Género</strong>
-                    <select name="tr_sex" required style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;font-family:inherit !important;font-size:0.85rem !important;background:#fff !important;color:var(--text-main) !important;">
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Género</strong>
+                    <select name="tr_sex" required class="admin-modal-input">
                         <option value="">Seleciona...</option>
                         <option value="masculino">Masculino</option>
                         <option value="feminino">Feminino</option>
                     </select>
                 </div>
 
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Especialização</strong>
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Especialização</strong>
                     <input type="text" name="tr_specialization" placeholder="ex: HIIT,Força"
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
 
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Formação</strong>
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Formação</strong>
                     <input type="text" name="tr_formation" placeholder="ex: Lic. Ciências do Desporto"
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
 
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Certificações</strong>
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Certificações</strong>
                     <input type="text" name="tr_certification" placeholder="ex: CrossFit Level 1"
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
 
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Localização</strong>
+                <div class="profile-detail-item admin-modal-detail-item-no-border">
+                    <strong class="admin-modal-label">Localização</strong>
                     <input type="text" name="tr_location" placeholder="ex: Porto, Portugal"
-                           style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                           class="admin-modal-input">
                 </div>
             </div>
 
-            <button type="submit" class="btn-review-submit" style="width:100% !important;margin:0 !important;padding:12px !important;font-size:0.9rem !important;">
+            <button type="submit" class="btn-review-submit admin-modal-submit">
                 Criar Trainer
             </button>
         </form>
@@ -576,46 +576,46 @@
      MODAL: ADICIONAR NUTRICIONISTA
 ══════════════════════════════════════════════ -->
 <div id="add-nutritionist-modal" class="add-class-modal-overlay hidden">
-    <article class="profile-login-card" style="width:400px !important;max-width:95vw !important;height:auto !important;min-height:unset !important;display:block !important;margin:0 auto !important;position:relative !important;animation:modalSlideUp 0.3s ease !important;text-align:center !important;padding:25px !important;border-radius:12px !important;box-shadow:0 8px 30px rgba(0,0,0,0.15) !important;background-color:#ffffff !important;box-sizing:border-box !important;">
+    <article class="profile-login-card admin-modal-card">
         <button type="button" id="close-add-nutritionist" class="close-modal-btn">&times;</button>
-        <p class="profile-specialty" style="margin-bottom:5px !important;font-weight:700 !important;color:var(--orange) !important;text-transform:uppercase !important;letter-spacing:0.05em !important;font-size:0.8rem !important;">NOVO NUTRICIONISTA</p>
-        <form action="admin.php" method="post" enctype="multipart/form-data" style="text-align:left !important;width:100% !important;">
+        <p class="profile-specialty admin-modal-subtitle">NOVO NUTRICIONISTA</p>
+        <form action="admin.php" method="post" enctype="multipart/form-data" class="admin-modal-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="add_nutritionist">
-            <div style="margin-bottom:20px !important;text-align:center !important;">
+            <div class="mb-20 text-center">
                 <input type="text" name="nu_name" placeholder="Nome Completo" required
-                       style="font-size:1.3rem !important;font-weight:800 !important;text-align:center !important;border:none !important;border-bottom:2px solid var(--gray-border) !important;width:100% !important;padding:4px !important;color:var(--text-main) !important;outline:none !important;font-family:inherit !important;background:transparent !important;">
+                       class="admin-modal-title-input">
             </div>
-            <div class="profile-details-list" style="margin-bottom:20px !important;width:100% !important;">
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Username</strong>
-                    <input type="text" name="nu_username" placeholder="username" required style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+            <div class="profile-details-list admin-modal-details-list">
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Username</strong>
+                    <input type="text" name="nu_username" placeholder="username" required class="admin-modal-input">
                 </div>
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Email</strong>
-                    <input type="email" name="nu_email" placeholder="email@exemplo.com" required style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Email</strong>
+                    <input type="email" name="nu_email" placeholder="email@exemplo.com" required class="admin-modal-input">
                 </div>
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Password</strong>
-                    <input type="password" name="nu_password" placeholder="mínimo 6 caracteres" required minlength="6" style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Password</strong>
+                    <input type="password" name="nu_password" placeholder="mínimo 6 caracteres" required minlength="6" class="admin-modal-input">
                 </div>
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Especialização</strong>
-                    <input type="text" name="nu_specialization" placeholder="ex: Desportiva, Clínica" style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Especialização</strong>
+                    <input type="text" name="nu_specialization" placeholder="ex: Desportiva, Clínica" class="admin-modal-input">
                 </div>
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;border-bottom:1px solid var(--gray-bg) !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Nº Cédula</strong>
-                    <input type="text" name="nu_license" placeholder="ex: ON-12345" style="padding:6px 10px !important;border:1px solid var(--gray-border) !important;border-radius:6px !important;width:200px !important;box-sizing:border-box !important;font-family:inherit !important;font-size:0.85rem !important;color:var(--text-main) !important;background:#fff !important;">
+                <div class="profile-detail-item admin-modal-detail-item">
+                    <strong class="admin-modal-label">Nº Cédula</strong>
+                    <input type="text" name="nu_license" placeholder="ex: ON-12345" class="admin-modal-input">
                 </div>
-                <div class="profile-detail-item" style="display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;">
-                    <strong style="font-size:0.85rem !important;color:var(--text-muted) !important;">Foto</strong>
-                    <div style="width:200px !important;">
-                        <label for="nu-photo-input" id="nu-photo-label" style="display:block;padding:6px 10px;border:1px solid var(--gray-border);border-radius:6px;cursor:pointer;font-size:0.8rem;color:var(--text-muted);text-align:center;background:#fff;box-sizing:border-box;width:100%;">📷 Escolher foto</label>
+                <div class="profile-detail-item admin-modal-detail-item-no-border">
+                    <strong class="admin-modal-label">Foto</strong>
+                    <div class="w-200">
+                        <label for="nu-photo-input" id="nu-photo-label" class="admin-modal-file-label">📷 Escolher foto</label>
                         <input type="file" id="nu-photo-input" name="nu_photo" accept="image/*" style="display:none;">
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn-review-submit" style="width:100% !important;margin:0 !important;padding:12px !important;font-size:0.9rem !important;">Criar Nutricionista</button>
+            <button type="submit" class="btn-review-submit admin-modal-submit">Criar Nutricionista</button>
         </form>
     </article>
 </div>
@@ -638,18 +638,18 @@
         <td class="admin-email"><?= htmlspecialchars($email) ?></td>
         <td>
             <?php if ($role === 'member'): ?>
-            <form method="post" action="admin.php" style="margin:0;">
+            <form method="post" action="admin.php" class="m-0">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_user_membership">
                 <input type="hidden" name="user_id" value="<?= $id ?>">
-                <select name="membership" class="role-select" onchange="this.form.submit()" style="min-width:90px;">
+                <select name="membership" class="role-select" onchange="this.form.submit()" class="min-w-90">
                     <option value="basico" <?= $membership === 'basico' ? 'selected' : '' ?>>Básico</option>
                     <option value="normal" <?= $membership === 'normal' ? 'selected' : '' ?>>Normal</option>
                     <option value="vip"    <?= $membership === 'vip'    ? 'selected' : '' ?>>VIP</option>
                 </select>
             </form>
             <?php else: ?>
-                <span style="color:var(--text-muted);font-size:0.8rem;">—</span>
+                <span class="text-muted-small">—</span>
             <?php endif; ?>
         </td>
     </tr>

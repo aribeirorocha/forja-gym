@@ -89,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enroll'])) {
         header('Location: login.php'); exit;
     }
 }
-}
 
 output_header();
 

@@ -428,3 +428,64 @@ main > .class-card {
   min-height: 44px;
   white-space: nowrap;
 }
+
+/* =========================================
+   UTILITY CLASSES & INLINE EDIT
+   ========================================= */
+.inline-edit-form {
+    display: none;
+    margin-top: 6px;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.inline-edit-input {
+    padding: 4px 8px;
+    border: 1px solid var(--gray-border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.85rem;
+}
+.inline-edit-input-small { width: 80px; }
+.inline-edit-input-medium { width: 60%; }
+.inline-edit-submit {
+    margin: 0; padding: 4px 12px; width: auto;
+    font-size: 0.8rem; border-radius: 20px;
+}
+.inline-cancel-trigger {
+    text-decoration: underline; cursor: pointer; color: var(--text-muted);
+    font-size: 0.85rem; margin-left: 4px; align-self: center;
+}
+.inline-edit-trigger {
+    text-decoration: underline; cursor: pointer; margin-left: 8px;
+    color: var(--orange); font-size: 0.85rem; font-weight: 600;
+}
+
+.card-relative { position: relative; }
+.text-orange { color: var(--orange); }
+.text-danger { color: #c62828; }
+.text-center { text-align: center; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-5 { margin-bottom: 5px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-25 { margin-bottom: 25px; }
+.w-100 { width: 100%; }
+.d-block { display: block; }
+.font-normal { font-weight: 400; }
+.bg-white { background-color: var(--white, #ffffff); }
+.link-orange { color: var(--orange); text-decoration: underline; }
+
+.create-class-card {
+    cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 2px dashed var(--orange); background-color: #fffbf9; min-height: 310px; transition: var(--transition);
+}
+.create-class-icon { font-size: 5rem; font-weight: 200; display: block; line-height: 1; margin-bottom: 5px; }
+.create-class-text { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.section-tag { margin-bottom: 5px; font-size: 0.85rem; letter-spacing: 0.05em; }
+.section-title { font-size: 1.6rem; margin-bottom: 25px; color: var(--text-main); }
+.close-detail-btn {
+    position: absolute; top: 20px; left: 25px; background: none; border: none;
+    color: #e63946; font-weight: 700; font-size: 0.9rem; text-decoration: underline; cursor: pointer; z-index: 10; padding: 0;
+}
+.w-200 { width: 200px; }
