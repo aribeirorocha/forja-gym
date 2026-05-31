@@ -10,7 +10,7 @@ Projeto desenvolvido no âmbito da unidade curricular de **Laboratório de Tecno
 
 ---
 
-## 📌 Descrição do Projeto
+## Descrição do Projeto
 
 A **FORJA** é uma plataforma web completa projetada para facilitar e digitalizar as operações de um ginásio moderno. Com um design sofisticado e focado na usabilidade, a aplicação serve diferentes tipos de utilizadores (Administradores, Instrutores, Nutricionistas e Membros), cumprindo os requisitos funcionais e técnicos exigidos. Foi construída estritamente com tecnologias web base (HTML, CSS, PHP, SQLite e JavaScript/AJAX), sem o uso de frameworks.
 
@@ -31,7 +31,7 @@ Para correr este projeto localmente, são necessários apenas o terminal e uma i
 3. Abra o seu navegador e aceda à página inicial:
    [http://localhost:9000](http://localhost:9000)
 
-## 🗂️ Organização do Projeto
+## Organização do Projeto
 
 A arquitetura da aplicação segue o padrão de estruturação MVC (Model-View-Controller), promovendo uma clara separação de responsabilidades e facilitando a manutenção e escalabilidade do código:
 
@@ -42,7 +42,7 @@ A arquitetura da aplicação segue o padrão de estruturação MVC (Model-View-C
 - `templates/`: Componentes visuais PHP reutilizáveis (Vistas), que geram o HTML final da aplicação (ex: `header.php`, modais, listagens).
 - `imgs/`: Recursos estáticos (imagens, ícones e fotografias de perfil).
 
-## 🔑 Contas de Teste
+## Contas de Teste
 
 Pode explorar todas as funcionalidades do sistema através das seguintes contas pré-configuradas (a palavra-passe para todas as contas é **`1234`**):
 
@@ -55,7 +55,7 @@ Pode explorar todas as funcionalidades do sistema através das seguintes contas 
 | **Membro (Normal)** | `pedro.martins@gmail.com` | `1234` | Membro com acesso normal. |
 | **Membro (Básico)** | `carlos.oliveira@gmail.com`| Membro com acesso básico. |
 
-## ⚙️ Funcionalidades Implementadas (Requisitos Base e Extra)
+## Funcionalidades Implementadas (Requisitos Base e Extra)
 
 A plataforma cobre integralmente os requisitos exigidos e vai mais além com funcionalidades exclusivas:
 
@@ -86,7 +86,7 @@ A plataforma cobre integralmente os requisitos exigidos e vai mais além com fun
 
 ---
 
-## 🛡️ Medidas de Segurança
+## Medidas de Segurança
 
 A segurança dos dados dos utilizadores foi uma prioridade absoluta no desenvolvimento:
 - **Prevenção contra SQL Injection:** Uso rigoroso e exclusivo de *Prepared Statements* via PDO.

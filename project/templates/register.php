@@ -26,7 +26,7 @@
                     Email <input type="email" name="email" placeholder="O teu email..." required>
                 </label>
                 <label>
-                    Palavra-passe <input type="password" name="password" placeholder="A tua palavra-passe..." required minlength="6">
+                    Palavra-passe <input type="password" name="password" placeholder="A tua palavra-passe..." required minlength="8">
                 </label>
             </form>
 

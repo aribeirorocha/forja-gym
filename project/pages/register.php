@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = 'Email inválido.';
             $step  = 1;
-        } elseif (strlen($password) < 6) {
-            $error = 'A palavra-passe deve ter pelo menos 6 caracteres.';
+        } elseif (strlen($password) < 8) {
+            $error = 'A palavra-passe deve ter pelo menos 8 caracteres.';
             $step  = 1;
         } else {
             // Move to step 2 — show membership plans

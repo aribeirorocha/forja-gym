@@ -479,7 +479,7 @@
 ══════════════════════════════════════════════ -->
 <div id="add-equipment-modal" class="add-class-modal-overlay hidden">
     <article class="profile-login-card admin-modal-card">
-        <button type="button" id="close-add-equipment" class="close-modal-btn">&times;</button>
+        <button type="button" id="close-add-equipment" class="close-modal-btn" aria-label="Fechar janela">&times;</button>
         <p class="profile-specialty admin-modal-subtitle">NOVO EQUIPAMENTO</p>
 
         <form action="admin.php" method="post" enctype="multipart/form-data" class="admin-modal-form">
@@ -545,7 +545,7 @@
 ══════════════════════════════════════════════ -->
 <div id="add-trainer-modal" class="add-class-modal-overlay hidden">
     <article class="profile-login-card admin-modal-card">
-        <button type="button" id="close-add-trainer" class="close-modal-btn">&times;</button>
+        <button type="button" id="close-add-trainer" class="close-modal-btn" aria-label="Fechar janela">&times;</button>
         <p class="profile-specialty admin-modal-subtitle">NOVO TRAINER</p>
 
         <form action="admin.php" method="post" enctype="multipart/form-data" class="admin-modal-form">
@@ -573,7 +573,7 @@
 
                 <div class="profile-detail-item admin-modal-detail-item">
                     <strong class="admin-modal-label">Password</strong>
-                    <input type="password" name="tr_password" placeholder="mínimo 6 caracteres" required minlength="6"
+                    <input type="password" name="tr_password" placeholder="mínimo 6 caracteres" required minlength="8"
                            class="admin-modal-input">
                 </div>
 
@@ -624,7 +624,7 @@
 ══════════════════════════════════════════════ -->
 <div id="add-nutritionist-modal" class="add-class-modal-overlay hidden">
     <article class="profile-login-card admin-modal-card">
-        <button type="button" id="close-add-nutritionist" class="close-modal-btn">&times;</button>
+        <button type="button" id="close-add-nutritionist" class="close-modal-btn" aria-label="Fechar janela">&times;</button>
         <p class="profile-specialty admin-modal-subtitle">NOVO NUTRICIONISTA</p>
         <form action="admin.php" method="post" enctype="multipart/form-data" class="admin-modal-form">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
@@ -644,7 +644,7 @@
                 </div>
                 <div class="profile-detail-item admin-modal-detail-item">
                     <strong class="admin-modal-label">Password</strong>
-                    <input type="password" name="nu_password" placeholder="mínimo 6 caracteres" required minlength="6" class="admin-modal-input">
+                    <input type="password" name="nu_password" placeholder="mínimo 6 caracteres" required minlength="8" class="admin-modal-input">
                 </div>
                 <div class="profile-detail-item admin-modal-detail-item">
                     <strong class="admin-modal-label">Especialização</strong>
@@ -704,6 +704,13 @@ document.addEventListener('click', function(e) {
     }
 
     if (e.target.classList.contains('add-class-modal-overlay')) {
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.add-class-modal-overlay:not(.hidden)').forEach(modal => modal.classList.add('hidden'));
+        }
+    });
+
         e.target.classList.add('hidden');
     }
 });
@@ -749,7 +756,7 @@ document.addEventListener('click', function(e) {
 ?>
 <div id="modal-reviews-<?= $entity_id ?>" class="add-class-modal-overlay hidden">
     <article class="profile-login-card admin-modal-card" style="width: 500px; max-width: 95vw;">
-        <button type="button" id="close-modal-reviews-<?= $entity_id ?>" class="close-modal-btn">&times;</button>
+        <button type="button" id="close-modal-reviews-<?= $entity_id ?>" class="close-modal-btn" aria-label="Fechar janela">&times;</button>
         <p class="profile-specialty admin-modal-subtitle text-orange">REVIEWS</p>
         <h2 class="card-title" style="margin-bottom: 20px; text-align:center;"><?= htmlspecialchars($title) ?></h2>
         

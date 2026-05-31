@@ -234,7 +234,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $fileName      = $_FILES['profile_photo']['name'];
                 $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
                 if (in_array($fileExtension, ['jpg','jpeg','png','gif','webp'])) {
-                    $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+                    $mime_type = mime_content_type($fileTmpPath);
+                    if (strpos($mime_type, 'image/') === 0) {
+                        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
                     if (move_uploaded_file($fileTmpPath, '../imgs/' . $newFileName)) {
                         $stmt = $db->prepare('UPDATE user SET photo = ? WHERE id = ?');
                         $stmt->execute([$newFileName, $current_user['id']]);

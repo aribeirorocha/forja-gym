@@ -109,6 +109,8 @@ document.getElementById('btn-toggle-status').addEventListener('click', async fun
     const id         = btn.dataset.id;
     const current    = btn.dataset.current;
     const newStatus  = (current === 'Disponível') ? 'Manutenção' : 'Disponível';
+    const csrfToken = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').content : '';
+
     const feedback   = document.getElementById('toggle-feedback');
 
     btn.disabled = true;
@@ -116,7 +118,7 @@ document.getElementById('btn-toggle-status').addEventListener('click', async fun
     feedback.style.color = 'var(--text-muted, #888)';
 
     try {
-        const body = new URLSearchParams({ id, status: newStatus });
+        const body = new URLSearchParams({ id, status: newStatus, csrf: csrfToken });
         const res  = await fetch('update_equipment_status.php', {
             method:  'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

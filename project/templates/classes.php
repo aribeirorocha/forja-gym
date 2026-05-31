@@ -130,7 +130,7 @@ require_once('../database/gym_class.php');
     <?php if ($isTrainer || $isAdmin): ?>
         <div id="add-class-modal" class="add-class-modal-overlay hidden">
             <article class="modal-card">
-                <button type="button" id="close-add-class" class="close-modal-btn">&times;</button>
+                <button type="button" id="close-add-class" class="close-modal-btn" aria-label="Fechar janela">&times;</button>
                 <header class="modal-header">
                     <p class="section-tag">NOVA AULA</p>
                     <h2 class="section-title">Detalhes da Aula</h2>
