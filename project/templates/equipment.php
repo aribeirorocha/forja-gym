@@ -121,6 +121,7 @@ function output_member_equipment(array $equipments, bool $is_admin = false): voi
             <p>NOVO EQUIPAMENTO</p>
 
             <form action="admin.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="add_equipment">
 
                 <div>

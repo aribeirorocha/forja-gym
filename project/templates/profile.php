@@ -63,6 +63,7 @@ if ($is_nutritionist) {
             <img src="<?= $photo_path ?>" alt="Foto de Perfil" class="profile-photo-large"
                  onerror="this.src='<?= $avatar_fallback ?>'">
             <form action="profile.php" method="post" enctype="multipart/form-data" id="photo-upload-form">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_photo">
                 <label for="photo-upload" class="camera-icon" title="Mudar foto de perfil">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg>
@@ -135,6 +136,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Dados Pessoais</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_details">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -158,6 +160,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Segurança</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_password">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -186,6 +189,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Formação & Certificações</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_trainer_profile">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -221,6 +225,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Dados da Conta</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_details">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -244,6 +249,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Segurança</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_password">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -422,12 +428,14 @@ if ($is_nutritionist) {
                             <?php if ($b['status'] === 'Pendente'): ?>
                             <div class="pt-booking-actions">
                                 <form method="post" action="profile.php" style="display:inline">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                                     <input type="hidden" name="action" value="update_pt_status">
                                     <input type="hidden" name="booking_id" value="<?= $b['id'] ?>">
                                     <input type="hidden" name="new_status" value="Confirmado">
                                     <button type="submit" class="pt-btn pt-btn-confirm">Confirmar</button>
                                 </form>
                                 <form method="post" action="profile.php" style="display:inline">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                                     <input type="hidden" name="action" value="update_pt_status">
                                     <input type="hidden" name="booking_id" value="<?= $b['id'] ?>">
                                     <input type="hidden" name="new_status" value="Cancelado">
@@ -449,6 +457,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Dados Profissionais</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_nutritionist_profile">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -472,6 +481,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Dados da Conta</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_details">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -495,6 +505,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Segurança</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_password">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -558,12 +569,14 @@ if ($is_nutritionist) {
                             <?php if ($a['status'] === 'pendente'): ?>
                             <div class="pt-booking-actions">
                                 <form method="post" action="profile.php" style="display:inline">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                                     <input type="hidden" name="action" value="update_appointment_status">
                                     <input type="hidden" name="appointment_id" value="<?= $a['id'] ?>">
                                     <input type="hidden" name="new_status" value="confirmada">
                                     <button type="submit" class="pt-btn pt-btn-confirm">Confirmar</button>
                                 </form>
                                 <form method="post" action="profile.php" style="display:inline">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                                     <input type="hidden" name="action" value="update_appointment_status">
                                     <input type="hidden" name="appointment_id" value="<?= $a['id'] ?>">
                                     <input type="hidden" name="new_status" value="cancelada">
@@ -589,6 +602,7 @@ if ($is_nutritionist) {
             <summary class="card-title card-summary">Registo de Peso</summary>
             <div class="details-body">
                 <form action="profile.php" method="post" class="weight-form">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <input type="hidden" name="action" value="log_weight">
                     <div class="weight-form-row">
                         <div class="form-group" style="margin-bottom:0; flex:1;">
@@ -642,6 +656,7 @@ if ($is_nutritionist) {
                                 <td class="weight-notes"><?= htmlspecialchars($entry['notes'] ?? '') ?></td>
                                 <td>
                                     <form action="profile.php" method="post" style="margin:0">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                                         <input type="hidden" name="action" value="delete_weight">
                                         <input type="hidden" name="weight_id" value="<?= $entry['id'] ?>">
                                         <button type="submit" class="btn-delete-weight" title="Eliminar">×</button>
@@ -723,6 +738,7 @@ if ($is_nutritionist) {
                 <!-- Formulário de pedido -->
                 <h4 class="card-subtitle" style="margin-bottom: 16px;">Pedir nova consulta</h4>
                 <form method="post" action="profile.php">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <input type="hidden" name="action" value="book_nutrition">
                     <div class="form-grid">
                         <div class="form-group full-width">
@@ -773,6 +789,7 @@ if ($is_nutritionist) {
                         <?php if ($a['status'] === 'pendente'): ?>
                         <div class="pt-booking-actions">
                             <form method="post" action="profile.php" style="display:inline">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                                 <input type="hidden" name="action" value="cancel_nutrition">
                                 <input type="hidden" name="appointment_id" value="<?= $a['id'] ?>">
                                 <button type="submit" class="pt-btn pt-btn-cancel">Cancelar pedido</button>
@@ -790,6 +807,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Dados Pessoais</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_details">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -812,6 +830,7 @@ if ($is_nutritionist) {
         <details class="profile-card profile-details">
             <summary class="card-title card-summary">Segurança</summary>
             <form action="profile.php" method="post" class="details-body">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_password">
                 <div class="form-grid">
                     <div class="form-group full-width">
@@ -847,6 +866,7 @@ if ($is_nutritionist) {
                 </div>
                 <h4 class="card-subtitle">Mudar de Plano</h4>
                 <form action="profile.php" method="post">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <input type="hidden" name="action" value="update_membership">
                     <div class="plans-change-grid">
                         <?php foreach (['basico' => '19€', 'normal' => '35€', 'vip' => '59€'] as $plan => $price): ?>
@@ -888,6 +908,7 @@ if ($is_nutritionist) {
                                     <p style="margin-bottom: 0; font-size: 0.9rem; color: var(--text-light);"><strong>Treinador:</strong> <?= htmlspecialchars($c['trainer_name']) ?></p>
                                     <?php if (strtotime($c['session_datetime']) > time()): ?>
                                     <form method="post" action="profile.php" style="margin: 0;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                                         <input type="hidden" name="action" value="unenroll_class">
                                         <input type="hidden" name="session_id" value="<?= $c['session_id'] ?>">
                                         <button type="submit" style="background: none; border: none; color: #d32f2f; text-decoration: underline; cursor: pointer; padding: 0; font-size: 0.85rem;">Desinscrever</button>
@@ -909,6 +930,7 @@ if ($is_nutritionist) {
                 <!-- Formulário de pedido -->
                 <h4 class="card-subtitle" style="margin-bottom: 16px;">Pedir nova sessão</h4>
                 <form method="post" action="profile.php">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <input type="hidden" name="action" value="book_pt">
                     <div class="form-grid">
                         <div class="form-group full-width">
@@ -964,6 +986,7 @@ if ($is_nutritionist) {
                         <?php if ($b['status'] === 'Pendente'): ?>
                         <div class="pt-booking-actions">
                             <form method="post" action="profile.php" style="display:inline">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                                 <input type="hidden" name="action" value="cancel_pt">
                                 <input type="hidden" name="booking_id" value="<?= $b['id'] ?>">
                                 <button type="submit" class="pt-btn pt-btn-cancel">Cancelar pedido</button>

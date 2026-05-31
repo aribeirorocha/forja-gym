@@ -17,6 +17,7 @@
                 <p class="form-error"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
             <form name="login" id="login" method="post" action="login.php">
+                <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <label>
                     Email <input type="email" name="email" placeholder="O teu email..." required>
                 </label>

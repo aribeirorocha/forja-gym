@@ -24,6 +24,7 @@
     <section class="admin-tab-content active profile-card" id="tab-users">
         <header class="admin-toolbar">
             <form action="admin.php" method="get" class="admin-search">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <fieldset>
                     <label for="admin-username-search">
                         Username
@@ -42,6 +43,7 @@
         </header>
 
         <form action="admin.php" method="get" id="admin-prev-page">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="page" value="<?= $page - 1 ?>">
             <input type="hidden" name="tab" value="users">
             <?php if ($username !== ''): ?>
@@ -49,6 +51,7 @@
             <?php endif; ?>
         </form>
         <form action="admin.php" method="get" id="admin-next-page">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="page" value="<?= $page + 1 ?>">
             <input type="hidden" name="tab" value="users">
             <?php if ($username !== ''): ?>
@@ -431,6 +434,7 @@
         <p class="profile-specialty" style="margin-bottom:5px !important;font-weight:700 !important;color:var(--orange) !important;text-transform:uppercase !important;letter-spacing:0.05em !important;font-size:0.8rem !important;">NOVO EQUIPAMENTO</p>
 
         <form action="admin.php" method="post" enctype="multipart/form-data" style="text-align:left !important;width:100% !important;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="add_equipment">
 
             <!-- Nome -->
@@ -498,6 +502,7 @@
         <p class="profile-specialty" style="margin-bottom:5px !important;font-weight:700 !important;color:var(--orange) !important;text-transform:uppercase !important;letter-spacing:0.05em !important;font-size:0.8rem !important;">NOVO TRAINER</p>
 
         <form action="admin.php" method="post" enctype="multipart/form-data" style="text-align:left !important;width:100% !important;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="add_trainer">
 
             <div style="margin-bottom:20px !important;text-align:center !important;">
@@ -575,6 +580,7 @@
         <button type="button" id="close-add-nutritionist" class="close-modal-btn">&times;</button>
         <p class="profile-specialty" style="margin-bottom:5px !important;font-weight:700 !important;color:var(--orange) !important;text-transform:uppercase !important;letter-spacing:0.05em !important;font-size:0.8rem !important;">NOVO NUTRICIONISTA</p>
         <form action="admin.php" method="post" enctype="multipart/form-data" style="text-align:left !important;width:100% !important;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="add_nutritionist">
             <div style="margin-bottom:20px !important;text-align:center !important;">
                 <input type="text" name="nu_name" placeholder="Nome Completo" required
@@ -633,6 +639,7 @@
         <td>
             <?php if ($role === 'member'): ?>
             <form method="post" action="admin.php" style="margin:0;">
+    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="update_user_membership">
                 <input type="hidden" name="user_id" value="<?= $id ?>">
                 <select name="membership" class="role-select" onchange="this.form.submit()" style="min-width:90px;">

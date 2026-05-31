@@ -5,6 +5,15 @@ require_once('../database/connection.php');
 require_once('../database/user_auth.php');
 require_once('../database/equipment.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        http_response_code(403);
+        die('Invalid CSRF token');
+    }
+}
+
+
 header('Content-Type: application/json');
 
 $user = UserAuth::currentUser();

@@ -10,6 +10,11 @@ $error = '';
 $step  = 1;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrfToken = $_POST['csrf'] ?? '';
+    if (!UserAuth::validateCsrfToken($csrfToken)) {
+        die('Invalid CSRF token');
+    }
+
     $step = intval($_POST['step'] ?? 1);
 
     if ($step === 1) {
