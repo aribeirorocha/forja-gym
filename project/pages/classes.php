@@ -24,7 +24,7 @@ $classes = GymClass::getClasses($db, 24);
 
 // ...
 output_header();
-output_classes($classes, $user != null);
+output_classes($classes);
 ?>
 
 <script>

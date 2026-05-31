@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'update_details') {
         $name     = trim($_POST['name']     ?? '');
         $username = trim($_POST['username'] ?? '');
-        $email    = trim($_POST['email']    ?? '');
+        $email    = strtolower(trim($_POST['email']    ?? ''));
 
         if (!$name || !$username || !$email) {
             $error_msg = 'Preenche todos os campos.';

@@ -26,19 +26,20 @@ require_once('../database/gym_class.php');
     </section>
 <?php } ?>
 
-<?php function output_classes(array $classes, bool $isLoggedIn) { 
+<?php function output_classes(array $classes)
+{
     $user = UserAuth::currentUser();
     $isTrainer = ($user && isset($user['role']) && $user['role'] === 'trainer');
     $isAdmin   = ($user && isset($user['role']) && $user['role'] === 'admin');
 
     $trainers_list = [];
     $types_list = [];
-    
-    foreach($classes as $c) {
+
+    foreach ($classes as $c) {
         $trainers_list[] = $c->trainer->name ?? 'Sem Trainer';
         $types_list[] = $c->name;
     }
-    
+
     $unique_trainers = array_unique($trainers_list);
     $unique_types = array_unique($types_list);
     sort($unique_trainers);
@@ -51,18 +52,18 @@ require_once('../database/gym_class.php');
     </section>
 
     <div class="classes-container">
-        
+
         <div class="filters-bar">
             <select id="filter-type" class="filter-select">
                 <option value="all">Todos os Tipos</option>
-                <?php foreach($unique_types as $type): ?>
+                <?php foreach ($unique_types as $type): ?>
                     <option value="<?= htmlspecialchars($type) ?>"><?= htmlspecialchars($type) ?></option>
                 <?php endforeach; ?>
             </select>
 
             <select id="filter-trainer" class="filter-select">
                 <option value="all">Todos os Trainers</option>
-                <?php foreach($unique_trainers as $trainer): ?>
+                <?php foreach ($unique_trainers as $trainer): ?>
                     <option value="<?= htmlspecialchars($trainer) ?>"><?= htmlspecialchars($trainer) ?></option>
                 <?php endforeach; ?>
             </select>
@@ -76,7 +77,7 @@ require_once('../database/gym_class.php');
         </div>
 
         <div class="class-grid" id="classes-grid">
-            <?php foreach ($classes as $class): 
+            <?php foreach ($classes as $class):
                 if ($class->session === null) {
                     $periodo = 'all';
                     $tempo_texto = 'Horário não definido';
@@ -93,29 +94,29 @@ require_once('../database/gym_class.php');
                 }
             ?>
                 <article class="class-card card-relative"
-                         data-trainer="<?= htmlspecialchars($class->trainer->name ?? 'Sem Trainer') ?>"
-                         data-type="<?= htmlspecialchars($class->name) ?>"
-                         data-period="<?= $periodo ?>">
-                         
+                    data-trainer="<?= htmlspecialchars($class->trainer->name ?? 'Sem Trainer') ?>"
+                    data-type="<?= htmlspecialchars($class->name) ?>"
+                    data-period="<?= $periodo ?>">
+
                     <img src="<?= $class->getPhotoPath() ?>" alt="<?= htmlspecialchars($class->name) ?>" class="class-photo">
                     <div class="class-summary">
                         <h3><?= htmlspecialchars($class->name) ?></h3>
                         <p>Trainer: <?= htmlspecialchars($class->trainer->name ?? 'Não atribuído') ?></p>
                         <p class="<?= $class->session === null ? 'text-orange' : '' ?>" style="font-weight: 600;"><?= $tempo_texto ?></p>
-                        
+
                         <div class="mt-20">
                             <a href="class.php?id=<?= $class->id ?>" class="btn-text d-block text-center">Ver detalhes</a>
                         </div>
                         <?php if ($isAdmin): ?>
-                        <button type="button" class="admin-delete-class" data-id="<?= $class->id ?>">
-                            Remover
-                        </button>
+                            <button type="button" class="admin-delete-class" data-id="<?= $class->id ?>">
+                                Remover
+                            </button>
                         <?php endif; ?>
                     </div>
                 </article>
             <?php endforeach; ?>
 
-            <?php if ($isTrainer): ?>
+            <?php if ($isTrainer || $isAdmin): ?>
                 <article class="class-card text-center create-class-card" id="trigger-add-class">
                     <div class="text-center text-orange">
                         <span class="create-class-icon">+</span>
@@ -126,7 +127,7 @@ require_once('../database/gym_class.php');
         </div>
     </div>
 
-    <?php if ($isTrainer): ?>
+    <?php if ($isTrainer || $isAdmin): ?>
         <div id="add-class-modal" class="add-class-modal-overlay hidden">
             <article class="modal-card">
                 <button type="button" id="close-add-class" class="close-modal-btn">&times;</button>
@@ -134,11 +135,11 @@ require_once('../database/gym_class.php');
                     <p class="section-tag">NOVA AULA</p>
                     <h2 class="section-title">Detalhes da Aula</h2>
                 </header>
-                
+
                 <form action="create_class.php" method="post" class="modal-form">
-    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+                    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <input type="hidden" name="action" value="create_class_with_session">
-                    
+
                     <div class="form-group full-width">
                         <label>Nome da Aula</label>
                         <input type="text" name="name" placeholder="Ex: Yoga Matinal" required class="form-input">
@@ -161,6 +162,12 @@ require_once('../database/gym_class.php');
                             <label>Duração <small class="font-normal">(min)</small></label>
                             <input type="number" name="duration_minutes" min="1" placeholder="60" required class="form-input">
                         </div>
+                        <?php if ($isAdmin): ?>
+                            <div class="form-group full-width">
+                                <label>Username do trainer</label>
+                                <input type="text" name="trainer_username" required class="form-input">
+                            </div>
+                        <?php endif; ?>
                         <div class="form-group full-width">
                             <label>Localização</label>
                             <input type="text" name="local" placeholder="Ex: Estúdio 1" required class="form-input">
@@ -183,19 +190,19 @@ require_once('../database/gym_class.php');
             </article>
         </div>
         <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const trigger = document.getElementById('trigger-add-class');
-            const modal = document.getElementById('add-class-modal');
-            const closeBtn = document.getElementById('close-add-class');
+            document.addEventListener("DOMContentLoaded", function() {
+                const trigger = document.getElementById('trigger-add-class');
+                const modal = document.getElementById('add-class-modal');
+                const closeBtn = document.getElementById('close-add-class');
 
-            if (trigger && modal && closeBtn) {
-                trigger.addEventListener('click', () => modal.classList.remove('hidden'));
-                closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) modal.classList.add('hidden');
-                });
-            }
-        });
+                if (trigger && modal && closeBtn) {
+                    trigger.addEventListener('click', () => modal.classList.remove('hidden'));
+                    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) modal.classList.add('hidden');
+                    });
+                }
+            });
         </script>
     <?php endif; ?>
 
@@ -203,20 +210,20 @@ require_once('../database/gym_class.php');
 
 
 <?php function output_class_details(GymClass $class, array $reviewStats, array $reviewsList, bool $isLoggedIn, bool $hasEnrollment)
-{ 
+{
     $user = UserAuth::currentUser();
     $isTrainer = ($user && $user['role'] === 'trainer');
-    $canEdit = ($user && $user['role'] === 'trainer' && (int)$class->trainerId === (int)$user['id']);
+    $canEdit = ($user && $user['role'] === 'trainer' && (int)$class->trainerId === (int)$user['id']) || $user['role'] === 'admin';
 ?>
     <link rel="stylesheet" href="../css/trainer_profile.css">
 
     <main class="profile-page-wrapper">
         <article class="profile-login-card card-relative">
 
-           
+
             <?php if ($canEdit): ?>
                 <button type="button" id="delete-class-detail-btn" data-class-id="<?= $class->id ?>"
-                        class="close-detail-btn">
+                    class="close-detail-btn">
                     Eliminar
                 </button>
             <?php endif; ?>
@@ -238,7 +245,7 @@ require_once('../database/gym_class.php');
                 <h1 class="profile-name"><?= htmlspecialchars($class->name) ?></h1>
                 <?php if ($class->session && !$isTrainer): ?>
                     <form method="POST" action="class.php?id=<?= $class->id ?>" id="enroll-form">
-    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+                        <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                         <input type="hidden" name="enroll" value=<?= $class->session->id ?>>
                         <button class="btn-review-submit mb-20" type="submit">
                             <?= $hasEnrollment ? "Desinscrever-se" : "Inscrever-se na Aula" ?>
@@ -248,7 +255,7 @@ require_once('../database/gym_class.php');
             <?php } ?>
 
             <div class="profile-details-list">
-                
+
                 <div class="profile-detail-item">
                     <strong>Data</strong>
                     <div class="inline-view-mode">
@@ -259,7 +266,7 @@ require_once('../database/gym_class.php');
                     </div>
                     <?php if ($canEdit && $class->session !== null): ?>
                         <form action="create_class.php" method="post" class="inline-edit-form">
-    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+                            <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_session">
                             <input type="hidden" name="id_session" value="<?= $class->session->id ?>">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
@@ -283,7 +290,7 @@ require_once('../database/gym_class.php');
                     </div>
                     <?php if ($canEdit): ?>
                         <form action="create_class.php" method="post" class="inline-edit-form">
-    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+                            <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_capacity">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
                             <input type="number" name="capacity" value="<?= $class->capacity ?>" min="1" required class="inline-edit-input inline-edit-input-small">
@@ -303,7 +310,7 @@ require_once('../database/gym_class.php');
                     </div>
                     <?php if ($canEdit): ?>
                         <form action="create_class.php" method="post" class="inline-edit-form">
-    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+                            <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_duration">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
                             <input type="number" name="duration_minutes" value="<?= $class->durationMinutes ?>" min="1" required class="inline-edit-input inline-edit-input-small">
@@ -323,7 +330,7 @@ require_once('../database/gym_class.php');
                     </div>
                     <?php if ($canEdit): ?>
                         <form action="create_class.php" method="post" class="inline-edit-form">
-    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+                            <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="update_class_local">
                             <input type="hidden" name="id_class" value="<?= $class->id ?>">
                             <input type="text" name="local" value="<?= htmlspecialchars($class->local) ?>" required class="inline-edit-input inline-edit-input-medium">
@@ -344,7 +351,7 @@ require_once('../database/gym_class.php');
                     <section class="review-section">
                         <h4 class="review-box-title">Deixa a tua review</h4>
                         <form class="review-form" method="post" action="class.php?id=<?= $class->id ?>">
-    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+                            <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <fieldset class="star-rating">
                                 <input type="radio" id="r5" name="rating" value="5">
                                 <label for="r5" title="5 estrelas">&#9733;</label>
@@ -372,7 +379,7 @@ require_once('../database/gym_class.php');
                 <div class="reviews-container">
                     <button type="button" class="btn-toggle-reviews" id="toggle-reviews-btn">Ver comentários (<?= count($reviewsList) ?>)</button>
                     <div class="reviews-list hidden" id="reviews-list-container">
-                        <?php foreach ($reviewsList as $rev): 
+                        <?php foreach ($reviewsList as $rev):
                             if (!empty($rev['photo'])) {
                                 $rev_photo = "../imgs/" . htmlspecialchars($rev['photo']);
                             } else {
@@ -409,60 +416,67 @@ require_once('../database/gym_class.php');
     </main>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const toggleBtn = document.getElementById('toggle-reviews-btn');
-        const reviewsList = document.getElementById('reviews-list-container');
-        if (toggleBtn && reviewsList) {
-            toggleBtn.addEventListener('click', function() {
-                reviewsList.classList.toggle('hidden');
-                toggleBtn.textContent = reviewsList.classList.contains('hidden') ? 'Ver comentários (' + <?= count($reviewsList) ?> + ')' : 'Ocultar comentários';
-            });
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleBtn = document.getElementById('toggle-reviews-btn');
+            const reviewsList = document.getElementById('reviews-list-container');
+            if (toggleBtn && reviewsList) {
+                toggleBtn.addEventListener('click', function() {
+                    reviewsList.classList.toggle('hidden');
+                    toggleBtn.textContent = reviewsList.classList.contains('hidden') ? 'Ver comentários (' + <?= count($reviewsList) ?> + ')' : 'Ocultar comentários';
+                });
+            }
 
-        const deleteDetailBtn = document.getElementById('delete-class-detail-btn');
-        if (deleteDetailBtn) {
-            deleteDetailBtn.addEventListener('click', function() {
-                const classId = this.dataset.classId;
-                if (!confirm('Tem a certeza que quer remover esta aula permanentemente?')) { return; }
-                
-                fetch('create_class.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: 'action=remove_class&id=' + encodeURIComponent(classId)
-                })
-                .then(response => {
-                    if (!response.ok) { throw new Error('Erro ao remover a aula'); }
-                    window.location.href = 'classes.php';
-                })
-                .catch(error => {
-                    alert('Não foi possível remover a aula.');
-                    console.error(error);
+            const deleteDetailBtn = document.getElementById('delete-class-detail-btn');
+            if (deleteDetailBtn) {
+                deleteDetailBtn.addEventListener('click', function() {
+                    const classId = this.dataset.classId;
+                    if (!confirm('Tem a certeza que quer remover esta aula permanentemente?')) {
+                        return;
+                    }
+
+                    fetch('create_class.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: 'action=remove_class&id=' + encodeURIComponent(classId)
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Erro ao remover a aula');
+                            }
+                            window.location.href = 'classes.php';
+                        })
+                        .catch(error => {
+                            alert('Não foi possível remover a aula.');
+                            console.error(error);
+                        });
+                });
+            }
+
+            document.querySelectorAll('.inline-edit-trigger').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const pItem = this.closest('.profile-detail-item');
+                    pItem.querySelector('.inline-view-mode').style.display = 'none';
+                    pItem.querySelector('.inline-edit-form').style.display = 'flex';
                 });
             });
-        }
 
-        document.querySelectorAll('.inline-edit-trigger').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const pItem = this.closest('.profile-detail-item');
-                pItem.querySelector('.inline-view-mode').style.display = 'none';
-                pItem.querySelector('.inline-edit-form').style.display = 'flex';
+            document.querySelectorAll('.inline-cancel-trigger').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const pItem = this.closest('.profile-detail-item');
+                    pItem.querySelector('.inline-view-mode').style.display = 'block';
+                    pItem.querySelector('.inline-edit-form').style.display = 'none';
+                });
             });
         });
-
-        document.querySelectorAll('.inline-cancel-trigger').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const pItem = this.closest('.profile-detail-item');
-                pItem.querySelector('.inline-view-mode').style.display = 'block';
-                pItem.querySelector('.inline-edit-form').style.display = 'none';
-            });
-        });
-    });
     </script>
 <?php } ?>
 
 <?php function output_class_form() {} ?>
 
-<?php function output_class_session_forms(array $classes) { ?>
+<?php function output_class_session_forms(array $classes)
+{ ?>
     <section class="class-session-page">
         <section class="trainer-class-list">
             <header>
@@ -476,7 +490,8 @@ require_once('../database/gym_class.php');
     </section>
 <?php } ?>
 
-<?php function output_class_session_form(GymClass $class) { ?>
+<?php function output_class_session_form(GymClass $class)
+{ ?>
     <article class="trainer-class-card">
         <header>
             <section>
@@ -501,7 +516,7 @@ require_once('../database/gym_class.php');
         </section>
 
         <form action="create_class.php" method="post" class="session-form">
-    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="create_class_session">
             <input type="hidden" name="id_class" value="<?= $class->id ?>">
 
@@ -518,6 +533,6 @@ require_once('../database/gym_class.php');
             <button type="submit" class="btn-review-submit">Criar Sessão</button>
         </form>
 
-        <button data-class-id= <?= $class->id ?> class='delete-class-btn btn-text'> Remover aula </button>
+        <button data-class-id=<?= $class->id ?> class='delete-class-btn btn-text'> Remover aula </button>
     </article>
 <?php } ?>

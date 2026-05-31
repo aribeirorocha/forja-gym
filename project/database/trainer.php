@@ -86,6 +86,37 @@ class Trainer extends User
 
         return null;
     }
+
+    static function getTrainerByEmail(PDO $db, string $email) : ?Trainer {
+        $stmt = $db->prepare('SELECT id, username, name, email, photo, role, U.created_at, age, T.sex, specialization, formation, certification, T.created_at as trainer_created_at, location 
+                              FROM user U
+                              JOIN trainer_profile T ON T.id_user = U.id 
+                              WHERE U.email = ? LIMIT 1');
+
+        $stmt->execute(array($email));
+
+        if ($trainer = $stmt->fetch()) {
+            return new Trainer(
+                $trainer['id'],
+                $trainer['username'],
+                $trainer['name'],
+                $trainer['email'],
+                "../imgs/{$trainer['photo']}",
+                $trainer['role'],
+                new DateTime($trainer['created_at']),
+                $trainer['age'],
+                $trainer['sex'],
+                $trainer['specialization'],
+                $trainer['formation'],
+                $trainer['certification'],
+                new DateTime($trainer['trainer_created_at']),
+                $trainer['location']
+            );
+        }
+
+        return null;
+    }
+
 } 
 
 function getTrainerReviewsStats(PDO $db, int $trainerId): array {
