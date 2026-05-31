@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 UserAuth::requireLogin();
 $user = UserAuth::currentUser();
 
-if (!$user || $user['role'] !== 'trainer' || $user['role'] !== 'admin') {
+if (!$user || ($user['role'] !== 'trainer' && $user['role'] !== 'admin')) {
     header('Location: index.php');
     exit;
 }
