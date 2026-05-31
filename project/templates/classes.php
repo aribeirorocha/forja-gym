@@ -165,7 +165,7 @@ require_once('../database/gym_class.php');
                         <?php if ($isAdmin): ?>
                             <div class="form-group full-width">
                                 <label>Email do trainer</label>
-                                <input type="text" name="trainer_email" required class="form-input">
+                                <input type="email" name="trainer_email" required class="form-input">
                             </div>
                         <?php endif; ?>
                         <div class="form-group full-width">
