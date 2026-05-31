@@ -53,7 +53,7 @@ Pode explorar todas as funcionalidades do sistema através das seguintes contas 
 | **Nutricionista** | `ananutri@gmail.com` | `1234` | Gestão de pacientes e planos alimentares. |
 | **Membro (VIP)** | `rita.ferreira@gmail.com` | `1234` | Membro com acesso VIP. |
 | **Membro (Normal)** | `pedro.martins@gmail.com` | `1234` | Membro com acesso normal. |
-| **Membro (Básico)** | `carlos.oliveira@gmail.com`| Membro com acesso básico. |
+| **Membro (Básico)** | `carlos.oliveira@gmail.com`| `1234` | Membro com acesso básico. |
 
 ## ⚙️ Funcionalidades Implementadas (Requisitos Base e Extra)
 
