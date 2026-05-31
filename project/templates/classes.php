@@ -126,57 +126,48 @@ require_once('../database/gym_class.php');
         </div>
     </div>
 
-    <!-- BLINDAGEM DO POP-UP: Forçado com !important largura, max-largura, altura e min-altura para não esticar de forma alguma -->
     <?php if ($isTrainer): ?>
         <div id="add-class-modal" class="add-class-modal-overlay hidden">
-            <article class="profile-login-card" style="width: 360px !important; max-width: 360px !important; height: auto !important; min-height: unset !important; max-height: unset !important; display: block !important; margin: 0 auto !important; position: relative !important; animation: modalSlideUp 0.3s ease !important; text-align: center !important; padding: 25px !important; border-radius: 12px !important; box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important; background-color: #ffffff !important; box-sizing: border-box !important; float: none !important;">
+            <article class="modal-card">
                 <button type="button" id="close-add-class" class="close-modal-btn">&times;</button>
-                <p class="profile-specialty" style="margin-bottom: 5px !important; font-weight: 700 !important; color: var(--orange) !important; text-transform: uppercase !important; letter-spacing: 0.05em !important; font-size: 0.8rem !important; text-align: center !important;">CRIAÇÃO DE AULA</p>
+                <header class="modal-header">
+                    <p class="section-tag" style="margin-bottom: 5px; font-size: 0.85rem; letter-spacing: 0.05em;">NOVA AULA</p>
+                    <h2 style="font-size: 1.6rem; margin-bottom: 25px; color: var(--text-main);">Detalhes da Aula</h2>
+                </header>
                 
-                <form action="create_class.php" method="post" style="text-align: left !important; width: 100% !important; display: block !important;">
+                <form action="create_class.php" method="post" class="modal-form">
                     <input type="hidden" name="action" value="create_class_with_session">
                     
-                    <div style="margin-bottom: 20px !important; text-align: center !important; width: 100% !important;">
-                        <input type="text" name="name" placeholder="Nome da Aula" required 
-                               style="font-size: 1.4rem !important; font-weight: 800 !important; text-align: center !important; border: none !important; border-bottom: 2px solid var(--gray-border) !important; width: 100% !important; padding: 4px !important; color: var(--text-main) !important; outline: none !important; font-family: inherit !important;">
+                    <div class="form-group full-width">
+                        <label>Nome da Aula</label>
+                        <input type="text" name="name" placeholder="Ex: Yoga Matinal" required class="form-input">
                     </div>
 
-                    <div class="profile-details-list" style="margin-bottom: 20px !important; width: 100% !important; display: block !important; height: auto !important; min-height: unset !important;">
-                        
-                        <div class="profile-detail-item" style="display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 8px 0 !important; border-bottom: 1px solid var(--gray-bg) !important; width: 100% !important; float: none !important;">
-                            <strong style="font-size: 0.85rem !important; color: var(--text-muted) !important;">Data de Início</strong>
-                            <input type="date" name="session_date" required style="padding: 6px 10px !important; border: 1px solid var(--gray-border) !important; border-radius: 6px !important; width: 150px !important; box-sizing: border-box !important; font-family: inherit !important; font-size: 0.85rem !important; color: var(--text-main) !important; background: white !important;">
+                    <div class="form-grid-modal">
+                        <div class="form-group">
+                            <label>Data de Início</label>
+                            <input type="date" name="session_date" required class="form-input">
                         </div>
-
-                        <div class="profile-detail-item" style="display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 8px 0 !important; border-bottom: 1px solid var(--gray-bg) !important; width: 100% !important; float: none !important;">
-                            <strong style="font-size: 0.85rem !important; color: var(--text-muted) !important;">Hora da Aula</strong>
-                            <input type="time" name="session_time" required style="padding: 6px 10px !important; border: 1px solid var(--gray-border) !important; border-radius: 6px !important; width: 150px !important; box-sizing: border-box !important; font-family: inherit !important; font-size: 0.85rem !important; color: var(--text-main) !important; background: white !important;">
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input type="time" name="session_time" required class="form-input">
                         </div>
-
-                        <div class="profile-detail-item" style="display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 8px 0 !important; border-bottom: 1px solid var(--gray-bg) !important; width: 100% !important; float: none !important;">
-                            <strong style="font-size: 0.85rem !important; color: var(--text-muted) !important;">Capacidade</strong>
-                            <div style="width: 150px !important; display: flex !important; align-items: center !important; gap: 6px !important; box-sizing: border-box !important;">
-                                <input type="number" name="capacity" min="1" placeholder="20" required style="padding: 6px 10px !important; border: 1px solid var(--gray-border) !important; border-radius: 6px !important; width: 100% !important; box-sizing: border-box !important; font-size: 0.85rem !important; color: var(--text-main) !important; background: white !important;">
-                                <span style="color: var(--text-muted) !important; font-size: 0.8rem !important; font-weight: 600 !important; white-space: nowrap !important;">vagas</span>
-                            </div>
+                        <div class="form-group">
+                            <label>Vagas</label>
+                            <input type="number" name="capacity" min="1" placeholder="20" required class="form-input">
                         </div>
-
-                        <div class="profile-detail-item" style="display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 8px 0 !important; border-bottom: 1px solid var(--gray-bg) !important; width: 100% !important; float: none !important;">
-                            <strong style="font-size: 0.85rem !important; color: var(--text-muted) !important;">Duração</strong>
-                            <div style="width: 150px !important; display: flex !important; align-items: center !important; gap: 6px !important; box-sizing: border-box !important;">
-                                <input type="number" name="duration_minutes" min="1" placeholder="60" required style="padding: 6px 10px !important; border: 1px solid var(--gray-border) !important; border-radius: 6px !important; width: 100% !important; box-sizing: border-box !important; font-size: 0.85rem !important; color: var(--text-main) !important; background: white !important;">
-                                <span style="color: var(--text-muted) !important; font-size: 0.8rem !important; font-weight: 600 !important; white-space: nowrap !important;">min</span>
-                            </div>
+                        <div class="form-group">
+                            <label>Duração <small style="font-weight: 400;">(min)</small></label>
+                            <input type="number" name="duration_minutes" min="1" placeholder="60" required class="form-input">
                         </div>
-
-                        <div class="profile-detail-item" style="display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 8px 0 !important; border-bottom: 1px solid var(--gray-bg) !important; width: 100% !important; float: none !important;">
-                            <strong style="font-size: 0.85rem !important; color: var(--text-muted) !important;">Localização</strong>
-                            <input type="text" name="local" placeholder="Ex: Estúdio 1" required style="padding: 6px 10px !important; border: 1px solid var(--gray-border) !important; border-radius: 6px !important; width: 150px !important; box-sizing: border-box !important; font-family: inherit !important; font-size: 0.85rem !important; color: var(--text-main) !important; background: white !important;">
+                        <div class="form-group full-width">
+                            <label>Localização</label>
+                            <input type="text" name="local" placeholder="Ex: Estúdio 1" required class="form-input">
                         </div>
-
-                        <div class="profile-detail-item" style="display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 8px 0 !important; width: 100% !important; float: none !important;">
-                            <strong style="font-size: 0.85rem !important; color: var(--text-muted) !important;">Tipo de Aula</strong>
-                            <select name="type" required style="padding: 6px 10px !important; border: 1px solid var(--gray-border) !important; border-radius: 6px !important; width: 150px !important; box-sizing: border-box !important; font-family: inherit !important; font-size: 0.85rem !important; background: white !important; color: var(--text-main) !important;">
+                        <div class="form-group full-width">
+                            <label>Tipo de Aula</label>
+                            <select name="type" required class="form-input" style="background-color: white;">
+                                <option value="" disabled selected>Seleciona o tipo...</option>
                                 <option value="yoga">Yoga</option>
                                 <option value="pilates">Pilates</option>
                                 <option value="spinning">Spinning</option>
@@ -186,11 +177,10 @@ require_once('../database/gym_class.php');
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-review-submit" style="width: 100% !important; margin: 0 !important; padding: 12px !important; font-size: 0.9rem !important;">Confirmar e Publicar Aula</button>
+                    <button type="submit" class="btn-save" style="margin-top: 10px; width: 100%;">Publicar Aula</button>
                 </form>
             </article>
         </div>
-
         <style>
         .add-class-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -198,11 +188,40 @@ require_once('../database/gym_class.php');
             display: flex; justify-content: center; align-items: center; z-index: 99999;
         }
         .add-class-modal-overlay.hidden { display: none; }
+        
+        .modal-card {
+            width: 90%; max-width: 480px; background: #fff; border-radius: 12px;
+            padding: 30px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: modalSlideUp 0.3s ease; text-align: left; box-sizing: border-box;
+        }
+        .modal-header { text-align: center; }
+        .modal-form { display: flex; flex-direction: column; gap: 15px; }
+        
+        .form-grid-modal { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 480px) { .form-grid-modal { grid-template-columns: 1fr; } }
+        
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+        
+        .form-input { 
+            width: 100%; padding: 10px 14px; border: 1px solid var(--gray-border); 
+            border-radius: 8px; font-family: inherit; font-size: 0.95rem; color: var(--text-main);
+            box-sizing: border-box; transition: all 0.2s;
+        }
+        .form-input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,102,0,0.1); outline: none; }
+        
+        .btn-save {
+            background-color: var(--orange); color: white; padding: 12px; border: none;
+            border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background-color 0.2s;
+        }
+        .btn-save:hover { background-color: var(--orange-dark, #e65c00); }
+
         .close-modal-btn {
-            position: absolute; top: 15px; right: 15px; background: none; border: none;
-            font-size: 2rem; color: var(--text-muted); cursor: pointer; line-height: 1;
+            position: absolute; top: 15px; right: 20px; background: none; border: none;
+            font-size: 2rem; color: var(--text-muted); cursor: pointer; line-height: 1; transition: color 0.2s;
         }
         .close-modal-btn:hover { color: var(--orange); }
+        
         @keyframes modalSlideUp {
             from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
