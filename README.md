@@ -14,7 +14,7 @@ Projeto desenvolvido no âmbito da unidade curricular de **Laboratório de Tecno
 
 A **FORJA** é uma plataforma web completa projetada para facilitar e digitalizar as operações de um ginásio moderno. Com um design sofisticado e focado na usabilidade, a aplicação serve diferentes tipos de utilizadores (Administradores, Instrutores, Nutricionistas e Membros), cumprindo os requisitos funcionais e técnicos exigidos. Foi construída estritamente com tecnologias web base (HTML, CSS, PHP, SQLite e JavaScript/AJAX), sem o uso de frameworks.
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
 Para correr este projeto localmente, são necessários apenas o terminal e uma instalação do PHP:
 
