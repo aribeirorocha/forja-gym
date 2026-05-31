@@ -248,17 +248,28 @@ INSERT INTO rating (id_member, id_session, rate, comment, created_at) VALUES
 (17, 12, 5, 'Progressão bem estruturada. Volta semana após semana!', '2025-01-21 20:00:00'),
 (17, 13, 4, 'Boa variedade de exercícios, nunca é a mesma coisa.', '2025-02-04 20:00:00'),
 (19, 13, 5, 'O João é muito atento à forma de cada um. Excelente!', '2025-02-04 20:10:00'),
+(29, 13, 5, 'Aula fantástica! Estou a melhorar o meu cardio.', '2025-02-04 20:20:00'),
+(17, 14, 5, 'Muito difícil, mas valeu a pena!', '2025-03-04 20:00:00'),
+(21, 14, 4, 'Sempre a puxar por nós. Recomendo.', '2025-03-04 20:10:00'),
 (17, 15, 5, 'Já perdi 4kg desde que comecei. Obrigado!', '2025-04-01 20:00:00'),
 (23, 15, 4, 'Aula muito bem organizada e o ambiente é ótimo.', '2025-04-01 20:10:00'),
+(31, 15, 5, 'Top! O ritmo foi de loucos mas senti-me ótimo.', '2025-04-01 20:20:00'),
 (17, 16, 5, 'O melhor crossfit que já experimentei em Porto.', '2025-05-06 20:00:00'),
+(19, 16, 5, 'Estou viciado nestas aulas.', '2025-05-06 20:10:00'),
 
 -- Spinning
 (15, 19, 5, 'Sessão incrível! O Mário escolheu músicas perfeitas.', '2025-01-08 21:00:00'),
 (18, 19, 4, 'Muito energético, saí a suar mas satisfeita!', '2025-01-08 21:10:00'),
+(22, 19, 5, 'As luzes e a música motivam imenso.', '2025-01-08 21:20:00'),
 (15, 20, 5, 'Já é a minha aula favorita da semana.', '2025-02-05 21:00:00'),
+(24, 20, 5, 'Perfeito para queimar calorias. Adorei!', '2025-02-05 21:10:00'),
 (15, 21, 4, 'Boa intensidade, ritmo bem calibrado.', '2025-03-05 21:00:00'),
 (18, 21, 5, 'Adorei! Muito melhor do que spinning noutros ginásios.', '2025-03-05 21:10:00'),
+(27, 21, 5, 'Saí daqui esgotado mas super feliz.', '2025-03-05 21:20:00'),
+(15, 22, 5, 'A música é top.', '2025-04-02 21:00:00'),
+(22, 22, 4, 'A aula foi espetacular.', '2025-04-02 21:10:00'),
 (15, 23, 5, 'Professor extraordinário, adapta o treino a toda a gente.', '2025-05-07 21:00:00'),
+(18, 23, 5, 'Como sempre, espetacular.', '2025-05-07 21:10:00'),
 
 -- Zumba
 (14, 26, 5, 'Divertidíssimo! A Marta tem uma energia contagiante.', '2025-01-09 20:30:00'),
@@ -271,10 +282,16 @@ INSERT INTO rating (id_member, id_session, rate, comment, created_at) VALUES
 -- Pilates
 (13, 32, 5, 'A Sofia corrige a postura com muita atenção. Recomendo!', '2025-01-10 11:30:00'),
 (14, 32, 5, 'Nunca tinha feito pilates, fiquei rendida!', '2025-01-10 11:40:00'),
+(16, 32, 5, 'Espetacular para relaxar as costas.', '2025-01-10 11:50:00'),
 (13, 33, 4, 'Ótima para melhorar a postura no dia a dia.', '2025-02-07 11:30:00'),
+(20, 33, 5, 'Aula maravilhosa.', '2025-02-07 11:40:00'),
 (14, 34, 5, 'Aula muito bem estruturada, sinto diferença nas costas.', '2025-03-07 11:30:00'),
 (16, 34, 4, 'Professora muito paciente e atenciosa com os iniciantes.', '2025-03-07 11:40:00'),
-(13, 35, 5, 'Já são 4 meses e a minha postura melhorou imenso!', '2025-04-04 11:30:00');
+(26, 34, 5, 'Nunca pensei que pilates fosse tão bom!', '2025-03-07 11:50:00'),
+(13, 35, 5, 'Já são 4 meses e a minha postura melhorou imenso!', '2025-04-04 11:30:00'),
+(14, 35, 5, 'Incrível!', '2025-04-04 11:40:00'),
+(16, 36, 5, 'Sinto-me muito mais flexível.', '2025-05-09 11:30:00'),
+(20, 36, 5, 'Aula fantástica.', '2025-05-09 11:40:00');
 
 -- ==========================================
 -- 7. AVALIAÇÕES DE TRAINERS
@@ -331,11 +348,11 @@ INSERT INTO pt_booking (id_member, id_trainer, booking_date, start_time, end_tim
 (17, 10, '2025-02-15', '10:00', '11:00', 'Recuperação de lesão no ombro direito. Preciso de treino adaptado.', 'Confirmado', '2025-02-13 18:00:00'),
 (14, 1,  '2025-02-20', '11:00', '12:00', 'Gostava de aprender yoga de forma mais individualizada.', 'Confirmado', '2025-02-18 19:00:00'),
 (21, 10, '2025-03-05', '09:00', '10:00', 'Plano de hipertrofia muscular para os próximos 3 meses.', 'Confirmado', '2025-03-03 20:00:00'),
-(19, 2,  '2025-03-12', '18:00', '19:00', 'Quero melhorar o meu tempo nos WODs de CrossFit.', 'Confirmado', '2025-03-10 19:00:00'),
+(20, 2,  '2025-03-12', '18:00', '19:00', 'Quero melhorar o meu tempo nos WODs de CrossFit.', 'Confirmado', '2025-03-10 19:00:00'),
 (23, 10, '2025-03-20', '17:00', '18:00', 'Treino focado em perda de peso e definição muscular.', 'Confirmado', '2025-03-18 20:00:00'),
 (16, 11, '2025-04-02', '10:00', '11:00', 'Dores na lombar, preciso de exercícios corretivos.', 'Confirmado', '2025-03-31 21:00:00'),
 (20, 1,  '2025-04-08', '11:00', '12:00', 'Primeira sessão de yoga, nunca experimentei antes.', 'Confirmado', '2025-04-06 20:00:00'),
-(25, 10, '2025-04-15', '09:00', '10:00', 'Plano completo de musculação para principiante.', 'Confirmado', '2025-04-13 19:00:00'),
+(26, 10, '2025-04-15', '09:00', '10:00', 'Plano completo de musculação para principiante.', 'Confirmado', '2025-04-13 19:00:00'),
 (29, 2,  '2025-04-22', '18:00', '19:00', 'Preparação para uma corrida de 10km daqui a 2 meses.', 'Confirmado', '2025-04-20 20:00:00'),
 (13, 10, '2025-05-06', '09:00', '10:00', 'Avaliação física e definição de objetivos para o verão.', 'Confirmado', '2025-05-04 18:00:00'),
 (24, 11, '2025-05-13', '10:00', '11:00', 'Pilates para melhorar a postura. Trabalho muito ao computador.', 'Confirmado', '2025-05-11 20:00:00'),
@@ -345,13 +362,13 @@ INSERT INTO pt_booking (id_member, id_trainer, booking_date, start_time, end_tim
 -- Pendentes (futuros próximos)
 (14, 2,  '2026-06-10', '18:00', '19:00', 'Quero experimentar CrossFit mas com acompanhamento individual primeiro.', 'Pendente', '2026-05-28 09:00:00'),
 (26, 11, '2026-06-11', '10:00', '11:00', 'Pilates de reabilitação após cirurgia ao joelho.', 'Pendente', '2026-05-27 20:00:00'),
-(28, 9,  '2026-06-12', '18:30', '19:30', 'Aulas de zumba privadas para perder vergonha antes das aulas em grupo.', 'Pendente', '2026-05-26 21:00:00'),
-(32, 10, '2026-06-13', '09:00', '10:00', 'Primeira vez no ginásio, precisava de orientação.', 'Pendente', '2026-05-28 10:00:00'),
-(15, 3,  '2026-06-14', '19:00', '20:00', 'Melhorar a resistência cardiovascular com spinning personalizado.', 'Pendente', '2026-05-27 18:00:00'),
+(26, 9,  '2026-06-12', '18:30', '19:30', 'Aulas de zumba privadas para perder vergonha antes das aulas em grupo.', 'Pendente', '2026-05-26 21:00:00'),
+(23, 10, '2026-06-13', '09:00', '10:00', 'Precisava de orientação avançada para um evento.', 'Pendente', '2026-05-28 10:00:00'),
+(20, 3,  '2026-06-14', '19:00', '20:00', 'Melhorar a resistência cardiovascular com spinning personalizado.', 'Pendente', '2026-05-27 18:00:00'),
 
 -- Cancelados
 (18, 2,  '2025-03-01', '18:00', '19:00', 'Treino de força e condicionamento físico geral.', 'Cancelado', '2025-02-27 20:00:00'),
-(22, 1,  '2025-03-15', '09:00', '10:00', 'Queria experimentar yoga mas tive de cancelar.', 'Cancelado', '2025-03-13 19:00:00');
+(16, 1,  '2025-03-15', '09:00', '10:00', 'Queria experimentar yoga mas tive de cancelar.', 'Cancelado', '2025-03-13 19:00:00');
 
 -- ==========================================
 -- 9. DISPONIBILIDADE DOS TRAINERS

@@ -24,6 +24,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $booking_date = trim($_POST['booking_date'] ?? '');
     $booking_time = trim($_POST['booking_time'] ?? '');
     $date = $booking_date . ' ' . $booking_time . ':00';
+
+    // Verifica limites do plano para Nutrição
+    $membership = $user['membership'] ?? 'basico';
+    if ($membership === 'basico') {
+        header("Location: nutritionist_profile.php?id=$id&error=nutrition_not_included");
+        exit;
+    }
+    if ($membership === 'normal') {
+        $monthly_count = getMonthlyNutritionCount($db, $user['id']);
+        if ($monthly_count >= 1) {
+            header("Location: nutritionist_profile.php?id=$id&error=nutrition_limit_reached");
+            exit;
+        }
+    }
+
     scheduleAppointment($db, $user['id'], $id, $date);
     header("Location: nutritionist_profile.php?id=$id&success=appointment");
     exit;
@@ -57,10 +72,17 @@ output_header();
 <link rel="stylesheet" href="../css/nutrition.css">
 
 <main class="profile-page-wrapper">
-    <article class="profile-login-card" style="max-width: 600px;"> <?php if (isset($_GET['success']) && $_GET['success'] === 'appointment'): ?>
+    <article class="profile-login-card" style="max-width: 600px;"> 
+        <?php if (isset($_GET['success']) && $_GET['success'] === 'appointment'): ?>
             <div class="success-banner" style="margin-top: 0;">
                 Obrigado! A tua consulta foi marcada com sucesso.
             </div>
+        <?php endif; ?>
+        <?php if (isset($_GET['error']) && $_GET['error'] === 'nutrition_not_included'): ?>
+            <div class="form-error" style="margin-bottom: 20px; background: #fff0f0; border: 1px solid #ffcdd2; color: #d32f2f; text-align: center;">O plano Básico não inclui consultas de nutrição. Faz upgrade ao teu plano no Perfil!</div>
+        <?php endif; ?>
+        <?php if (isset($_GET['error']) && $_GET['error'] === 'nutrition_limit_reached'): ?>
+            <div class="form-error" style="margin-bottom: 20px; background: #fff0f0; border: 1px solid #ffcdd2; color: #d32f2f; text-align: center;">Atingiste o limite mensal (1 consulta) para o plano Normal. Faz upgrade para VIP se precisares de acompanhamento extra!</div>
         <?php endif; ?>
 
         <img src="<?= $photo_src ?>" alt="<?= htmlspecialchars($nutriInfo['name']) ?>" class="profile-big-photo" onerror="this.onerror=null; this.src='../imgs/default-avatar.png';">

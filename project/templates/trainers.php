@@ -23,7 +23,7 @@ require_once('../database/trainer.php');
             </select>
 
             <select id="sort-trainers" class="filter-select">
-                <option value="default">↕️ Ordenar por...</option>
+                <option value="default">Ordenar por...</option>
                 <option value="age-asc">Mais novos</option>
                 <option value="age-desc">Mais velhos</option>
                 <option value="time-desc">Mais tempo no ginásio</option>

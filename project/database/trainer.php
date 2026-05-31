@@ -160,5 +160,16 @@ function bookPTSession(PDO $db, int $memberId, int $trainerId, string $date, str
     ');
     $stmt->execute([$memberId, $trainerId, $date, $startTime, $endTime, $notes]);
 }
+
+function getMonthlyPTCount(PDO $db, int $memberId): int {
+    $stmt = $db->prepare("
+        SELECT COUNT(*) FROM pt_booking
+        WHERE id_member = ?
+          AND strftime('%Y-%m', booking_date) = strftime('%Y-%m', 'now')
+          AND status != 'Cancelada'
+    ");
+    $stmt->execute([$memberId]);
+    return (int) $stmt->fetchColumn();
+}
 ?>
 

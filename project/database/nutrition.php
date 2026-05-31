@@ -65,4 +65,15 @@ function getMessages(PDO $db, int $member_id, int $nutritionist_id): array {
     $stmt->execute([$member_id, $nutritionist_id, $nutritionist_id, $member_id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getMonthlyNutritionCount(PDO $db, int $memberId): int {
+    $stmt = $db->prepare("
+        SELECT COUNT(*) FROM appointment
+        WHERE id_member = ?
+          AND strftime('%Y-%m', appointment_date) = strftime('%Y-%m', 'now')
+          AND status != 'cancelada'
+    ");
+    $stmt->execute([$memberId]);
+    return (int) $stmt->fetchColumn();
+}
 ?>

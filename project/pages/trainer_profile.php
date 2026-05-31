@@ -38,6 +38,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $time = $_POST['booking_time'];
         $notes = trim($_POST['notes'] ?? '');
 
+        // Verifica limites do plano para PT
+        $membership = $user['membership'] ?? 'basico';
+        if ($membership === 'basico') {
+            header("Location: trainer_profile.php?id=$id&error=pt_not_included");
+            exit;
+        }
+
+        $monthly_count = getMonthlyPTCount($db, $user['id']);
+        $max_pt = ($membership === 'normal') ? 1 : 4; // VIP = 4
+
+        if ($monthly_count >= $max_pt) {
+            header("Location: trainer_profile.php?id=$id&error=pt_limit_reached");
+            exit;
+        }
+
         bookPTSession($db, $user['id'], $id, $date, $time, $notes);
         
         header("Location: trainer_profile.php?id=$id&success=booking");
@@ -125,6 +140,12 @@ output_header();
             <div class="success-banner-pt">
                 Pedido de marcação enviado! O trainer irá analisar e confirmar.
             </div>
+        <?php endif; ?>
+        <?php if (isset($_GET['error']) && $_GET['error'] === 'pt_not_included'): ?>
+            <div class="form-error" style="margin-bottom: 20px; background: #fff0f0; border: 1px solid #ffcdd2; color: #d32f2f; text-align: center;">O plano Básico não inclui sessões de PT. Faz upgrade ao teu plano no Perfil!</div>
+        <?php endif; ?>
+        <?php if (isset($_GET['error']) && $_GET['error'] === 'pt_limit_reached'): ?>
+            <div class="form-error" style="margin-bottom: 20px; background: #fff0f0; border: 1px solid #ffcdd2; color: #d32f2f; text-align: center;">Atingiste o teu limite mensal de sessões de PT para o teu plano. Faz upgrade para VIP se quiseres mais sessões!</div>
         <?php endif; ?>
 
         <?php if ($user): ?>

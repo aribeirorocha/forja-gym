@@ -57,15 +57,16 @@ class ClassSession
         return $this->datetime->format('j') . " de " . ClassSession::$monthsOfYear[intval($this->datetime->format('n')) - 1];
     }
 
-    static function getSessionReviewsStats(PDO $db, int $sessionId): array
+    static function getClassReviewsStats(PDO $db, int $classId): array
     {
         $stmt = $db->prepare('
-            SELECT AVG(rate) as avg_rating, COUNT(id) as total_reviews
-            FROM rating
-            WHERE id_session = ?
+            SELECT AVG(rate) as avg_rating, COUNT(r.id) as total_reviews
+            FROM rating r
+            JOIN class_session cs ON r.id_session = cs.id
+            WHERE cs.id_class = ?
         ');
 
-        $stmt->execute([$sessionId]);
+        $stmt->execute([$classId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return [
@@ -86,16 +87,17 @@ class ClassSession
         $stmt->execute([$memberId, $sessionId, $rate, $comment]);
     }
 
-    static function getSessionReviews(PDO $db, int $sessionId): array
+    static function getClassReviews(PDO $db, int $classId): array
     {
         $stmt = $db->prepare('
             SELECT r.rate, r.comment, r.created_at, u.name, u.photo
             FROM rating r
             JOIN user u ON r.id_member = u.id
-            WHERE r.id_session = ?
+            JOIN class_session cs ON r.id_session = cs.id
+            WHERE cs.id_class = ?
             ORDER BY r.created_at DESC
         ');
-        $stmt->execute([$sessionId]);
+        $stmt->execute([$classId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -129,5 +131,16 @@ class ClassSession
             INSERT INTO class_session (id_class, session_datetime) VALUES (?,?)
         ');
         $stmt->execute([$classId, "{$date} {$time}"]);
+    }
+
+    static function getWeeklyClassCount(PDO $db, int $memberId) : int {
+        $stmt = $db->prepare("
+            SELECT COUNT(*) FROM enrollment e
+            JOIN class_session cs ON e.id_session = cs.id
+            WHERE e.id_member = ? 
+              AND strftime('%Y-%W', cs.session_datetime) = strftime('%Y-%W', 'now')
+        ");
+        $stmt->execute([$memberId]);
+        return (int) $stmt->fetchColumn();
     }
 }

@@ -1,4 +1,4 @@
-<?php function output_profile(array $user, array $weight_log = [], string $success_msg = '', string $error_msg = '', array $trainer_classes = [], array $trainer_reviews = [], array $trainer_review_stats = [], array $pt_bookings = [], array $trainers_list = [], array $nutri_appointments = [], $my_nutrition_plan = null, array $my_meals = [], array $nutritionists_list = [], array $my_appointments = []) {
+<?php function output_profile(array $user, array $weight_log = [], string $success_msg = '', string $error_msg = '', array $trainer_classes = [], array $trainer_reviews = [], array $trainer_review_stats = [], array $pt_bookings = [], array $trainers_list = [], array $nutri_appointments = [], $my_nutrition_plan = null, array $my_meals = [], array $nutritionists_list = [], array $my_appointments = [], array $my_classes = []) {
 
 $is_trainer = ($user['role'] ?? '') === 'trainer';
 $is_admin   = ($user['role'] ?? '') === 'admin';
@@ -27,8 +27,8 @@ if (!$is_trainer && !$is_admin && !$is_nutritionist) {
     $membership_prices = ['basico' => '19€/mês', 'normal' => '35€/mês', 'vip' => '59€/mês'];
     $membership_features = [
         'basico' => ['Acesso ao ginásio', '1 aula por semana', 'Balneários incluídos'],
-        'normal' => ['Acesso ilimitado', '3 aulas por semana', '1 sessão PT/mês'],
-        'vip'    => ['Acesso ilimitado 24h', 'Aulas ilimitadas', 'PT dedicado (4/mês)', 'Área premium'],
+        'normal' => ['Acesso ilimitado', '3 aulas por semana', '1 consulta nutrição/mês', '1 sessão PT/mês'],
+        'vip'    => ['Acesso ilimitado 24h', 'Aulas ilimitadas', 'Nutrição ilimitada', 'PT dedicado (4/mês)', 'Área premium'],
     ];
     $latest_weight = !empty($weight_log) ? $weight_log[0]['weight_kg'] : null;
     $chart_labels  = [];
@@ -289,6 +289,25 @@ if ($is_nutritionist) {
                                 <span class="trainer-class-schedule">
                                     <?= $day_label ?>, <?= $next->format('d/m') ?> às <?= $next->format('H:i') ?>
                                 </span>
+                                <?php if (!empty($class['enrolled_members'])): ?>
+                                    <div style="margin-top: 12px;">
+                                        <strong style="font-size: 0.85rem; color: var(--text-light); display: block; margin-bottom: 6px;">
+                                            Membros Inscritos (<?= count($class['enrolled_members']) ?>/<?= $class['capacity'] ?>):
+                                        </strong>
+                                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                        <?php foreach ($class['enrolled_members'] as $m): 
+                                            $m_photo = !empty($m['photo']) ? "../imgs/" . htmlspecialchars($m['photo']) : "https://ui-avatars.com/api/?name=" . urlencode($m['name']) . "&background=f27a38&color=fff";
+                                        ?>
+                                            <div style="display: flex; align-items: center; gap: 6px; background: var(--bg-alt); padding: 4px 10px 4px 4px; border-radius: 20px; border: 1px solid var(--border-color);">
+                                                <img src="<?= $m_photo ?>" alt="<?= htmlspecialchars($m['name']) ?>" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                                                <span style="font-size: 0.85rem; color: var(--text-color);"><?= htmlspecialchars($m['name']) ?></span>
+                                            </div>
+                                        <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php else: ?>
+                                    <span class="trainer-class-schedule" style="margin-top: 5px; color: var(--text-light); font-size: 0.85rem;">Sem inscrições para a próxima sessão</span>
+                                <?php endif; ?>
                             <?php else: ?>
                                 <span class="trainer-class-schedule trainer-class-no-session">Sem sessão agendada</span>
                             <?php endif; ?>
@@ -321,16 +340,7 @@ if ($is_nutritionist) {
                 <?php if (empty($trainer_reviews)): ?>
                     <p class="weight-hint">Ainda não tens avaliações.</p>
                 <?php else: ?>
-                    <!-- Barra de média -->
-                    <div class="trainer-rating-summary">
-                        <span class="trainer-rating-big"><?= number_format($avg, 1) ?></span>
-                        <div class="trainer-rating-stars-big">
-                            <?php for ($i = 1; $i <= 5; $i++): ?>
-                                <span class="<?= $i <= round($avg) ? 'star-filled' : '' ?>">&#9733;</span>
-                            <?php endfor; ?>
-                            <span class="trainer-rating-total"><?= $count ?> <?= $count === 1 ? 'avaliação' : 'avaliações' ?></span>
-                        </div>
-                    </div>
+
 
                     <div class="reviews-list" style="margin-top: 20px;">
                         <?php foreach ($trainer_reviews as $rev):
@@ -852,6 +862,42 @@ if ($is_nutritionist) {
                     </div>
                     <button type="submit" class="btn-save">Atualizar Plano</button>
                 </form>
+            </div>
+        </details>
+
+        <!-- Aulas Inscritas -->
+        <details class="profile-card profile-details">
+            <summary class="card-title card-summary">Aulas de Grupo Inscritas</summary>
+            <div class="details-body">
+                <?php if (empty($my_classes)): ?>
+                    <p class="empty-state">Ainda não te inscreveste em nenhuma aula.</p>
+                <?php else: ?>
+                    <div class="reviews-list">
+                        <?php foreach ($my_classes as $c): ?>
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <strong><a href="class.php?id=<?= $c['id'] ?>" style="color: var(--primary); text-decoration: none;"><?= htmlspecialchars($c['name']) ?></a></strong>
+                                        <span class="review-date">Tipo: <?= htmlspecialchars(ucfirst($c['type'])) ?></span>
+                                    </div>
+                                    <div class="review-rating" style="font-size: 0.9rem; font-weight: 500;">
+                                        <?= date('d/m/Y H:i', strtotime($c['session_datetime'])) ?>
+                                    </div>
+                                </div>
+                                <div class="review-body" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <p style="margin-bottom: 0; font-size: 0.9rem; color: var(--text-light);"><strong>Treinador:</strong> <?= htmlspecialchars($c['trainer_name']) ?></p>
+                                    <?php if (strtotime($c['session_datetime']) > time()): ?>
+                                    <form method="post" action="profile.php" style="margin: 0;">
+                                        <input type="hidden" name="action" value="unenroll_class">
+                                        <input type="hidden" name="session_id" value="<?= $c['session_id'] ?>">
+                                        <button type="submit" style="background: none; border: none; color: #d32f2f; text-decoration: underline; cursor: pointer; padding: 0; font-size: 0.85rem;">Desinscrever</button>
+                                    </form>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </details>
 

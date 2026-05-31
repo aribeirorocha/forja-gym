@@ -35,7 +35,8 @@
                             <li>✓ Acesso ao ginásio</li>
                             <li>✓ 1 aula por semana</li>
                             <li>✓ Balneários incluídos</li>
-                            <li class="disabled">✗ Sessões de PT</li>
+                            <li class="disabled">✗ Sem consultas de nutrição</li>
+                            <li class="disabled">✗ Sem sessões de PT</li>
                             <li class="disabled">✗ Acesso 24h</li>
                             <li class="disabled">✗ Área premium</li>
                         </ul>
@@ -59,6 +60,7 @@
                             <li>✓ Acesso ilimitado ao ginásio</li>
                             <li>✓ 3 aulas por semana</li>
                             <li>✓ Balneários incluídos</li>
+                            <li>✓ 1 consulta de nutrição por mês</li>
                             <li>✓ 1 sessão de PT por mês</li>
                             <li class="disabled">✗ Acesso 24h</li>
                             <li class="disabled">✗ Área premium</li>
@@ -82,7 +84,8 @@
                             <li>✓ Acesso ilimitado ao ginásio</li>
                             <li>✓ Aulas ilimitadas</li>
                             <li>✓ Balneários incluídos</li>
-                            <li>✓ PT dedicado (4 sessões/mês)</li>
+                            <li>✓ Consultas de nutrição ilimitadas</li>
+                            <li>✓ PT dedicado (4 sessões por mês)</li>
                             <li>✓ Acesso 24 horas</li>
                             <li>✓ Área premium exclusiva</li>
                         </ul>
