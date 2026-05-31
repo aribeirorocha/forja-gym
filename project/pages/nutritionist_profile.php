@@ -21,7 +21,9 @@ $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 // PROCESSAR MARCAÇÃO
 // ==========================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'schedule_appointment') {
-    $date = $_POST['date'];
+    $booking_date = trim($_POST['booking_date'] ?? '');
+    $booking_time = trim($_POST['booking_time'] ?? '');
+    $date = $booking_date . ' ' . $booking_time . ':00';
     scheduleAppointment($db, $user['id'], $id, $date);
     header("Location: nutritionist_profile.php?id=$id&success=appointment");
     exit;
@@ -44,20 +46,7 @@ if (!$nutriInfo) {
     exit;
 }
 
-// ==========================================
-// PREPARAR DADOS DO CALENDÁRIO
-// ==========================================
-$slots = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'];
-$dias_semana = ['Sun'=>'Dom', 'Mon'=>'Seg', 'Tue'=>'Ter', 'Wed'=>'Qua', 'Thu'=>'Qui', 'Fri'=>'Sex', 'Sat'=>'Sáb'];
-$next_days = [];
-for ($i = 0; $i < 7; $i++) {
-    $timestamp = strtotime("+$i days");
-    $next_days[] = [
-        'date_val' => date('Y-m-d', $timestamp),
-        'label' => date('d/m', $timestamp),
-        'day_pt' => $dias_semana[date('D', $timestamp)]
-    ];
-}
+// O calendário antigo foi removido para usar o mesmo formato dos trainers
 
 $photo_src = !empty($nutriInfo['photo']) ? "../imgs/" . htmlspecialchars($nutriInfo['photo']) : "../imgs/default-avatar.png";
 
@@ -90,37 +79,22 @@ output_header();
             </div>
         </div>
 
-        <h4 style="font-size: 0.95rem; margin-bottom: 15px; font-weight: 700; color: var(--text-main); text-align: left;">Agendar Consulta</h4>
-        
-        <form method="post" action="nutritionist_profile.php?id=<?= $id ?>">
-            <input type="hidden" name="action" value="schedule_appointment">
-            
-            <div class="calendar-wrapper">
-                <div class="calendar-grid">
-                    <?php foreach($next_days as $day): ?>
-                        <div class="calendar-day-col">
-                            <div class="calendar-header">
-                                <span class="day-name"><?= $day['day_pt'] ?></span>
-                                <span class="day-date"><?= $day['label'] ?></span>
-                            </div>
-                            <div class="calendar-slots">
-                                <?php foreach($slots as $time): 
-                                    $slotValue = $day['date_val'] . ' ' . $time;
-                                    $slotId = 'slot_' . $id . '_' . $day['date_val'] . '_' . str_replace(':','',$time);
-                                ?>
-                                    <div class="time-slot">
-                                        <input type="radio" name="date" value="<?= $slotValue ?>" id="<?= $slotId ?>" required>
-                                        <label for="<?= $slotId ?>"><?= $time ?></label>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+        <section class="booking-section">
+            <h4 class="review-box-title" style="margin-bottom: 15px;">Marcar Consulta de Nutrição</h4>
+
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Envia a tua preferência de horário e o nutricionista confirmará o teu pedido no perfil.</p>
+
+            <form class="booking-form" method="post" action="nutritionist_profile.php?id=<?= $id ?>" style="margin-bottom: 20px;">
+                <input type="hidden" name="action" value="schedule_appointment">
+
+                <div class="booking-row">
+                    <input type="date" name="booking_date" class="booking-input" required min="<?= date('Y-m-d', strtotime('+1 day')) ?>">
+                    <input type="time" name="booking_time" class="booking-input" required>
                 </div>
-            </div>
-            
-            <button type="submit" class="btn-schedule" style="margin-bottom: 20px;">Confirmar Marcação</button>
-        </form>
+
+                <button type="submit" class="btn-review-submit">Pedir Marcação</button>
+            </form>
+        </section>
 
         <a href="nutrition.php" class="btn-text btn-back-team">Voltar à Equipa</a>
         

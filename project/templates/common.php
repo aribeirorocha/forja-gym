@@ -44,6 +44,9 @@
                     <?php if ($user && isset($user['role']) && $user['role'] === 'admin') { ?>
                     <li><a href="admin.php">Admin</a></li>
                     <?php } ?>
+                    <?php if ($user && isset($user['role']) && $user['role'] === 'nutritionist') { ?>
+                    <li><a href="nutritionist_patients.php">Meus Pacientes</a></li>
+                    <?php } ?>
                 </ul>
             </nav>
             <div class="auth-buttons">

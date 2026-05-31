@@ -1,7 +1,8 @@
-<?php function output_profile(array $user, array $weight_log = [], string $success_msg = '', string $error_msg = '', array $trainer_classes = [], array $trainer_reviews = [], array $trainer_review_stats = [], array $pt_bookings = [], array $trainers_list = []) {
+<?php function output_profile(array $user, array $weight_log = [], string $success_msg = '', string $error_msg = '', array $trainer_classes = [], array $trainer_reviews = [], array $trainer_review_stats = [], array $pt_bookings = [], array $trainers_list = [], array $nutri_appointments = [], $my_nutrition_plan = null, array $my_meals = [], array $nutritionists_list = [], array $my_appointments = []) {
 
 $is_trainer = ($user['role'] ?? '') === 'trainer';
 $is_admin   = ($user['role'] ?? '') === 'admin';
+$is_nutritionist = ($user['role'] ?? '') === 'nutritionist';
 
 // ── Dados comuns ──────────────────────────────────────────────────────────────
 $created_at   = $user['created_at'] ?? '';
@@ -17,7 +18,7 @@ $avatar_fallback = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%
 $photo_path      = !empty($user['photo']) ? "../imgs/" . htmlspecialchars($user['photo']) : "../imgs/default-avatar.png";
 
 // ── Dados só para members ─────────────────────────────────────────────────────
-if (!$is_trainer && !$is_admin) {
+if (!$is_trainer && !$is_admin && !$is_nutritionist) {
     $membership        = $user['membership'] ?? 'basico';
     $membership_labels = ['basico' => 'Básico', 'normal' => 'Normal', 'vip' => 'VIP'];
     $membership_label  = $membership_labels[$membership] ?? ucfirst($membership);
@@ -46,6 +47,11 @@ if ($is_trainer) {
     $certification   = $user['certification']  ?? '';
     $specialization  = $user['specialization'] ?? '';
     $location        = $user['location']       ?? '';
+}
+
+if ($is_nutritionist) {
+    $specialization  = $user['specialization'] ?? '';
+    $license_number  = $user['license_number'] ?? '';
 }
 ?>
 
@@ -88,6 +94,11 @@ if ($is_trainer) {
                     </span>
                 </div>
             <?php endif; ?>
+        <?php elseif ($is_nutritionist): ?>
+            <span class="badge" style="background:#2ea043;color:#fff;">Nutricionista</span>
+            <?php if ($specialization): ?>
+                <p class="trainer-specialization"><?= htmlspecialchars($specialization) ?></p>
+            <?php endif; ?>
         <?php else: ?>
             <span class="badge <?= $membership_color ?>"><?= $membership_label ?></span>
             <?php if ($latest_weight ?? false): ?>
@@ -97,7 +108,7 @@ if ($is_trainer) {
 
         <?php if ($member_since): ?>
             <p class="member-since">
-                <?= $is_admin ? 'Administrador desde' : ($is_trainer ? 'Treinador desde' : 'Membro desde') ?><br>
+                <?= $is_admin ? 'Administrador desde' : ($is_trainer ? 'Treinador desde' : ($is_nutritionist ? 'Nutricionista desde' : 'Membro desde')) ?><br>
                 <?= $member_since ?>
             </p>
         <?php endif; ?>
@@ -121,7 +132,7 @@ if ($is_trainer) {
              ════════════════════════════════════════════════════════════════ -->
 
         <!-- Dados Pessoais -->
-        <details class="profile-card profile-details" open>
+        <details class="profile-card profile-details">
             <summary class="card-title card-summary">Dados Pessoais</summary>
             <form action="profile.php" method="post" class="details-body">
                 <input type="hidden" name="action" value="update_details">
@@ -172,7 +183,7 @@ if ($is_trainer) {
              ════════════════════════════════════════════════════════════════ -->
 
         <!-- Formação Académica & Certificações -->
-        <details class="profile-card profile-details" open>
+        <details class="profile-card profile-details">
             <summary class="card-title card-summary">Formação & Certificações</summary>
             <form action="profile.php" method="post" class="details-body">
                 <input type="hidden" name="action" value="update_trainer_profile">
@@ -361,7 +372,7 @@ if ($is_trainer) {
         $cancelled = array_filter($pt_bookings, fn($b) => $b['status'] === 'Cancelado');
         $pending_count = count($pending);
         ?>
-        <details class="profile-card profile-details" <?= $pending_count > 0 ? 'open' : '' ?>>
+        <details class="profile-card profile-details">
             <summary class="card-title card-summary">
                 Pedidos de PT
                 <?php if ($pending_count > 0): ?>
@@ -423,12 +434,148 @@ if ($is_trainer) {
             </div>
         </details>
 
+        <?php elseif ($is_nutritionist): ?>
+     
+        <details class="profile-card profile-details">
+            <summary class="card-title card-summary">Dados Profissionais</summary>
+            <form action="profile.php" method="post" class="details-body">
+                <input type="hidden" name="action" value="update_nutritionist_profile">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Especialização</label>
+                        <input type="text" name="specialization"
+                               value="<?= htmlspecialchars($specialization) ?>"
+                               placeholder="ex: Nutrição Desportiva, Emagrecimento">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Cédula Profissional</label>
+                        <input type="text" name="license_number"
+                               value="<?= htmlspecialchars($license_number) ?>"
+                               placeholder="ex: 1234N">
+                    </div>
+                </div>
+                <button type="submit" class="btn-save">Guardar Alterações</button>
+            </form>
+        </details>
+
+        <!-- Dados Pessoais (conta) -->
+        <details class="profile-card profile-details">
+            <summary class="card-title card-summary">Dados da Conta</summary>
+            <form action="profile.php" method="post" class="details-body">
+                <input type="hidden" name="action" value="update_details">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Nome Completo</label>
+                        <input type="text" name="name" value="<?= htmlspecialchars($user['name']) ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-save">Guardar Alterações</button>
+            </form>
+        </details>
+
+        <!-- Segurança -->
+        <details class="profile-card profile-details">
+            <summary class="card-title card-summary">Segurança</summary>
+            <form action="profile.php" method="post" class="details-body">
+                <input type="hidden" name="action" value="update_password">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Password Atual</label>
+                        <input type="password" name="current_password" placeholder="Necessário para alterar">
+                    </div>
+                    <div class="form-group">
+                        <label>Nova Password</label>
+                        <input type="password" name="new_password" minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Nova Password</label>
+                        <input type="password" name="confirm_password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-save">Atualizar Password</button>
+            </form>
+        </details>
+
+        
+        <?php
+        $pending_nutri   = array_filter($nutri_appointments, fn($a) => $a['status'] === 'pendente');
+        $confirmed_nutri = array_filter($nutri_appointments, fn($a) => $a['status'] === 'confirmada');
+        $cancelled_nutri = array_filter($nutri_appointments, fn($a) => $a['status'] === 'cancelada');
+        $pending_nutri_count = count($pending_nutri);
+        ?>
+        <details class="profile-card profile-details">
+            <summary class="card-title card-summary">
+                Pedidos de Consulta
+                <?php if ($pending_nutri_count > 0): ?>
+                    <span class="pt-pending-badge"><?= $pending_nutri_count ?> pendente<?= $pending_nutri_count > 1 ? 's' : '' ?></span>
+                <?php endif; ?>
+            </summary>
+            <div class="details-body">
+                <?php if (empty($nutri_appointments)): ?>
+                    <p class="weight-hint">Ainda não tens pedidos de consulta.</p>
+                <?php else: ?>
+
+                    <?php foreach ([['Pendente', $pending_nutri], ['Confirmada', $confirmed_nutri], ['Cancelada', $cancelled_nutri]] as [$label, $group]):
+                        if (empty($group)) continue; ?>
+                    <h4 class="card-subtitle pt-group-title pt-group-<?= strtolower(substr($label, 0, 7)) ?>"><?= $label ?>s</h4>
+                    <div class="pt-bookings-list">
+                        <?php foreach ($group as $a):
+                            $adate = (new DateTime($a['appointment_date']))->format('d/m/Y \à\s H:i');
+                            $member_photo = !empty($a['member_photo'])
+                                ? "../imgs/" . htmlspecialchars($a['member_photo'])
+                                : "https://ui-avatars.com/api/?name=" . urlencode($a['member_name']) . "&background=2ea043&color=fff";
+                        ?>
+                        <div class="pt-booking-card pt-status-<?= strtolower($a['status']) ?>">
+                            <div class="pt-booking-header">
+                                <div class="pt-booking-who">
+                                    <img src="<?= $member_photo ?>" alt="Membro" class="pt-booking-photo"
+                                         onerror="this.src='https://ui-avatars.com/api/?name=M&background=2ea043&color=fff'">
+                                    <div>
+                                        <span class="pt-booking-name"><?= htmlspecialchars($a['member_name']) ?></span>
+                                        <span class="pt-booking-datetime"><?= $adate ?></span>
+                                    </div>
+                                </div>
+                                <span class="pt-status-tag pt-status-tag-<?= strtolower($a['status']) ?>"><?= ucfirst($a['status']) ?></span>
+                            </div>
+                            <?php if ($a['status'] === 'pendente'): ?>
+                            <div class="pt-booking-actions">
+                                <form method="post" action="profile.php" style="display:inline">
+                                    <input type="hidden" name="action" value="update_appointment_status">
+                                    <input type="hidden" name="appointment_id" value="<?= $a['id'] ?>">
+                                    <input type="hidden" name="new_status" value="confirmada">
+                                    <button type="submit" class="pt-btn pt-btn-confirm">Confirmar</button>
+                                </form>
+                                <form method="post" action="profile.php" style="display:inline">
+                                    <input type="hidden" name="action" value="update_appointment_status">
+                                    <input type="hidden" name="appointment_id" value="<?= $a['id'] ?>">
+                                    <input type="hidden" name="new_status" value="cancelada">
+                                    <button type="submit" class="pt-btn pt-btn-cancel">Recusar</button>
+                                </form>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endforeach; ?>
+
+                <?php endif; ?>
+            </div>
+        </details>
+
         <?php else: ?>
         <!-- ════════════════════════════════════════════════════════════════
              SECÇÕES EXCLUSIVAS DO MEMBER (original, sem alterações)
              ════════════════════════════════════════════════════════════════ -->
 
-        <details class="profile-card profile-details" open>
+        <details class="profile-card profile-details">
             <summary class="card-title card-summary">Registo de Peso</summary>
             <div class="details-body">
                 <form action="profile.php" method="post" class="weight-form">
@@ -496,6 +643,137 @@ if ($is_trainer) {
                     </table>
                 </div>
                 <?php endif; ?>
+            </div>
+        </details>
+
+        <!-- O Meu Plano de Nutrição -->
+        <details class="profile-card profile-details">
+            <summary class="card-title card-summary">O Meu Plano de Nutrição</summary>
+            <div class="details-body">
+                <?php if ($my_nutrition_plan): ?>
+                    <div style="background: var(--bg-elevated, #f9f9f9); padding: 20px; border-radius: 12px; margin-bottom: 24px; border-left: 4px solid var(--primary-color, #2ea043);">
+                        <h4 style="margin: 0 0 8px 0; color: var(--text-main); font-size: 1.1rem;">Objetivo: <?= htmlspecialchars($my_nutrition_plan['goal']) ?></h4>
+                        <p style="margin: 0 0 12px 0; color: var(--text-muted); font-size: 0.9rem;">
+                            <strong>Nutricionista:</strong> <?= htmlspecialchars($my_nutrition_plan['nutritionist_name']) ?> <br>
+                            <strong>Início:</strong> <?= (new DateTime($my_nutrition_plan['start_date']))->format('d/m/Y') ?>
+                            <?= $my_nutrition_plan['end_date'] ? '— <strong>Fim:</strong> ' . (new DateTime($my_nutrition_plan['end_date']))->format('d/m/Y') : '' ?>
+                        </p>
+                        <?php if (!empty($my_nutrition_plan['notes'])): ?>
+                            <p style="margin: 0; padding-top: 12px; border-top: 1px solid var(--border-color, #e0e0e0); color: var(--text-main); font-size: 0.95rem; white-space: pre-wrap;"><?= htmlspecialchars($my_nutrition_plan['notes']) ?></p>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php 
+                    $days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+                    $meals_by_day = [];
+                    foreach ($days as $d) $meals_by_day[$d] = [];
+                    foreach ($my_meals as $m) $meals_by_day[$m['day_of_week']][] = $m;
+                    ?>
+
+                    <?php if (empty($my_meals)): ?>
+                        <p class="weight-hint">Ainda não há refeições adicionadas ao teu plano.</p>
+                    <?php else: ?>
+                        <div class="meals-schedule" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                            <?php foreach ($days as $day): ?>
+                                <?php if (!empty($meals_by_day[$day])): ?>
+                                    <div class="day-card" style="background: var(--bg-card, #fff); border: 1px solid var(--border-color, #e0e0e0); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                        <div class="day-header" style="background: var(--bg-elevated, #f0f0f5); padding: 12px 16px; font-weight: 700; color: var(--text-main); border-bottom: 1px solid var(--border-color, #e0e0e0);">
+                                            <?= $day ?>
+                                        </div>
+                                        <div class="day-meals" style="padding: 16px;">
+                                            <?php foreach ($meals_by_day[$day] as $meal): ?>
+                                                <div class="meal-block" style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-color, #e0e0e0);">
+                                                    <strong style="color: var(--primary-color, #2ea043); display: block; margin-bottom: 4px;"><?= htmlspecialchars($meal['meal_type']) ?></strong>
+                                                    <p style="margin: 0; color: var(--text-main); font-size: 0.95rem; white-space: pre-wrap;"><?= htmlspecialchars($meal['description']) ?></p>
+                                                    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 8px; flex-wrap: wrap;">
+                                                        <?php if ($meal['calories']): ?><span style="background: var(--bg-elevated, #f0f0f5); padding: 2px 6px; border-radius: 4px;"><?= $meal['calories'] ?> kcal</span><?php endif; ?>
+                                                        <?php if ($meal['protein_g']): ?><span style="background: var(--bg-elevated, #f0f0f5); padding: 2px 6px; border-radius: 4px;">P: <?= $meal['protein_g'] ?>g</span><?php endif; ?>
+                                                        <?php if ($meal['carbs_g']): ?><span style="background: var(--bg-elevated, #f0f0f5); padding: 2px 6px; border-radius: 4px;">C: <?= $meal['carbs_g'] ?>g</span><?php endif; ?>
+                                                        <?php if ($meal['fat_g']): ?><span style="background: var(--bg-elevated, #f0f0f5); padding: 2px 6px; border-radius: 4px;">G: <?= $meal['fat_g'] ?>g</span><?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <p class="weight-hint">Não tens nenhum plano de nutrição ativo neste momento. Marca uma consulta com um dos nossos nutricionistas!</p>
+                <?php endif; ?>
+            </div>
+        </details>
+
+        <!-- Consultas de Nutrição -->
+        <details class="profile-card profile-details">
+            <summary class="card-title card-summary">Consultas de Nutrição</summary>
+            <div class="details-body">
+
+                <!-- Formulário de pedido -->
+                <h4 class="card-subtitle" style="margin-bottom: 16px;">Pedir nova consulta</h4>
+                <form method="post" action="profile.php">
+                    <input type="hidden" name="action" value="book_nutrition">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Nutricionista</label>
+                            <select name="nutritionist_id" class="filter-select" style="border-radius: var(--radius-sm); min-width:unset; width:100%; padding: 12px 16px;" required>
+                                <option value="">Escolhe um nutricionista...</option>
+                                <?php foreach ($nutritionists_list as $n): ?>
+                                    <option value="<?= $n['id'] ?>"><?= htmlspecialchars($n['name']) ?> — <?= htmlspecialchars($n['specialization']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Data</label>
+                            <input type="date" name="appointment_date" min="<?= date('Y-m-d', strtotime('+1 day')) ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input type="time" name="appointment_time" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-save">Enviar Pedido</button>
+                </form>
+
+                <!-- Histórico de consultas -->
+                <?php if (!empty($my_appointments)): ?>
+                <h4 class="card-subtitle" style="margin-top: 30px; margin-bottom: 16px;">Os meus pedidos</h4>
+                <div class="pt-bookings-list">
+                    <?php foreach ($my_appointments as $a):
+                        $datetime_obj = new DateTime($a['appointment_date']);
+                        $adate = $datetime_obj->format('d/m/Y');
+                        $atime = $datetime_obj->format('H:i');
+                        $nutri_photo = !empty($a['nutritionist_photo'])
+                            ? "../imgs/" . htmlspecialchars($a['nutritionist_photo'])
+                            : "https://ui-avatars.com/api/?name=" . urlencode($a['nutritionist_name']) . "&background=f27a38&color=fff";
+                    ?>
+                    <div class="pt-booking-card pt-status-<?= strtolower($a['status']) ?>">
+                        <div class="pt-booking-header">
+                            <div class="pt-booking-who">
+                                <img src="<?= $nutri_photo ?>" alt="Nutricionista" class="pt-booking-photo"
+                                     onerror="this.src='https://ui-avatars.com/api/?name=N&background=f27a38&color=fff'">
+                                <div>
+                                    <span class="pt-booking-name"><?= htmlspecialchars($a['nutritionist_name']) ?></span>
+                                    <span class="pt-booking-datetime"><?= $adate ?> às <?= $atime ?></span>
+                                </div>
+                            </div>
+                            <span class="pt-status-tag pt-status-tag-<?= strtolower($a['status']) ?>"><?= ucfirst($a['status']) ?></span>
+                        </div>
+                        <?php if ($a['status'] === 'pendente'): ?>
+                        <div class="pt-booking-actions">
+                            <form method="post" action="profile.php" style="display:inline">
+                                <input type="hidden" name="action" value="cancel_nutrition">
+                                <input type="hidden" name="appointment_id" value="<?= $a['id'] ?>">
+                                <button type="submit" class="pt-btn pt-btn-cancel">Cancelar pedido</button>
+                            </form>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+
             </div>
         </details>
 
@@ -659,7 +937,7 @@ if ($is_trainer) {
     </section>
 </div>
 
-<?php if (!$is_trainer && count($weight_log) >= 2): ?>
+<?php if (!$is_trainer && !$is_nutritionist && count($weight_log) >= 2): ?>
 <script>
 (function() {
     const labels = <?= $chart_labels_json ?>;

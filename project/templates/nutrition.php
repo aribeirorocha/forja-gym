@@ -60,12 +60,20 @@ function output_member_nutrition_view(?array $plan, array $nutritionists, bool $
     <div class="nutrition-dashboard">
 
         <?php if ($plan): ?>
-            <div class="class-card" style="margin-bottom: 50px; text-align: center;">
-                <h2>O teu Plano Nutricional</h2>
-                <p style="color: var(--text-muted);">Prescrito por: <strong><?= htmlspecialchars($plan['nutritionist_name']) ?></strong></p>
-                <div style="margin-top: 15px;">
-                    <?= nl2br(htmlspecialchars($plan['content'])) ?>
+            <div class="class-card" style="margin-bottom: 60px; max-width: 600px; margin-left: auto; margin-right: auto; text-align: center; padding: 40px 30px; border-top: 4px solid #f27a38; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 12px; background: var(--bg-card, #fff);">
+                <h2 style="font-size: 1.8rem; color: var(--text-main); margin-bottom: 10px;">O teu Plano Nutricional</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 25px;">Prescrito por: <strong><?= htmlspecialchars($plan['nutritionist_name']) ?></strong></p>
+                
+                <div style="background: var(--bg-elevated, #f9f9f9); padding: 25px; border-radius: 12px; text-align: left; margin-bottom: 30px; border-left: 3px solid #f27a38;">
+                    <p style="margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-main);"><strong>Objetivo:</strong> <?= htmlspecialchars($plan['goal'] ?? '') ?></p>
+                    <?php if (!empty($plan['notes'])): ?>
+                        <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; white-space: pre-wrap;"><?= htmlspecialchars($plan['notes']) ?></p>
+                    <?php endif; ?>
                 </div>
+
+                <a href="profile.php" style="display: inline-block; background-color: #f27a38; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1.05rem; box-shadow: 0 4px 10px rgba(242, 122, 56, 0.3); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(242, 122, 56, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(242, 122, 56, 0.3)';">
+                    Ver Plano Completo no Perfil
+                </a>
             </div>
         <?php endif; ?>
 
