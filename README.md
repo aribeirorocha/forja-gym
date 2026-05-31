@@ -51,10 +51,9 @@ Pode explorar todas as funcionalidades do sistema através das seguintes contas 
 | **Administrador** | `gustavosantosadmin@gmail.com` | `1234` | Acesso total à gestão do sistema e utilizadores. |
 | **Trainer** | `anasilvatrainer@gmail.com` | `1234` | Instrutor: Gestão de aulas, disponibilidade e PT. |
 | **Nutricionista** | `ananutri@gmail.com` | `1234` | Gestão de pacientes e planos alimentares. |
-| **Membro (VIP)** | `rita.ferreira@gmail.com` | `1234` | Membro com privilégios VIP. |
-| **Membro (Normal)** | `pedro.martins@gmail.com` | `1234` | Membro com acesso standard. |
-
----
+| **Membro (VIP)** | `rita.ferreira@gmail.com` | `1234` | Membro com acesso VIP. |
+| **Membro (Normal)** | `pedro.martins@gmail.com` | `1234` | Membro com acesso normal. |
+| **Membro (Básico)** | `carlos.oliveira@gmail.com`| Membro com acesso básico. |
 
 ## ⚙️ Funcionalidades Implementadas (Requisitos Base e Extra)
 
