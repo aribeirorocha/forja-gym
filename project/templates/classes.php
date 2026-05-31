@@ -213,7 +213,7 @@ require_once('../database/gym_class.php');
 {
     $user = UserAuth::currentUser();
     $isTrainer = ($user && $user['role'] === 'trainer');
-    $canEdit = ($user && $user['role'] === 'trainer' && (int)$class->trainerId === (int)$user['id']) || $user['role'] === 'admin';
+    $canEdit = $user && ($user['role'] === 'trainer' && (int)$class->trainerId === (int)$user['id'] || $user['role'] === 'admin');
 ?>
     <link rel="stylesheet" href="../css/trainer_profile.css">
 
