@@ -71,7 +71,7 @@ function output_member_nutrition_view(?array $plan, array $nutritionists, bool $
                     <?php endif; ?>
                 </div>
 
-                <a href="profile.php" style="display: inline-block; background-color: #f27a38; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1.05rem; box-shadow: 0 4px 10px rgba(242, 122, 56, 0.3); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(242, 122, 56, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(242, 122, 56, 0.3)';">
+                <a href="profile.php#nutrition-plan" style="display: inline-block; background-color: #f27a38; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1.05rem; box-shadow: 0 4px 10px rgba(242, 122, 56, 0.3); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(242, 122, 56, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(242, 122, 56, 0.3)';">
                     Ver Plano Completo no Perfil
                 </a>
             </div>
