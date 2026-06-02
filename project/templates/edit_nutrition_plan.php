@@ -37,8 +37,7 @@
 
     <div class="plan-card">
         <h3 class="plan-card-title">Detalhes do Plano</h3>
-        <form action="edit_nutrition_plan.php?member_id=<?= $patient['id'] ?>
-    ">
+        <form action="edit_nutrition_plan.php?member_id=<?= $patient['id'] ?>" method="post">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="save_plan">
             <input type="hidden" name="plan_id" value="<?= $plan ? $plan['id'] : 0 ?>">
@@ -67,8 +66,7 @@
     <?php if ($plan): ?>
     <div class="plan-card">
         <h3 class="plan-card-title">Adicionar Refeição</h3>
-        <form action="edit_nutrition_plan.php?member_id=<?= $patient['id'] ?>
-    ">
+        <form action="edit_nutrition_plan.php?member_id=<?= $patient['id'] ?>" method="post">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
             <input type="hidden" name="action" value="add_meal">
             <input type="hidden" name="plan_id" value="<?= $plan['id'] ?>">
@@ -123,8 +121,7 @@
                 <div class="meal-list">
                     <?php foreach ($meals_by_day[$day] as $meal): ?>
                     <div class="meal-item">
-                        <form action="edit_nutrition_plan.php?member_id=<?= $patient['id'] ?>
-    ">
+                        <form action="edit_nutrition_plan.php?member_id=<?= $patient['id'] ?>" method="post">
     <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                             <input type="hidden" name="action" value="delete_meal">
                             <input type="hidden" name="plan_id" value="<?= $plan['id'] ?>">
