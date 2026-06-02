@@ -57,7 +57,7 @@ class UserAuth
         );
     }
 
-    static function startSession(User $user, string $membership = 'basico'): void
+    static function startSession(User $user): void
     {
         if (session_status() === PHP_SESSION_NONE) session_start();
         $_SESSION['user_id']       = $user->id;
@@ -65,7 +65,7 @@ class UserAuth
         $_SESSION['user_name']     = $user->name;
         $_SESSION['user_role']     = $user->role;
         $_SESSION['user_photo']    = $user->photoPath;
-        $_SESSION['user_membership'] = $membership;
+        $_SESSION['user_membership'] = $user->membership;
     }
 
     static function logout(): void

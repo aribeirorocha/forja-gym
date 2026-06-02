@@ -434,12 +434,13 @@ require_once('../database/gym_class.php');
                         return;
                     }
 
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').content : '';
                     fetch('create_class.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
                             },
-                            body: 'action=remove_class&id=' + encodeURIComponent(classId)
+                            body: 'csrf=' + encodeURIComponent(csrfToken) + '&action=remove_class&id=' + encodeURIComponent(classId)
                         })
                         .then(response => {
                             if (!response.ok) {

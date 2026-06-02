@@ -63,18 +63,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $certification  = trim($_POST['certification']  ?? '');
         $specialization = trim($_POST['specialization'] ?? '');
         $location       = trim($_POST['location']       ?? '');
+        $sex            = trim($_POST['sex']            ?? '');
 
-        $stmt = $db->prepare('
-            INSERT INTO trainer_profile (id_user, formation, certification, specialization, location, sex)
-            VALUES (?, ?, ?, ?, ?, \'\')
-            ON CONFLICT(id_user) DO UPDATE SET
-                formation      = excluded.formation,
-                certification  = excluded.certification,
-                specialization = excluded.specialization,
-                location       = excluded.location
-        ');
-        $stmt->execute([$current_user['id'], $formation, $certification, $specialization, $location]);
-        $success_msg = 'Perfil atualizado com sucesso.';
+        if (!in_array($sex, ['feminino', 'masculino'])) {
+            $error_msg = 'Por favor seleciona o género.';
+        } else {
+            $stmt = $db->prepare('
+                INSERT INTO trainer_profile (id_user, formation, certification, specialization, location, sex)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id_user) DO UPDATE SET
+                    formation      = excluded.formation,
+                    certification  = excluded.certification,
+                    specialization = excluded.specialization,
+                    location       = excluded.location,
+                    sex            = excluded.sex
+            ');
+            $stmt->execute([$current_user['id'], $formation, $certification, $specialization, $location, $sex]);
+            $success_msg = 'Perfil atualizado com sucesso.';
+        }
 
     } elseif ($action === 'update_nutritionist_profile' && $is_nutritionist) {
         $specialization = trim($_POST['specialization'] ?? '');
@@ -273,7 +279,7 @@ $trainer_reviews      = [];
 $trainer_review_stats = [];
 
 if ($is_trainer) {
-    $stmt = $db->prepare('SELECT formation, certification, specialization, location FROM trainer_profile WHERE id_user = ? LIMIT 1');
+    $stmt = $db->prepare('SELECT formation, certification, specialization, location, sex FROM trainer_profile WHERE id_user = ? LIMIT 1');
     $stmt->execute([$current_user['id']]);
     $trainer_extra = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($trainer_extra) {

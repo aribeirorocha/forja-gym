@@ -51,6 +51,7 @@ if ($is_trainer) {
     $certification   = $user['certification']  ?? '';
     $specialization  = $user['specialization'] ?? '';
     $location        = $user['location']       ?? '';
+    $sex             = $user['sex']            ?? '';
 }
 
 if ($is_nutritionist) {
@@ -219,6 +220,14 @@ if ($is_nutritionist) {
                         <input type="text" name="location"
                                value="<?= htmlspecialchars($location) ?>"
                                placeholder="ex: Porto, Portugal">
+                    </div>
+                    <div class="form-group">
+                        <label>Género</label>
+                        <select name="sex" required>
+                            <option value="" disabled <?= !$sex ? 'selected' : '' ?>>Seleciona...</option>
+                            <option value="feminino"  <?= $sex === 'feminino'  ? 'selected' : '' ?>>Feminino</option>
+                            <option value="masculino" <?= $sex === 'masculino' ? 'selected' : '' ?>>Masculino</option>
+                        </select>
                     </div>
                 </div>
                 <button type="submit" class="btn-save">Guardar Alterações</button>

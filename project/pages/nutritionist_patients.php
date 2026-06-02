@@ -18,7 +18,7 @@ $stmt = $db->prepare('
     SELECT DISTINCT u.id, u.name, u.photo, u.email
     FROM user u
     JOIN appointment a ON u.id = a.id_member
-    WHERE a.id_nutritionist = ?
+    WHERE a.id_nutritionist = ? AND a.status = 'confirmada'
     ORDER BY u.name ASC
 ');
 $stmt->execute([$current_user['id']]);

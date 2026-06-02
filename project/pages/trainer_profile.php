@@ -173,6 +173,7 @@ output_header();
                 <?php endif; ?>
 
                 <form class="booking-form" method="post" action="trainer_profile.php?id=<?= $id ?>">
+                    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <input type="hidden" name="action" value="book_pt">
 
                     <div class="booking-row">
@@ -190,7 +191,7 @@ output_header();
             <section class="review-section">
                 <h4 class="review-box-title">Deixa a tua review</h4>
                 <form class="review-form" method="post" action="trainer_profile.php?id=<?= $id ?>">
-                    
+                    <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                     <fieldset class="star-rating">
                         <input type="radio" id="r5" name="rating" value="5">
                         <label for="r5" title="5 estrelas">&#9733;</label>

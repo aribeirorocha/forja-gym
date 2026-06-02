@@ -116,6 +116,7 @@ output_header();
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Envia a tua preferência de horário e o nutricionista confirmará o teu pedido no perfil.</p>
 
             <form class="booking-form" method="post" action="nutritionist_profile.php?id=<?= $id ?>" style="margin-bottom: 20px;">
+                <input type="hidden" name="csrf" value="<?= htmlspecialchars(UserAuth::generateCsrfToken()) ?>">
                 <input type="hidden" name="action" value="schedule_appointment">
 
                 <div class="booking-row">
