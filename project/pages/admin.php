@@ -53,9 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'], $_POST['user_
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
 
-    // ── Eliminar utilizador ──────────────────────────────────────────────────
     if ($action === 'delete_user' && isset($_POST['id'])) {
-        User::deleteUser($db, intval($_POST['id']));
+        try {
+            User::deleteUser($db, intval($_POST['id']));
+            http_response_code(200);
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
         exit;
     }
 

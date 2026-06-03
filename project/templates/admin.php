@@ -70,6 +70,7 @@
                         <th>Função</th>
                         <th>Email</th>
                         <th>Membership</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -749,6 +750,9 @@ document.addEventListener('click', function(e) {
             <?php else: ?>
                 <span class="text-muted-small">—</span>
             <?php endif; ?>
+        </td>
+        <td>
+            <button type="button" class="delete-user-btn btn-delete" data-user-id="<?= $id ?>">Remover</button>
         </td>
     </tr>
 <?php } ?>

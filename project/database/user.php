@@ -93,9 +93,30 @@ class User {
     }
 
     static function deleteUser(PDO $db, int $id) {
-        $stmt = $db->prepare('DELETE FROM user WHERE id = ? AND role NOT LIKE \'admin\'');
+        try {
+            $db->beginTransaction();
 
-        $stmt->execute(array($id));
+            // Apagar dependências sem ON DELETE CASCADE
+            $stmt = $db->prepare('DELETE FROM message WHERE id_sender = ? OR id_receiver = ?');
+            $stmt->execute([$id, $id]);
+
+            $stmt = $db->prepare('DELETE FROM appointment WHERE id_member = ? OR id_nutritionist = ?');
+            $stmt->execute([$id, $id]);
+
+            $stmt = $db->prepare('DELETE FROM workout_plan WHERE id_trainer = ?');
+            $stmt->execute([$id]);
+
+            $stmt = $db->prepare('DELETE FROM nutrition_plan WHERE id_nutritionist = ?');
+            $stmt->execute([$id]);
+
+            $stmt = $db->prepare('DELETE FROM user WHERE id = ? AND role NOT LIKE \'admin\'');
+            $stmt->execute(array($id));
+
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw $e;
+        }
     }
 
 }
