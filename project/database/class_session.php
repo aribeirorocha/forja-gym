@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types=1); //para ser rigido com os tipos de dados, int tem de ser int, pratica de segurança para previnar bugs.
 
 
 class ClassSession
@@ -8,8 +8,8 @@ class ClassSession
 
     public int $id;
     public DateTime $datetime;
-    public string $status;
-    public int $enrollmentCount;
+    public string $status; // agendada ou cancelada
+    public int $enrollmentCount; // numero de inscritos
 
     static array $daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
     static array $monthsOfYear = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
